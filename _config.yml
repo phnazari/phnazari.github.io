@@ -8,7 +8,7 @@ version: 2
 # Personal info
 name: Philipp Nazari
 title: Bachelor Student
-email: philipp.nazari@stud.uni-heidelberg.de
+email: philipp.nazari [at] stud.uni-heidelberg.de
 website: https://www.phnazari.github.io
 
 # Dark Mode (true/false/never)
@@ -22,7 +22,7 @@ github_username:  phnazari
 # facebook_username: jekyll
 # flickr_username: jekyll
 instagram_username:
-linkedin_username: Philipp Nazari
+linkedin_username: philipp-nazari-941623252
 # xing_username: jekyll
 # pinterest_username: jekyll
 youtube_username:
@@ -41,7 +41,7 @@ about_profile_image: images/profile.jpg
 about_content: | # this will include new lines to allow paragraphs
   Currently a bachelor student in the field of mathematics at Ruprecht-Karls-University Heidelberg.
 
-  My interesets include -- in no particular order -- <mark>Geometric Machine Learning</mark> <mark>Differential Geometry</mark> <mark>Autoencoder</mark> <mark>Dynamic Billiards Systems</mark>.
+  My interesets include -- in no particular order -- <mark>Geometric Machine Learning</mark> <mark>Differential Geometry</mark> <mark>Autoencoder</mark> <mark>Dynamical Billiards Systems</mark>.
 
 content:
   - title: Experience # Title for the section
@@ -52,9 +52,9 @@ content:
         link: typo.iwr.uni-heidelberg.de/home/
         # link_text: boringcompany.com
         sub_title: Research Assistant
-        caption: September 2022 - April 2023
+        caption: August 2022 - April 2023
         description: |
-          At the invitation of Prof. Dr. Fred Hamprecht I stayed at his research group to write a paper about the Geometric Autoencoder. Co-authored by Sebastian Damrich.
+          At the invitation of Prof. Dr. Fred Hamprecht I stayed at his research group to write a paper about the Geometric Autoencoder. Co-authored by Sebastian Damrich and Fred Hamprecht.
 
 
   - title: Education # Title for the section
@@ -113,7 +113,7 @@ content:
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
         quote: >
-          Bachelor Thesis in Physics, in the field of <mark>Geometric Machine Learning</mark>. Supervisor: Prof. Dr. Fred Hamprecht.
+          Bachelor Thesis in Physics, in the field of Geometric Machine Learning. Supervisor: Prof. Dr. Fred Hamprecht.
         description: | # this will include new lines to allow paragraphs
           Visualization is a crucial step in exploratory data analysis. One possible approach is to train an autoencoder with low-dimensional latent space. Large network depth and width can help unfolding the data. However, such expressive networks can achieve low reconstruction error even when the latent representation is distorted. To avoid such misleading visualizations, this work proposes first a differential geometric perspective on the decoder, leading to insightful diagnostics for an embedding's distortion, and second a new regularizer mitigating such distortion. The ``Geometric Autoencoder'' avoids stretching the embedding spuriously, so that the visualization captures the data structure more faithfully. It also flags areas where little distortion could not be achieved, thus guarding against misinterpretation. 
 
