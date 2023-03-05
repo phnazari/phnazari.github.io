@@ -53,9 +53,8 @@ content:
         # link_text: boringcompany.com
         sub_title: Research Assistant
         caption: September 2022 - April 2023
-        quote: >
-        description: | # this will include new lines to allow paragraphs
-        At the invitation of Prof. Dr. Fred Hamprecht I stayed at his research group to write a paper about the Geometric Autoencoder. Co-authored by Sebastian Damrich.
+        description: |
+          At the invitation of Prof. Dr. Fred Hamprecht I stayed at his research group to write a paper about the Geometric Autoencoder. Co-authored by Sebastian Damrich.
 
 
   - title: Education # Title for the section
@@ -98,10 +97,9 @@ content:
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
         quote: >
-        Bachelor Thesis in Mathematics, on "Inverse Magnetic Billiard" systems introduced by Sean Gasiorek. Supervisor: Prof. Dr. Peter Albers.
+          Bachelor Thesis in Mathematics, on "Inverse Magnetic Billiard" systems introduced by Sean Gasiorek. Supervisor: Prof. Dr. Peter Albers.
         description: | # this will include new lines to allow paragraphs
-        Finding periodic orbits of inverse magnetic billiard systems in arbitrary convex domains can become an arbitrarily hard problem to solve.
-        By applying techniques from machine learning I propose a numerical approach that to find approximately periodic orbits.
+          Finding periodic orbits of inverse magnetic billiard systems in arbitrary convex domains can become an arbitrarily hard problem to solve. By applying techniques from machine learning I propose a numerical approach that to find approximately periodic orbits.
 
       - layout: top-middle
         title: Geometric Autoencoders (Bachelor Thesis in Physics)
@@ -115,18 +113,18 @@ content:
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
         quote: >
-        Bachelor Thesis in Physics, in the field of <mark>Geometric Machine Learning</mark>. Supervisor: Prof. Dr. Fred Hamprecht.
+          Bachelor Thesis in Physics, in the field of <mark>Geometric Machine Learning</mark>. Supervisor: Prof. Dr. Fred Hamprecht.
         description: | # this will include new lines to allow paragraphs
-        Visualization is a crucial step in exploratory data analysis. One possible approach is to train an autoencoder with low-dimensional latent space. Large network depth and width can help unfolding the data. However, such expressive networks can achieve low reconstruction error even when the latent representation is distorted. To avoid such misleading visualizations, this work proposes first a differential geometric perspective on the decoder, leading to insightful diagnostics for an embedding's distortion, and second a new regularizer mitigating such distortion. The ``Geometric Autoencoder'' avoids stretching the embedding spuriously, so that the visualization captures the data structure more faithfully. It also flags areas where little distortion could not be achieved, thus guarding against misinterpretation. 
+          Visualization is a crucial step in exploratory data analysis. One possible approach is to train an autoencoder with low-dimensional latent space. Large network depth and width can help unfolding the data. However, such expressive networks can achieve low reconstruction error even when the latent representation is distorted. To avoid such misleading visualizations, this work proposes first a differential geometric perspective on the decoder, leading to insightful diagnostics for an embedding's distortion, and second a new regularizer mitigating such distortion. The ``Geometric Autoencoder'' avoids stretching the embedding spuriously, so that the visualization captures the data structure more faithfully. It also flags areas where little distortion could not be achieved, thus guarding against misinterpretation. 
 
       - layout: top-middle
         title: Science Young to Young (4EU+)
         link: https://4euplus.eu/4EU-33.html
         # link_text: Project Website
         quote: >
-        A 4EU+ initiative in cooperation of Heidelberg University, Sorbonne University and Milano University. Granted by the European Commission.
+          A 4EU+ initiative in cooperation of Heidelberg University, Sorbonne University and Milano University. Granted by the European Commission.
         description: | # this will include new lines to allow paragraphs
-        Representative of Heidelberg University in a joined 4EU+ project with the goal of creating a educational video on "Machine Learning in Physics".
+          Representative of Heidelberg University in a joined 4EU+ project with the goal of creating a educational video on "Machine Learning in Physics".
 
 # Footer
 footer_show_references: true
