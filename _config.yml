@@ -41,7 +41,7 @@ about_profile_image: images/profile.jpg
 about_content: | # this will include new lines to allow paragraphs
   I am currently pursuing a bachelor's degree in mathematics at Ruprecht-Karls-University Heidelberg, located in Germany.
 
-  My interesets include -- in no particular order -- <mark>Geometric Machine Learning</mark> <mark>Differential Geometry</mark> <mark>Autoencoder</mark> <mark>Dynamical Billiard Systems</mark>.
+  My interests include -- in no particular order -- <mark>Geometric Machine Learning</mark> <mark>Differential Geometry</mark> <mark>Autoencoder</mark> <mark>Dynamical Billiard Systems</mark>.
 
 content:
   - title: Experience # Title for the section
