@@ -64,10 +64,8 @@ content:
         caption: 2019 - 2023
         sub_title: BSc Mathematics
         quote: >
-          Current GPA of 1.5
+          
         description: | # this will include new lines to allow paragraphs
-          During my studies in physics, I came to the realization that I have an at least equal passion for the pure elegance of mathematics as I do for the natural beauty of physics. Hemce, I made the decision to pursue a second bachelor's degree. My academic interests are centered on the fields of Differential Geometry and Mathematical Machine Learning.
-
           <b>Courses Taken include:</b> Differential Geometry, Fundamentals of Machine Learning, Lie Groups and Representation Theory,  Matrix Groups, Functional Analysis, Complex Analysis, Prime Numbers and Cryptography.
 
       - layout: left
@@ -75,10 +73,8 @@ content:
         caption: 2019 - 2022
         sub_title: BSc Physics
         quote: >
-          GPA of 1.3
+          
         description: | # this will include new lines to allow paragraphs
-          Completing the BsC Physics program with a GPA of 1.3, I successfully finished one of the most distinguished undergraduate physics programs in Germany. Throughout my studies, I specialized in theoretical and computational physics, which continue to be areas of keen interest for me.
-
           <b>Courses Taken include</b>: Theoretical Statistical Physics, Quantum Mechanics, Particle Physics.
 
   - title: Projects # Title for the section
