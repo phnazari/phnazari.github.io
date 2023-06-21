@@ -44,6 +44,18 @@ about_content: | # this will include new lines to allow paragraphs
   My interests include -- in no particular order -- <mark>Geometric Machine Learning</mark> <mark>Differential Geometry</mark> <mark>Autoencoder</mark> <mark>Dynamical Billiard Systems</mark>.
 
 content:
+  - title: Research # Title for the section
+    layout: list # Type of content section (list/text)
+    content:
+      - layout: left
+        title: Geometric Autoencoders - What You See is What You Decode
+        link: https://openreview.net/forum?id=VAEZ4nrqAk
+        # link_text: boringcompany.com
+        sub_title: ICML 2023
+        caption:
+        description: |
+          Paper accepted at the International Conference on Machine Learning (ICML) 2023.
+
   - title: Experience # Title for the section
     layout: list # Type of content section (list/text)
     content:
@@ -59,6 +71,15 @@ content:
   - title: Education # Title for the section
     layout: list # Type of content section (list/text)
     content:
+      - layout: left
+        title: ETH Zürich
+        caption: 2023-
+        sub_title: MSc Mathematics
+        quote: >
+          
+        description: | # this will include new lines to allow paragraphs
+
+    
       - layout: left
         title: Ruprecht-Karls-University Heidelberg
         caption: 2019 - 2023
