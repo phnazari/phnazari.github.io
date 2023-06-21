@@ -47,14 +47,20 @@ content:
   - title: Research # Title for the section
     layout: list # Type of content section (list/text)
     content:
-      - layout: left
-        title: Geometric Autoencoders - What You See is What You Decode
+      - layout: top-middle
+        title: Geometric Autoencoders -- What You See is What You Decode
         link: https://openreview.net/forum?id=VAEZ4nrqAk
-        # link_text: boringcompany.com
-        sub_title: ICML 2023
-        caption:
-        description: |
-          Paper accepted at the International Conference on Machine Learning (ICML) 2023.
+        # link_text: Project Website
+        additional_links:
+          - title: sproogen/modern-resume-theme
+            icon: fab fa-github
+            url: https://github.com/phnazari/GeometricAutoencoder
+          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
+          #   icon: fab fa-github
+          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
+        quote: >
+          Published at the International Conference on Machine Learning (ICML) 2023
+        description: | # this will include new lines to allow paragraphs
 
   - title: Experience # Title for the section
     layout: list # Type of content section (list/text)
@@ -115,7 +121,7 @@ content:
         quote: >
           Bachelor Thesis in Mathematics on "Inverse Magnetic Billiard" systems introduced by Sean Gasiorek. Supervisor: Prof. Dr. Peter Albers.
         description: | # this will include new lines to allow paragraphs
-          The task of identifying periodic orbits in inverse magnetic billiard systems situated within arbitrary convex domains can present significant challenges. To tackle this problem, I have developed a numerical methodology that leverages machine learning techniques to identify approximately periodic orbits.
+          The task of identifying periodic orbits in inverse magnetic billiard systems situated within arbitrary convex domains can present significant challenges. To tackle this problem, I have developed a numerical approach that leverages machine learning techniques to identify approximately periodic orbits.
 
       - layout: top-middle
         title: Geometric Autoencoders (Bachelor Thesis in Physics)
@@ -131,7 +137,7 @@ content:
         quote: >
           Bachelor Thesis in Physics in the field of Geometric Machine Learning. Supervisor: Prof. Dr. Fred Hamprecht.
         description: | # this will include new lines to allow paragraphs
-          Visualization is a crucial step in exploratory data analysis. One possible approach is to train an autoencoder with low-dimensional latent space. Large network depth and width can help unfolding the data. However, such expressive networks can achieve low reconstruction error even when the latent representation is distorted. To avoid such misleading visualizations, this work proposes first a differential geometric perspective on the decoder, leading to insightful diagnostics for an embedding's distortion, and second a new regularizer mitigating such distortion. The ``Geometric Autoencoder'' avoids stretching the embedding spuriously, so that the visualization captures the data structure more faithfully. It also flags areas where little distortion could not be achieved, thus guarding against misinterpretation.
+          Developed an Autoencoder which increases the embedding's faithfulness by ensuring homogeneous contraction of the decoder. Published at ICML 2023.
 
       - layout: top-middle
         title: Science Young to Young -- A 4EU+ Project
