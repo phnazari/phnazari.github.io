@@ -49,7 +49,7 @@ content:
     content:
       - layout: top-middle
         title: Geometric Autoencoders -- What You See is What You Decode
-        link: https://openreview.net/forum?id=VAEZ4nrqAk
+        link: https://proceedings.mlr.press/v202/nazari23a.html
         # link_text: Project Website
         additional_links:
           - title: sproogen/modern-resume-theme
