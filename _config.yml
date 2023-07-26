@@ -12,10 +12,10 @@ email: philipp.nazari [at] stud.uni-heidelberg.de
 website: https://www.phnazari.github.io
 
 # Dark Mode (true/false/never)
-darkmode: false
+darkmode: true
 
 # Social links
-twitter_username:
+twitter_username: philna00
 github_username: phnazari
 # stackoverflow_username: "00000001"
 # dribbble_username: jekyll
