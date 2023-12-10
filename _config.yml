@@ -7,8 +7,8 @@ version: 2
 
 # Personal info
 name: Philipp Nazari
-title: Mathematics and Machine Learning at ETH
-email: philipp.nazari [at] stud.uni-heidelberg.de
+title: Mathematics and Machine Learning at ETH Zurich
+email: pnazari [at] student.ethz.ch
 website: https://scholar.google.de/citations?user=SScvNLcAAAAJ&hl=en&oi=ao
 
 # Dark Mode (true/false/never)
@@ -39,9 +39,9 @@ youtube_username:
 # about_title: About Me
 about_profile_image: images/profile.jpg
 about_content: | # this will include new lines to allow paragraphs
-  I am currently pursuing a bachelor's degree in mathematics at Ruprecht-Karls-University Heidelberg, located in Germany.
+  I am currently pursuing a masters's degree in mathematics, focussing on Machine Learning, at ETH Zurich.
 
-  My interests include -- in no particular order -- <mark>Geometric Machine Learning</mark> <mark>Differential Geometry</mark> <mark>Autoencoder</mark> <mark>Dynamical Billiard Systems</mark>.
+  My interests include -- in no particular order -- <mark>Geometric Machine Learning</mark> <mark>Differential Geometry</mark> <mark>Autoencoder</mark> <mark>Deep Learning</mark>.
 
 content:
   - title: Research # Title for the section
