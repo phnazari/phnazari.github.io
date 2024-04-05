@@ -61,6 +61,21 @@ content:
         quote: >
           Published at the International Conference on Machine Learning (ICML) 2023
         description: | # this will include new lines to allow paragraphs
+      - layout: top-middle
+        title: Entropy Aware Message Passing in Graph Neural Networks
+        link: https://arxiv.org/abs/2403.04636
+        # link_text: Project Website
+        additional_links:
+          - title: sproogen/modern-resume-theme
+            icon: fab fa-github
+            url: https://github.com/oliver-lemke/entropy_aware_message_passing
+          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
+          #   icon: fab fa-github
+          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
+        quote: >
+          Project in Deep Learning Course at ETH Zurich (2023)
+        description: | # this will include new lines to allow paragraphs
+
 
   - title: Experience # Title for the section
     layout: list # Type of content section (list/text)
