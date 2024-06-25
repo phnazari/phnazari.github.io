@@ -41,14 +41,14 @@ about_profile_image: images/profile.jpg
 about_content: | # this will include new lines to allow paragraphs
   I am currently pursuing a masters's degree in mathematics, focussing on Machine Learning, at ETH Zurich.
 
-  My interests include -- in no particular order -- <mark>Geometric Machine Learning</mark> <mark>Differential Geometry</mark> <mark>Autoencoder</mark> <mark>Deep Learning</mark>.
+  My interests include -- in no particular order -- <mark>Geometric Deep Learning</mark> <mark>Differential Geometry</mark> <mark>Representation Learning</mark>.
 
 content:
   - title: Research # Title for the section
     layout: list # Type of content section (list/text)
     content:
       - layout: top-middle
-        title: Geometric Autoencoders -- What You See is What You Decode
+        title: Geometric Autoencoders -- What You See is What You Decode (ICML 2023)
         link: https://proceedings.mlr.press/v202/nazari23a.html
         # link_text: Project Website
         additional_links:
@@ -58,11 +58,9 @@ content:
           # - title:  Github page for project (eg. sproogen/modern-resume-theme)
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
-        quote: >
-          Published at the International Conference on Machine Learning (ICML) 2023
         description: | # this will include new lines to allow paragraphs
       - layout: top-middle
-        title: Entropy Aware Message Passing in Graph Neural Networks
+        title: Entropy Aware Message Passing in Graph Neural Networks (arXiv)
         link: https://arxiv.org/abs/2403.04636
         # link_text: Project Website
         additional_links:
@@ -72,29 +70,26 @@ content:
           # - title:  Github page for project (eg. sproogen/modern-resume-theme)
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
-        quote: >
-          Project in Deep Learning Course at ETH Zurich (2023)
         description: | # this will include new lines to allow paragraphs
 
 
   - title: Experience # Title for the section
     layout: list # Type of content section (list/text)
     content:
-      - layout: left
+      - layout: top-middle
         title: IWR Heidelberg
         link: typo.iwr.uni-heidelberg.de/home/
         # link_text: boringcompany.com
         sub_title: Research Assistant
         caption: August 2022 - April 2023
         description: |
-          I was invited by Prof. Dr. Fred Hamprecht to join his research group and write a paper about the Geometric Autoencoder, the topic of my bachelor thesis. The paper is co-authored by Sebastian Damrich and Prof. Dr. Fred Hamprecht.
 
   - title: Education # Title for the section
     layout: list # Type of content section (list/text)
     content:
       - layout: left
         title: ETH Zürich
-        caption: 2023-
+        caption: 2023-2025
         sub_title: MSc Mathematics
         quote: >
           
@@ -118,59 +113,6 @@ content:
           
         description: | # this will include new lines to allow paragraphs
           <b>Courses Taken include</b>: Theoretical Statistical Physics, Quantum Mechanics, Particle Physics.
-
-  - title: Projects # Title for the section
-    layout: list # Type of content section (list/text)
-    content:
-      - layout: top-middle
-        title: Numerical Inverse Magnetic Billiards (Bachelor Thesis in Mathematics)
-        link: github.com/phnazari/InverseMagneticBilliards
-        # link_text: Project Website
-        additional_links:
-          - title: sproogen/modern-resume-theme
-            icon: fab fa-github
-            url: github.com/phnazari/InverseMagneticBilliards
-          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
-          #   icon: fab fa-github
-          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
-        quote: >
-          Bachelor Thesis in Mathematics on "Inverse Magnetic Billiard" systems introduced by Sean Gasiorek. Supervisor: Prof. Dr. Peter Albers.
-        description: | # this will include new lines to allow paragraphs
-          The task of identifying periodic orbits in inverse magnetic billiard systems situated within arbitrary convex domains can present significant challenges. To tackle this problem, I have developed a numerical approach that leverages machine learning techniques to identify approximately periodic orbits.
-
-      - layout: top-middle
-        title: Geometric Autoencoders (Bachelor Thesis in Physics)
-        link: github.com/phnazari/GeometricAutoencoder
-        # link_text: Project Website
-        additional_links:
-          - title: sproogen/modern-resume-theme
-            icon: fab fa-github
-            url: github.com/phnazari/GeometricAutoencoder
-          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
-          #   icon: fab fa-github
-          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
-        quote: >
-          Bachelor Thesis in Physics in the field of Geometric Machine Learning. Supervisor: Prof. Dr. Fred Hamprecht.
-        description: | # this will include new lines to allow paragraphs
-          Developed an Autoencoder which increases the embedding's faithfulness by ensuring homogeneous contraction of the decoder. Published at ICML 2023.
-
-      - layout: top-middle
-        title: Science Young to Young -- A 4EU+ Project
-        link: https://4euplus.eu/4EU-33.html
-        # link_text: Project Website
-        quote: >
-          A 4EU+ initiative in cooperation of Heidelberg University, Sorbonne University and Milano University. Granted by the European Commission.
-        description: | # this will include new lines to allow paragraphs
-          As a representative of Heidelberg University, I participated in a collaborative 4EU+ project aimed at producing an educational video focused on the topic of "Machine Learning in Physics".
-
-      - layout: top-middle
-        title: Oekado -- Website
-        link: https://www.oekado.de
-        # link_text: Project Website
-        quote: >
-          Promoting Community Supported Management
-        description: | # this will include new lines to allow paragraphs
-          In partnership with Mario Henze, we created https://www.oekado.de, a website that is freely accessible and dedicated to establishing and managing community-supported micro-economies. For further information, please visit <a href="https://gemeinschaftsgetragen.de/">here</a> or <a href="https://gemeinschaftsgetragen.de/">here</a>.
 
 # Footer
 footer_show_references: true
