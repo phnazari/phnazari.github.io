@@ -9,7 +9,7 @@ version: 2
 name: Philipp Nazari
 title: Mathematics and Machine Learning at ETH Zurich
 email: pnazari [at] student.ethz.ch
-website: https://scholar.google.de/citations?user=SScvNLcAAAAJ&hl=en&oi=ao
+website:
 
 # Dark Mode (true/false/never)
 darkmode: true
