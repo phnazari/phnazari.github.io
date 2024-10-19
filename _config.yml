@@ -44,7 +44,7 @@ about_content: | # this will include new lines to allow paragraphs
   My interests include -- in no particular order -- <mark>Geometric Deep Learning</mark> <mark>Differential Geometry</mark> <mark>Representation Learning</mark>.
 
 content:
-  - title: Research # Title for the section
+  - title: Publications # Title for the section
     layout: list # Type of content section (list/text)
     content:
       - layout: top-middle
@@ -59,8 +59,23 @@ content:
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
         description: | # this will include new lines to allow paragraphs
+  - title: Research # Title for the section
+    layout: list # Type of content section (list/text)
+    content:
       - layout: top-middle
-        title: Entropy Aware Message Passing in Graph Neural Networks (arXiv)
+        title: Geometric Encoder Regularization in Autoencoders
+        link: https://github.com/phnazari/GeometricEncoderRegularization/blob/master/paper.pdf
+        # link_text: Project Website
+        additional_links:
+          - title: sproogen/modern-resume-theme
+            icon: fab fa-github
+            url: https://github.com/phnazari/GeometricEncoderRegularization
+          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
+          #   icon: fab fa-github
+          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
+        description: | # this will include new lines to allow paragraphs
+      - layout: top-middle
+        title: Entropy Aware Message Passing in Graph Neural Networks
         link: https://arxiv.org/abs/2403.04636
         # link_text: Project Website
         additional_links:
