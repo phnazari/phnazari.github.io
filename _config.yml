@@ -47,7 +47,7 @@ content:
   - title: Publications # Title for the section
     layout: list # Type of content section (list/text)
     content:
-      - layout: top-middle
+      - layout: left
         title: Geometric Autoencoders -- What You See is What You Decode (ICML 2023)
         link: https://proceedings.mlr.press/v202/nazari23a.html
         # link_text: Project Website
@@ -62,10 +62,10 @@ content:
   - title: Research # Title for the section
     layout: list # Type of content section (list/text)
     content:
-      - layout: top-middle
+      - layout: left
         title: Why do Neural Networks Generalize?
         description: Master thesis in the lab of Prof. Bölcskei at ETH Zurich.
-      - layout: top-middle
+      - layout: left
         title: Geometric Encoder Regularization in Autoencoders
         link: https://github.com/phnazari/GeometricEncoderRegularization/blob/master/paper.pdf
         # link_text: Project Website
@@ -74,7 +74,7 @@ content:
             icon: fab fa-github
             url: https://github.com/phnazari/GeometricEncoderRegularization
         description: Semester Project at ETH Zurich in the lab of Prof. Thomas Hofmann.
-      - layout: top-middle
+      - layout: left
         title: Entropy Aware Message Passing in Graph Neural Networks
         link: https://arxiv.org/abs/2403.04636
         # link_text: Project Website
@@ -88,7 +88,7 @@ content:
   - title: Experience # Title for the section
     layout: list # Type of content section (list/text)
     content:
-      - layout: top-middle
+      - layout: left
         title: IWR Heidelberg
         link: https://sciai-lab.org/
         # link_text: boringcompany.com
