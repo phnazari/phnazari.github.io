@@ -48,7 +48,7 @@ content:
     layout: list # Type of content section (list/text)
     content:
       - layout: left
-        title: Geometric Autoencoders -- What You See is What You Decode (ICML 2023)
+        title: Geometric Autoencoders -- What You See is What You Decode
         link: https://proceedings.mlr.press/v202/nazari23a.html
         link_text: Paper [PDF]
         caption: ICML 2023
