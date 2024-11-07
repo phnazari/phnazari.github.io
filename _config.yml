@@ -64,7 +64,6 @@ content:
     content:
       - layout: top-middle
         title: Why do Neural Networks Generalize?
-        link: 
         # link_text: Project Website
         description: Master thesis in the lab of Prof. Bölcskei at ETH Zurich.
           # - title:  Github page for project (eg. sproogen/modern-resume-theme)
@@ -78,7 +77,8 @@ content:
           - title: sproogen/modern-resume-theme
             icon: fab fa-github
             url: https://github.com/phnazari/GeometricEncoderRegularization
-        description: Semester Project at ETH Zurich in the lab of Prof. Thomas Hofmann.
+        description: | 
+        Semester Project at ETH Zurich in the lab of Prof. Thomas Hofmann.
           # - title:  Github page for project (eg. sproogen/modern-resume-theme)
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
