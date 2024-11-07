@@ -65,7 +65,8 @@ content:
       - layout: top-middle
         title: Why do Neural Networks Generalize?
         # link_text: Project Website
-        description: Master thesis in the lab of Prof. Bölcskei at ETH Zurich.
+        description: | 
+        Master thesis in the lab of Prof. Bölcskei at ETH Zurich.
           # - title:  Github page for project (eg. sproogen/modern-resume-theme)
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
@@ -77,11 +78,8 @@ content:
           - title: sproogen/modern-resume-theme
             icon: fab fa-github
             url: https://github.com/phnazari/GeometricEncoderRegularization
-        description: Semester Project at ETH Zurich in the lab of Prof. Thomas Hofmann.
-          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
-          #   icon: fab fa-github
-          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
-        description: | # this will include new lines to allow paragraphs
+        description: | 
+        Semester Project at ETH Zurich in the lab of Prof. Thomas Hofmann.
       - layout: top-middle
         title: Entropy Aware Message Passing in Graph Neural Networks
         link: https://arxiv.org/abs/2403.04636
@@ -90,11 +88,8 @@ content:
           - title: sproogen/modern-resume-theme
             icon: fab fa-github
             url: https://github.com/oliver-lemke/entropy_aware_message_passing
-        description: Course work for the Deep Learning course at ETH Zurich by Prof. Thomas Hofmann.
-          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
-          #   icon: fab fa-github
-          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
-        description: | # this will include new lines to allow paragraphs
+        description: | 
+        Course work for the Deep Learning course at ETH Zurich by Prof. Thomas Hofmann.
 
 
   - title: Experience # Title for the section
@@ -102,12 +97,11 @@ content:
     content:
       - layout: top-middle
         title: IWR Heidelberg
-        link: typo.iwr.uni-heidelberg.de/home/
+        link: https://sciai-lab.org/
         # link_text: boringcompany.com
         sub_title: Research Assistant
         caption: August 2022 - April 2023
         description: |
-          I was invited by Prof. Dr. Fred Hamprecht to join his research group and write a paper about the Geometric Autoencoder, the topic of my bachelor thesis. The paper is co-authored by Sebastian Damrich and Prof. Dr. Fred Hamprecht.
 
   - title: Education # Title for the section
     layout: list # Type of content section (list/text)
