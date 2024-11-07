@@ -50,6 +50,8 @@ content:
       - layout: left
         title: Geometric Autoencoders -- What You See is What You Decode (ICML 2023)
         link: https://proceedings.mlr.press/v202/nazari23a.html
+        link_text: Paper [PDF]
+        caption: ICML 2023
         # link_text: Project Website
         additional_links:
           - title: sproogen/modern-resume-theme
@@ -68,6 +70,7 @@ content:
       - layout: left
         title: Geometric Encoder Regularization in Autoencoders
         link: https://github.com/phnazari/GeometricEncoderRegularization/blob/master/paper.pdf
+        link_text: Paper [PDF]
         # link_text: Project Website
         additional_links:
           - title: sproogen/modern-resume-theme
@@ -77,6 +80,7 @@ content:
       - layout: left
         title: Entropy Aware Message Passing in Graph Neural Networks
         link: https://arxiv.org/abs/2403.04636
+        link_text: Paper [PDF]
         # link_text: Project Website
         additional_links:
           - title: sproogen/modern-resume-theme
