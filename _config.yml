@@ -107,6 +107,7 @@ content:
         sub_title: Research Assistant
         caption: August 2022 - April 2023
         description: |
+          I was invited by Prof. Dr. Fred Hamprecht to join his research group and write a paper about the Geometric Autoencoder, the topic of my bachelor thesis. The paper is co-authored by Sebastian Damrich and Prof. Dr. Fred Hamprecht.
 
   - title: Education # Title for the section
     layout: list # Type of content section (list/text)
