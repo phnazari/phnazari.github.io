@@ -64,12 +64,7 @@ content:
     content:
       - layout: top-middle
         title: Why do Neural Networks Generalize?
-        # link_text: Project Website
-        description: | 
-        Master thesis in the lab of Prof. Bölcskei at ETH Zurich.
-          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
-          #   icon: fab fa-github
-          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
+        description: Master thesis in the lab of Prof. Bölcskei at ETH Zurich.
       - layout: top-middle
         title: Geometric Encoder Regularization in Autoencoders
         link: https://github.com/phnazari/GeometricEncoderRegularization/blob/master/paper.pdf
@@ -78,8 +73,7 @@ content:
           - title: sproogen/modern-resume-theme
             icon: fab fa-github
             url: https://github.com/phnazari/GeometricEncoderRegularization
-        description: | 
-        Semester Project at ETH Zurich in the lab of Prof. Thomas Hofmann.
+        description: Semester Project at ETH Zurich in the lab of Prof. Thomas Hofmann.
       - layout: top-middle
         title: Entropy Aware Message Passing in Graph Neural Networks
         link: https://arxiv.org/abs/2403.04636
@@ -88,8 +82,7 @@ content:
           - title: sproogen/modern-resume-theme
             icon: fab fa-github
             url: https://github.com/oliver-lemke/entropy_aware_message_passing
-        description: | 
-        Course work for the Deep Learning course at ETH Zurich by Prof. Thomas Hofmann.
+        description: Course work for the Deep Learning course at ETH Zurich by Prof. Thomas Hofmann.
 
 
   - title: Experience # Title for the section
