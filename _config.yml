@@ -77,8 +77,7 @@ content:
           - title: sproogen/modern-resume-theme
             icon: fab fa-github
             url: https://github.com/phnazari/GeometricEncoderRegularization
-        description: | 
-        Semester Project at ETH Zurich in the lab of Prof. Thomas Hofmann.
+        description: Semester Project at ETH Zurich in the lab of Prof. Thomas Hofmann.
           # - title:  Github page for project (eg. sproogen/modern-resume-theme)
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
