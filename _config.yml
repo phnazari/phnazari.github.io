@@ -25,9 +25,13 @@ instagram_username:
 linkedin_username: philipp-nazari-941623252
 # xing_username: jekyll
 # pinterest_username: jekyll
-youtube_username:
+# youtube_username:
 # googleplus_username: +jekyll
 # orcid_username: 0000-0000-0000-0000
+additional_links:
+- title: Resume [pdf]
+  icon: far fa-file-pdf
+  url: https://phnazari.github.io/ressources/Philipp_Nazari_CV.pdf
 
 # Google Analytics and Tag Manager
 # Using more than one of these may cause issues with reporting
