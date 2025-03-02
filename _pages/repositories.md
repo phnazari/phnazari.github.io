@@ -2,7 +2,7 @@
 layout: page
 permalink: /repositories/
 title: repositories
-description: This site provides some of my repositories. A comprehensive list can be found on [GitHub](https://github.com/phnazari).
+description: This site provides some of my repositories. A comprehensive list can be found on <a href="https://github.com/phnazari">GitHub</a>.
 nav: true
 nav_order: 3
 ---
