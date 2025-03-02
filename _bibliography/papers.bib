@@ -8,15 +8,31 @@
   pages={25834--25857},
   year={2023},
   organization={PMLR},
-  selected={true}
+  selected={true},
+  abstract={Visualization is a crucial step in exploratory data analysis. One possible approach is to train an autoencoder with low-dimensional latent space. Large network depth and width can help unfolding the data. However, such expressive networks can achieve low reconstruction error even when the latent representation is distorted. To avoid such misleading visualizations, we propose first a differential geometric perspective on the decoder, leading to insightful diagnostics for an embedding’s distortion, and second a new regularizer mitigating such distortion. Our “Geometric Autoencoder” avoids stretching the embedding spuriously, so that the visualization captures the data structure more faithfully. It also flags areas where little distortion could not be achieved, thus guarding against misinterpretation.},
+  pdf={https://proceedings.mlr.press/v202/nazari23a/nazari23a.pdf}
 }
 
-@misc{nazari2024encoder,
-  author = {Nazari, Philipp},
-  title = {Geometric Encoder Regularization for Autoencoders},
-  year = {2024},
-  url = {https://github.com/phnazari/GeometricEncoderRegularization/blob/master/paper.pdf},
-  note = {Preprint, available on GitHub}
+@article{nazari2024encoder,
+  author={Nazari, Philipp},
+  title={Geometric Encoder Regularization for Autoencoders},
+  year={2024},
+  journal={Github preprint},
+  pdf={https://github.com/phnazari/GeometricEncoderRegularization/blob/master/paper.pdf},
+  abstract={In this study we adapt existing decoder-based geometric regularization methods for autoencoders
+to depend only on the encoder. This shift aligns
+more naturally with the primary function of autoencoders in generating low-dimensional embeddings. Specifically, we replace the pullback metric
+with a pushforward. Although this pushforward
+does not account for all of the geometric information encoded in the data manifold, it is applicable
+to a much broader spectrum of models.}
 }
 
+@article{nazari2024entropy,
+  title={Entropy Aware Message Passing in Graph Neural Networks},
+  author={Nazari, Philipp and Lemke, Oliver and Guidobene, Davide and Gesp, Artiom},
+  journal={arXiv preprint arXiv:2403.04636},
+  year={2024},
+  pdf={https://arxiv.org/pdf/2403.04636},
+  abstract={Deep Graph Neural Networks struggle with oversmoothing. This paper introduces a novel, physics-inspired GNN model designed to mitigate this issue. Our approach integrates with existing GNN architectures, introducing an entropy-aware message passing term. This term performs gradient ascent on the entropy during node aggregation, thereby preserving a certain degree of entropy in the embeddings. We conduct a comparative analysis of our model against state-of-the-art GNNs across various common datasets.}
+}
 
