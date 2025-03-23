@@ -27,5 +27,4 @@ latest_posts:
 I am an upcoming [CLS](https://learning-systems.org/) PhD student in Computer science advised by [Konstantin Rusch](https://konstantinrusch.com/) (affiliated with the [ELLIS institute](https://institute-tue.ellis.eu/) and the [Max Planck Institute for Intelligent Systems](https://is.mpg.de/)) and [Fanny Yang](https://sml.inf.ethz.ch/group/fannyy/) from [ETH](https://ethz.ch/de.html). Previously, I obtained my Bachelors in Physics and Mathematics from Heidelberg university where I was affiliated with the lab of [Fred Hamprecht](https://hci.iwr.uni-heidelberg.de/hamprecht), as well as a master in mathematics from ETH Zurich, where I wrote my thesis in the lab of [Helmut Bölcskei](https://www.mins.ee.ethz.ch/people/show/boelcskei).
 
 
-I am broadly interested in `geoetric deep learning`.
-
+I am boradly interested in `geoetric deep learning`, its applications to the `natural sciences` and `fundamentals of ML`.
