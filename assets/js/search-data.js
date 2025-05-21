@@ -35,8 +35,11 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-i-am-excited-to-start-my-phd-with-konstantin-rusch-and-fanny-yang-starting-in-summer-of-2025",
-          title: 'I am excited to start my PhD with Konstantin Rusch and Fanny Yang...',
+            },},{id: "news-i-am-excited-to-have-been-accepted-into-cls-phd-program-i-will-start-in-juli-2025-advised-by-konstantin-rusch-mpi-cls-and-fanny-yang-eth-zurich",
+          title: 'I am excited to have been accepted into CLS PhD program. I will...',
+          description: "",
+          section: "News",},{id: "news-i-have-successfully-defended-my-master-s-thesis-titled-the-geometry-of-generalization-conducted-under-the-supervision-of-prof-helmut-bölcskei-the-pdf-can-be-found-here",
+          title: 'I have successfully defended my master’s thesis, titled “The Geometry of Generalization,” conducted...',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
