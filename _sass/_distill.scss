@@ -50,6 +50,7 @@ d-article {
   }
   blockquote {
     border-left: 2px solid var(--global-theme-color) !important;
+    font-size: 1rem;
   }
 
   // Style taken from code blocks
@@ -97,7 +98,7 @@ d-article {
       a {
         border-bottom: none !important;
         &:hover {
-          border-bottom: 1px solid var(--global-text-color) !important;
+          border-bottom: 1px solid var(--global-theme-color) !important;
         }
       }
       h3 {

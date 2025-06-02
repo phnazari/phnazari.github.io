@@ -19,12 +19,12 @@ announcements:
   limit: 5 # leave blank to include all the news in the `_news` folder
 
 latest_posts:
-  enabled: false
+  enabled: true
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am an upcoming [CLS](https://learning-systems.org/) PhD student in Computer science advised by [Dr. Konstantin Rusch](https://konstantinrusch.com/) (affiliated with [ELLIS](https://institute-tue.ellis.eu/) and the [Max Planck Institute for Intelligent Systems](https://is.mpg.de/)) and [Prof. Fanny Yang](https://sml.inf.ethz.ch/group/fannyy/) from [ETH](https://ethz.ch/de.html). Previously, I obtained my Bachelors in Physics and Mathematics from Heidelberg university where I was affiliated with the lab of [Prof. Fred Hamprecht](https://hci.iwr.uni-heidelberg.de/hamprecht), as well as a master in mathematics from ETH Zurich, where I wrote my thesis in the lab of [Prof. Helmut Bölcskei](https://www.mins.ee.ethz.ch/people/show/boelcskei).
+I am an upcoming [CLS](https://learning-systems.org/) PhD student in Computer Science advised by [Dr. Konstantin Rusch](https://konstantinrusch.com/) (affiliated with [ELLIS](https://institute-tue.ellis.eu/) and the [Max Planck Institute for Intelligent Systems](https://is.mpg.de/)) and [Prof. Fanny Yang](https://sml.inf.ethz.ch/group/fannyy/) from [ETH Zürich](https://ethz.ch/de.html). Previously, I obtained my Bachelor's in Physics and Mathematics from Heidelberg University where I was affiliated with the lab of [Prof. Fred Hamprecht](https://hci.iwr.uni-heidelberg.de/hamprecht), as well as a Master's in Mathematics from ETH Zürich, where I wrote my thesis in the lab of [Prof. Helmut Bölcskei](https://www.mins.ee.ethz.ch/people/show/boelcskei).
 
 
 I am broadly interested in `geometric deep learning` and its applications to the `natural sciences`, as well as the `foundations of ML`.
