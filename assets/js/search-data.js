@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "books-the-godfather",
+        },{id: "post-the-dual-representation-of-relu-networks",
+      
+        title: "The Dual Representation of ReLU Networks",
+      
+      description: "In this post, we introduce the dual representation of fully connected feedforward ReLU networks. This is the first post of a three part series on the geometry of generalization of deep neural networks.",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/dual-representation/";
+        
+      },
+    },{id: "books-the-godfather",
           title: 'The Godfather',
           description: "",
           section: "Books",handler: () => {
@@ -38,8 +49,8 @@ ninja.data = [{
             },},{id: "news-i-am-excited-to-have-been-accepted-into-cls-phd-program-i-will-start-in-juli-2025-advised-by-konstantin-rusch-mpi-cls-and-fanny-yang-eth-zurich",
           title: 'I am excited to have been accepted into CLS PhD program. I will...',
           description: "",
-          section: "News",},{id: "news-i-have-successfully-defended-my-master-s-thesis-titled-the-geometry-of-generalization-conducted-under-the-supervision-of-prof-helmut-bölcskei-the-pdf-can-be-found-here",
-          title: 'I have successfully defended my master’s thesis, titled “The Geometry of Generalization,” conducted...',
+          section: "News",},{id: "news-i-have-successfully-defended-my-master-s-thesis-titled-the-geometry-of-generalization-the-pdf-can-be-found-here",
+          title: 'I have successfully defended my master’s thesis, titled “The Geometry of Generalization” (the...',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
