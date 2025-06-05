@@ -1,7 +1,7 @@
 ---
 layout: distill
 title: The Dual Representation of ReLU Networks
-description: In this post, we introduce the dual representation of fully connected feedforward ReLU networks. This is the first post of a three part series on the geometry of generalization of deep neural networks.
+description: In this post, we introduce the dual representation of fully connected feedforward ReLU networks. This is part one of a three part series on the geometry of generalization of deep neural networks.
 tags: Deep-Learning Geometry Generalization
 giscus_comments: true
 date: 2025-06-02
@@ -125,14 +125,14 @@ _styles: >
 
 # The Dual Representation
 
-This is part one of a three part series on the geometry of generalization, which is the essence of my [master thesis](/assets/pdf/Master_Thesis.pdf)<d-cite key="nazari2025thesis"></d-cite>. In this series, we will present a novel perspective to think about why overparameterized networks generalize well.
+This is part one of a three part series on the geometry of generalization, which is the essence of my [master thesis](/assets/pdf/Master_Thesis.pdf)<d-cite key="nazari2025thesis"></d-cite>. In this series, we will present a novel perspective on generalization of overparameterized networks.
 
 The series is structured in the following way:
 
 <ul>
 <li>In <a href="{% post_url 2025-06-02-dual-representation %}">this post</a>, we establish a dual representation of fully connected feedforward ReLU networks.</li>
-<li>In part two, we show how this dual representation can be used to derive complexity measures for these networks.</li>
-<li>In part three, we will use these complexity measures to find evidence for the volume hypothesis<d-cite key="chiang2022loss"></d-cite>, an approach to explain why overparameterized models generalize well.</li>
+<li>In <a href="{% post_url 2025-06-04-dual-complexity-measures %}">part two</a>, we show how this dual representation can be used to derive complexity measures for these networks.</li>
+<li>In part three (coming soon!!), we will use these complexity measures to find evidence for the volume hypothesis<d-cite key="chiang2022loss"></d-cite>, an approach to explain why overparameterized models generalize well.</li>
 </ul>
 
 
@@ -143,7 +143,7 @@ The dual representation has been established in a number of previous works<d-cit
 
 However, throughout this series, I will refrain from proving all statements in detail. In particular, one can quickly forget about tropical geometry and its relationship to affine geometry. The curious reader may refer to Chapter 3 and Chapter 4 of my thesis<d-cite key="nazari2025thesis"></d-cite>, in particular Section 4.2, for more details on this relationship.
 
-Finally, for every claim made in this series, I will refer to the corresponding statement in the thesis. There, one can find the proof, as well as a reference to the corresponding statement by Piwek et al.<d-cite key="piwek2023exact"></d-cite> wherever appropriate.
+Finally, for every claim made in this series, I will refer to the corresponding statement in the thesis. There, one can find a proof as well as a reference to the corresponding statement by Piwek et al.<d-cite key="piwek2023exact"></d-cite> wherever appropriate.
 
 ## ReLU Networks
 To introduce notation and get everybody on board, we start by quickly defining fully connected feedforward ReLU networks.
@@ -254,7 +254,7 @@ $$
 </div>
 
 
-<div class="row mt-3 align-items-center">
+<div class="row mt-3 align-items-center" id="fig:ex-dual">
     <div class="col-sm mt-3 mt-md-0 text-center">
         {% include figure.liquid loading="eager" path="assets/img/dual_representation/example_dual_point.svg" class="img-fluid rounded" zoomable=true caption="<strong>(a)</strong>" %}
     </div>
@@ -264,7 +264,7 @@ $$
         {% include figure.liquid loading="eager" path="assets/img/dual_representation/example_dual_plane.svg" class="img-fluid rounded" zoomable=true caption="<strong>(b)</strong>" %}
     </div>
 </div>
-<div class="caption-left figure" id="fig:ex-dual">
+<div class="caption-left figure">
     Example of the dual representation of an affine map $f{\mathbf a, b}$ with $\mathbf a = (-1/2, -3/4)$, $b=3/4$. Subfigure <strong>(b)</strong> contains the graph of $f_{\mathbf a,b}$ and Subfigure <strong>(a)</strong> contains the parameterizing dual point $(\mathbf a, b) \in \mathcal D$. The map $\mathcal R$ assigns to the point $(\mathbf a,b)$ the affine map $f_{\mathbf a, b}$.
 </div>
 
@@ -313,12 +313,12 @@ $$
 <a href="#fig:real-dual-diagram" class="cite-fig hover-link">Figure</a> provides an overview over the relationship between $\mathcal R, \mathcal D, \text{Aff}_{\mathfrak R}(d)$ and $\text{Aff}_{\mathfrak D}(d)$.
 </div>
 
-<div class="row mt-3 w-50 mx-auto">
+<div class="row mt-3 w-50 mx-auto figure-content" id="fig:real-dual-diagram">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/dual_representation/diagram.svg" class="img-fluid rounded" zoomable=true%}
     </div>
 </div>
-<div class="caption-left figure" id="fig:real-dual-diagram">
+<div class="caption-left figure">
     Diagram indicating the relationship between real (affine) and dual (affine) space.
 </div>
 
@@ -367,12 +367,12 @@ We define $\mathcal Q(\emptyset) := 0$. On a vector of finite sets of dual point
 Note that, by <a href="#proposition:cpa" class="cite-stmt hover-link">Proposition</a>, the operator $\mathcal Q$ does indeed map to $\text{CPA}(d)$.
 
 
-<div class="row mt-3 w-50 mx-auto">
+<div class="row mt-3 w-50 mx-auto figure-content" id="fig:example-uch">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/dual_representation/example_uch.svg" class="img-fluid rounded" zoomable=true%}
     </div>
 </div>
-<div class="caption-left figure" id="fig:example-uch">
+<div class="caption-left figure">
     Example of an upper convex hull. Let $S$ be the union of all displayed points. The blue points correspond to $\mathcal U^*(S)$. In particular, $\mathcal Q(S)$ is uniquely identified by those points.
 </div>
 
@@ -591,7 +591,7 @@ Scattered throughout this series, we employ a running example to highlight the a
 ### Example
 In this example, we construct the dual representation of a toy example in two dimensions (see Example 5.2.6 in Nazari<d-cite key="nazari2025thesis"></d-cite>). Throughout this series, we will revisit and use this example to explain various aspect of the discussed duality result.
 
-<div class="row mt-3">
+<div class="row mt-3" id="fig:example-affregs">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/dual_representation/example_linear_regions.png" class="img-fluid rounded" zoomable=true caption="<strong>(a)</strong>"%}
     </div>
@@ -729,12 +729,12 @@ $$
 
 <a href="#fig:tropical-toy-example" class="cite-fig hover-link">Figure</a> contains a plot of the dual representation of this toy example, as well as the upper convex hulls.
 
-<div class="row mt-3 w-50 mx-auto">
+<div class="row mt-3 w-50 mx-auto figure-content" id="fig:tropical-toy-example">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/dual_representation/example_dual.svg" class="img-fluid rounded" zoomable=true%}
     </div>
 </div>
-<div class="caption-left figure" id="fig:tropical-toy-example">
+<div class="caption-left figure">
     Dual representation of the two-dimensional toy-example defined in Equation \eqref{eq:tropical-toy-example}. Red points correspond to $N$, blue points are $P$. The red polygon is $\mathcal U(N)$, the blue polygon is $\mathcal U(P)$. Note that, in theory, both $\mathcal U(N)$ and $\mathcal U(P)$ are polyhedral complexes, i.e., they can consist of multiple facets.
 </div>
 

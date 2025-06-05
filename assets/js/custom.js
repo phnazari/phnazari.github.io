@@ -20,6 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 type = "Corollary";
             } else if (target.classList.contains("proposition")) {
                 type = "Proposition";
+            } else if (target.classList.contains("theorem")) {
+                type = "Theorem";
+            } else if (target.classList.contains("remark")) {
+                type = "Remark";
             }
 
             // Update citation text
@@ -30,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
     // Get all statements
-    const statements = document.querySelectorAll(".figure");
+    const statements = document.querySelectorAll(".figure-content");
     const statementCites = document.querySelectorAll(".cite-fig");
 
     statementCites.forEach((cite) => {
@@ -42,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Determine the statement type based on its classes
             let type = "Statement"; // Default
-            if (target.classList.contains("figure")) {
+            if (target.classList.contains("figure-content")) {
                 type = "Figure";
             }
 
