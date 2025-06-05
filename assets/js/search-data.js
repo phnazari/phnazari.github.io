@@ -30,11 +30,22 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-the-dual-representation-of-relu-networks",
+        },{id: "post-dual-complexity-measures-for-relu-networks",
+      
+        title: "Dual Complexity Measures for ReLU Networks",
+      
+      description: "In this post, we introduce dual complexity measures for fully connected feedforward ReLU networks. This is part two of a three part series on the geometry of generalization of deep neural networks.",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/dual-complexity-measures/";
+        
+      },
+    },{id: "post-the-dual-representation-of-relu-networks",
       
         title: "The Dual Representation of ReLU Networks",
       
-      description: "In this post, we introduce the dual representation of fully connected feedforward ReLU networks. This is the first post of a three part series on the geometry of generalization of deep neural networks.",
+      description: "In this post, we introduce the dual representation of fully connected feedforward ReLU networks. This is part one of a three part series on the geometry of generalization of deep neural networks.",
       section: "Posts",
       handler: () => {
         
