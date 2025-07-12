@@ -61,7 +61,7 @@ ninja.data = [{
           title: 'I am excited to have been accepted into CLS PhD program. I will...',
           description: "",
           section: "News",},{id: "news-i-have-successfully-defended-my-master-s-thesis-titled-the-geometry-of-generalization-the-pdf-can-be-found-here",
-          title: 'I have successfully defended my master’s thesis, titled “The Geometry of Generalization” (the...',
+          title: 'I have successfully defended my Master’s thesis titled “The Geometry of Generalization” (the...',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
