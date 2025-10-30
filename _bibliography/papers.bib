@@ -36,6 +36,15 @@ to a much broader spectrum of models.}
   abstract={Deep Graph Neural Networks struggle with oversmoothing. This paper introduces a novel, physics-inspired GNN model designed to mitigate this issue. Our approach integrates with existing GNN architectures, introducing an entropy-aware message passing term. This term performs gradient ascent on the entropy during node aggregation, thereby preserving a certain degree of entropy in the embeddings. We conduct a comparative analysis of our model against state-of-the-art GNNs across various common datasets.}
 }
 
+@article{chahine2025curious,
+  title={CompreSSM: The Curious Case of In-Training Compression of State Space Models},
+  author={Chahine, Makram and Nazari, Philipp and Rus, Daniela and Rusch, T Konstantin},
+  journal={arXiv preprint arXiv:2510.02823},
+  year={2025},
+  pdf={https://www.arxiv.org/pdf/2510.02823},
+  abstract={State Space Models (SSMs), developed to tackle long sequence modeling tasks efficiently, offer both parallelizable training and fast inference. At their core are recurrent dynamical systems that maintain a hidden state, with update costs scaling with the state dimension. A key design challenge is striking the right balance between maximizing expressivity and limiting this computational burden. Control theory, and more specifically Hankel singular value analysis, provides a potent framework for the measure of energy for each state, as well as the balanced truncation of the original system down to a smaller representation with performance guarantees. Leveraging the eigenvalue stability properties of Hankel matrices, we apply this lens to SSMs \emph{during training}, where only dimensions of high influence are identified and preserved. Our approach, \textsc{CompreSSM}, applies to Linear Time-Invariant SSMs such as Linear Recurrent Units, but is also extendable to selective models. Experiments show that in-training reduction significantly accelerates optimization while preserving expressivity, with compressed models retaining task-critical structure lost by models trained directly at smaller dimension. In other words, SSMs that begin large and shrink during training achieve computational efficiency while maintaining higher performance.}
+}
+
 @misc{nazari2025thesis,
   author    = {Philipp Nazari},
   title     = {The Geometry of Generalization},
@@ -45,12 +54,3 @@ to a much broader spectrum of models.}
   pdf       = {https://phnazari.github.io/assets/pdf/Master_Thesis.pdf},
   abstract  = {While recent developments undoubtedly demonstrate the power of deep learning, we still lack a fundamental understanding of why overparameterized models work so well in practice. A common explanation attributes this phenomenon to implicit regularization induced by first-order optimization techniques like SGD. However, recent work has found that even zeroth-order guess-and-check optimizers very frequently find well generalizing minima. In this work, we mathematically formulate this heuristic, known as the volume hypothesis. We then fully establish existing research ideas which, using a tropical geometric perspective, introduce a dual representation of fully connected feedforward ReLU networks. This abstraction offers a perspective for studying the volume hypothesis which, to the best of our knowledge, is novel. While deriving general results remains challenging, we analyze multiple lower-dimensional examples, some inspired by Telgarsky's sawtooth construction, which support the volume hypothesis. In particular, using the tropical geometric framework, we argue that exponentially complex minima in the loss landscape are unstable, leading learning algorithms to converge to solutions where the network does not fully utilize its available expressivity. Our work provides a novel perspective to think about generalization of deep ReLU networks, and we hope to inspire further theoretical and empirical research to establish more general results.}
 }
-
-@article{chahine2025curious,
-  title={CompreSSM: The Curious Case of In-Training Compression of State Space Models},
-  author={Chahine, Makram and Nazari, Philipp and Rus, Daniela and Rusch, T Konstantin},
-  journal={arXiv preprint arXiv:2510.02823},
-  year={2025}
-}
-
-
