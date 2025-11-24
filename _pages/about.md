@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: MsC in Mathematics at ETH
+subtitle: PhD Candidate at Max Planck ETH Center for Learning Systems (CLS)
 
 profile:
   align: right
