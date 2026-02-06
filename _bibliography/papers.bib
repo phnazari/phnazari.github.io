@@ -2,47 +2,47 @@
 ---
 
 @inproceedings{nazari2023geometric,
-  title={Geometric Autoencoders-What You See is What You Decode},
-  author={Nazari, Philipp and Damrich, Sebastian and Hamprecht, Fred A},
-  booktitle={International Conference on Machine Learning},
-  pages={25834--25857},
-  year={2023},
-  organization={PMLR},
-  selected={true},
-  abstract={Visualization is a crucial step in exploratory data analysis. One possible approach is to train an autoencoder with low-dimensional latent space. Large network depth and width can help unfolding the data. However, such expressive networks can achieve low reconstruction error even when the latent representation is distorted. To avoid such misleading visualizations, we propose first a differential geometric perspective on the decoder, leading to insightful diagnostics for an embedding’s distortion, and second a new regularizer mitigating such distortion. Our “Geometric Autoencoder” avoids stretching the embedding spuriously, so that the visualization captures the data structure more faithfully. It also flags areas where little distortion could not be achieved, thus guarding against misinterpretation.},
-  pdf={https://proceedings.mlr.press/v202/nazari23a/nazari23a.pdf}
+  title        = {Geometric Autoencoders-What You See is What You Decode},
+  author       = {Nazari, Philipp and Damrich, Sebastian and Hamprecht, Fred A},
+  booktitle    = {International Conference on Machine Learning},
+  pages        = {25834--25857},
+  year         = {2023},
+  organization = {PMLR},
+  selected     = {true},
+  abstract     = {Visualization is a crucial step in exploratory data analysis. One possible approach is to train an autoencoder with low-dimensional latent space. Large network depth and width can help unfolding the data. However, such expressive networks can achieve low reconstruction error even when the latent representation is distorted. To avoid such misleading visualizations, we propose first a differential geometric perspective on the decoder, leading to insightful diagnostics for an embedding’s distortion, and second a new regularizer mitigating such distortion. Our “Geometric Autoencoder” avoids stretching the embedding spuriously, so that the visualization captures the data structure more faithfully. It also flags areas where little distortion could not be achieved, thus guarding against misinterpretation.},
+  pdf          = {https://proceedings.mlr.press/v202/nazari23a/nazari23a.pdf}
 }
 
 @article{nazari2024encoder,
-  author={Nazari, Philipp},
-  title={Geometric Encoder Regularization for Autoencoders},
-  year={2024},
-  journal={Preprint},
-  pdf={https://github.com/phnazari/GeometricEncoderRegularization/blob/master/paper.pdf},
-  abstract={In this study we adapt existing decoder-based geometric regularization methods for autoencoders
-to depend only on the encoder. This shift aligns
-more naturally with the primary function of autoencoders in generating low-dimensional embeddings. Specifically, we replace the pullback metric
-with a pushforward. Although this pushforward
-does not account for all of the geometric information encoded in the data manifold, it is applicable
-to a much broader spectrum of models.}
+  author   = {Nazari, Philipp},
+  title    = {Geometric Encoder Regularization for Autoencoders},
+  year     = {2024},
+  journal  = {Preprint},
+  pdf      = {https://github.com/phnazari/GeometricEncoderRegularization/blob/master/paper.pdf},
+  abstract = {In this study we adapt existing decoder-based geometric regularization methods for autoencoders
+              to depend only on the encoder. This shift aligns
+              more naturally with the primary function of autoencoders in generating low-dimensional embeddings. Specifically, we replace the pullback metric
+              with a pushforward. Although this pushforward
+              does not account for all of the geometric information encoded in the data manifold, it is applicable
+              to a much broader spectrum of models.}
 }
 
 @article{nazari2024entropy,
-  title={Entropy Aware Message Passing in Graph Neural Networks},
-  author={Nazari, Philipp and Lemke, Oliver and Guidobene, Davide and Gesp, Artiom},
-  journal={arXiv preprint arXiv:2403.04636},
-  year={2024},
-  pdf={https://arxiv.org/pdf/2403.04636},
-  abstract={Deep Graph Neural Networks struggle with oversmoothing. This paper introduces a novel, physics-inspired GNN model designed to mitigate this issue. Our approach integrates with existing GNN architectures, introducing an entropy-aware message passing term. This term performs gradient ascent on the entropy during node aggregation, thereby preserving a certain degree of entropy in the embeddings. We conduct a comparative analysis of our model against state-of-the-art GNNs across various common datasets.}
+  title    = {Entropy Aware Message Passing in Graph Neural Networks},
+  author   = {Nazari, Philipp and Lemke, Oliver and Guidobene, Davide and Gesp, Artiom},
+  journal  = {arXiv preprint arXiv:2403.04636},
+  year     = {2024},
+  pdf      = {https://arxiv.org/pdf/2403.04636},
+  abstract = {Deep Graph Neural Networks struggle with oversmoothing. This paper introduces a novel, physics-inspired GNN model designed to mitigate this issue. Our approach integrates with existing GNN architectures, introducing an entropy-aware message passing term. This term performs gradient ascent on the entropy during node aggregation, thereby preserving a certain degree of entropy in the embeddings. We conduct a comparative analysis of our model against state-of-the-art GNNs across various common datasets.}
 }
 
 @article{chahine2025curious,
-  title={CompreSSM: The Curious Case of In-Training Compression of State Space Models},
-  author={Chahine, Makram and Nazari, Philipp and Rus, Daniela and Rusch, T Konstantin},
-  journal={arXiv preprint arXiv:2510.02823},
-  year={2025},
-  pdf={https://www.arxiv.org/pdf/2510.02823},
-  abstract={State Space Models (SSMs), developed to tackle long sequence modeling tasks efficiently, offer both parallelizable training and fast inference. At their core are recurrent dynamical systems that maintain a hidden state, with update costs scaling with the state dimension. A key design challenge is striking the right balance between maximizing expressivity and limiting this computational burden. Control theory, and more specifically Hankel singular value analysis, provides a potent framework for the measure of energy for each state, as well as the balanced truncation of the original system down to a smaller representation with performance guarantees. Leveraging the eigenvalue stability properties of Hankel matrices, we apply this lens to SSMs \emph{during training}, where only dimensions of high influence are identified and preserved. Our approach, \textsc{CompreSSM}, applies to Linear Time-Invariant SSMs such as Linear Recurrent Units, but is also extendable to selective models. Experiments show that in-training reduction significantly accelerates optimization while preserving expressivity, with compressed models retaining task-critical structure lost by models trained directly at smaller dimension. In other words, SSMs that begin large and shrink during training achieve computational efficiency while maintaining higher performance.}
+  title    = {CompreSSM: The Curious Case of In-Training Compression of State Space Models},
+  author   = {Chahine, Makram and Nazari, Philipp and Rus, Daniela and Rusch, T Konstantin},
+  journal  = {arXiv preprint arXiv:2510.02823},
+  year     = {2025},
+  pdf      = {https://www.arxiv.org/pdf/2510.02823},
+  abstract = {State Space Models (SSMs), developed to tackle long sequence modeling tasks efficiently, offer both parallelizable training and fast inference. At their core are recurrent dynamical systems that maintain a hidden state, with update costs scaling with the state dimension. A key design challenge is striking the right balance between maximizing expressivity and limiting this computational burden. Control theory, and more specifically Hankel singular value analysis, provides a potent framework for the measure of energy for each state, as well as the balanced truncation of the original system down to a smaller representation with performance guarantees. Leveraging the eigenvalue stability properties of Hankel matrices, we apply this lens to SSMs \emph{during training}, where only dimensions of high influence are identified and preserved. Our approach, \textsc{CompreSSM}, applies to Linear Time-Invariant SSMs such as Linear Recurrent Units, but is also extendable to selective models. Experiments show that in-training reduction significantly accelerates optimization while preserving expressivity, with compressed models retaining task-critical structure lost by models trained directly at smaller dimension. In other words, SSMs that begin large and shrink during training achieve computational efficiency while maintaining higher performance.}
 }
 
 @misc{nazari2025thesis,
@@ -53,4 +53,14 @@ to a much broader spectrum of models.}
   publisher = {Master Thesis, ETH Zürich},
   pdf       = {https://phnazari.github.io/assets/pdf/Master_Thesis.pdf},
   abstract  = {While recent developments undoubtedly demonstrate the power of deep learning, we still lack a fundamental understanding of why overparameterized models work so well in practice. A common explanation attributes this phenomenon to implicit regularization induced by first-order optimization techniques like SGD. However, recent work has found that even zeroth-order guess-and-check optimizers very frequently find well generalizing minima. In this work, we mathematically formulate this heuristic, known as the volume hypothesis. We then fully establish existing research ideas which, using a tropical geometric perspective, introduce a dual representation of fully connected feedforward ReLU networks. This abstraction offers a perspective for studying the volume hypothesis which, to the best of our knowledge, is novel. While deriving general results remains challenging, we analyze multiple lower-dimensional examples, some inspired by Telgarsky's sawtooth construction, which support the volume hypothesis. In particular, using the tropical geometric framework, we argue that exponentially complex minima in the loss landscape are unstable, leading learning algorithms to converge to solutions where the network does not fully utilize its available expressivity. Our work provides a novel perspective to think about generalization of deep ReLU networks, and we hope to inspire further theoretical and empirical research to establish more general results.}
+}
+
+@misc{nazari2026keystatereductionlinear,
+  title         = {The Key to State Reduction in Linear Attention: A Rank-based Perspective},
+  author        = {Philipp Nazari and T. Konstantin Rusch},
+  year          = {2026},
+  eprint        = {2602.04852},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2602.04852}
 }
