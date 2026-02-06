@@ -8,7 +8,6 @@
   pages        = {25834--25857},
   year         = {2023},
   organization = {PMLR},
-  selected     = {true},
   abstract     = {Visualization is a crucial step in exploratory data analysis. One possible approach is to train an autoencoder with low-dimensional latent space. Large network depth and width can help unfolding the data. However, such expressive networks can achieve low reconstruction error even when the latent representation is distorted. To avoid such misleading visualizations, we propose first a differential geometric perspective on the decoder, leading to insightful diagnostics for an embedding’s distortion, and second a new regularizer mitigating such distortion. Our “Geometric Autoencoder” avoids stretching the embedding spuriously, so that the visualization captures the data structure more faithfully. It also flags areas where little distortion could not be achieved, thus guarding against misinterpretation.},
   pdf          = {https://proceedings.mlr.press/v202/nazari23a/nazari23a.pdf}
 }
@@ -42,6 +41,7 @@
   journal  = {arXiv preprint arXiv:2510.02823},
   year     = {2025},
   pdf      = {https://www.arxiv.org/pdf/2510.02823},
+  selected = {true},
   abstract = {State Space Models (SSMs), developed to tackle long sequence modeling tasks efficiently, offer both parallelizable training and fast inference. At their core are recurrent dynamical systems that maintain a hidden state, with update costs scaling with the state dimension. A key design challenge is striking the right balance between maximizing expressivity and limiting this computational burden. Control theory, and more specifically Hankel singular value analysis, provides a potent framework for the measure of energy for each state, as well as the balanced truncation of the original system down to a smaller representation with performance guarantees. Leveraging the eigenvalue stability properties of Hankel matrices, we apply this lens to SSMs \emph{during training}, where only dimensions of high influence are identified and preserved. Our approach, \textsc{CompreSSM}, applies to Linear Time-Invariant SSMs such as Linear Recurrent Units, but is also extendable to selective models. Experiments show that in-training reduction significantly accelerates optimization while preserving expressivity, with compressed models retaining task-critical structure lost by models trained directly at smaller dimension. In other words, SSMs that begin large and shrink during training achieve computational efficiency while maintaining higher performance.}
 }
 
@@ -61,6 +61,7 @@
   year          = {2026},
   eprint        = {2602.04852},
   archiveprefix = {arXiv},
+  selected      = {true},
   primaryclass  = {cs.LG},
   url           = {https://arxiv.org/abs/2602.04852}
 }
