@@ -35,14 +35,13 @@
   abstract = {Deep Graph Neural Networks struggle with oversmoothing. This paper introduces a novel, physics-inspired GNN model designed to mitigate this issue. Our approach integrates with existing GNN architectures, introducing an entropy-aware message passing term. This term performs gradient ascent on the entropy during node aggregation, thereby preserving a certain degree of entropy in the embeddings. We conduct a comparative analysis of our model against state-of-the-art GNNs across various common datasets.}
 }
 
-@article{chahine2025curious,
-  title    = {CompreSSM: The Curious Case of In-Training Compression of State Space Models},
-  author   = {Chahine, Makram and Nazari, Philipp and Rus, Daniela and Rusch, T Konstantin},
-  journal  = {arXiv preprint arXiv:2510.02823},
-  year     = {2025},
-  pdf      = {https://www.arxiv.org/pdf/2510.02823},
-  selected = {true},
-  abstract = {State Space Models (SSMs), developed to tackle long sequence modeling tasks efficiently, offer both parallelizable training and fast inference. At their core are recurrent dynamical systems that maintain a hidden state, with update costs scaling with the state dimension. A key design challenge is striking the right balance between maximizing expressivity and limiting this computational burden. Control theory, and more specifically Hankel singular value analysis, provides a potent framework for the measure of energy for each state, as well as the balanced truncation of the original system down to a smaller representation with performance guarantees. Leveraging the eigenvalue stability properties of Hankel matrices, we apply this lens to SSMs \emph{during training}, where only dimensions of high influence are identified and preserved. Our approach, \textsc{CompreSSM}, applies to Linear Time-Invariant SSMs such as Linear Recurrent Units, but is also extendable to selective models. Experiments show that in-training reduction significantly accelerates optimization while preserving expressivity, with compressed models retaining task-critical structure lost by models trained directly at smaller dimension. In other words, SSMs that begin large and shrink during training achieve computational efficiency while maintaining higher performance.}
+@inproceedings{
+chahine2026the,
+title={The Curious Case of In-Training Compression of State Space Models},
+author={Makram Chahine and Philipp Nazari and Daniela Rus and T. Konstantin Rusch},
+booktitle={ICLR},
+year={2026},
+url={https://openreview.net/forum?id=LtzmeSMBTW}
 }
 
 @misc{nazari2025thesis,
