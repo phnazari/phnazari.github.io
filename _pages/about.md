@@ -24,7 +24,8 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am a [CLS](https://learning-systems.org/) PhD candidate in Computer Science in the [CAMAIL](https://camail.org/) group, advised by [Dr. Konstantin Rusch](https://konstantinrusch.com/) ([ELLIS Institute](https://institute-tue.ellis.eu/) and [Max Planck Institute for Intelligent Systems](https://is.mpg.de/)) and [Prof. Fanny Yang](https://sml.inf.ethz.ch/group/fannyy/) from [ETH Zürich](https://ethz.ch/de.html). Previously, I obtained my Bachelor's in Physics and Mathematics from Heidelberg University where I was affiliated with the lab of [Prof. Fred Hamprecht](https://sciai-lab.org/members/fred-hamprecht.html), as well as a Master's in Mathematics from ETH Zürich, where I wrote my thesis in the lab of [Prof. Helmut Bölcskei](https://www.mins.ee.ethz.ch/people/show/boelcskei).
+I am a [CLS](https://learning-systems.org/) PhD candidate in the [CAMAIL](https://camail.org/) group, advised by [Dr. Konstantin Rusch](https://konstantinrusch.com/) ([Max Planck Institute for Intelligent Systems](https://is.mpg.de/) / [ELLIS Institute Tübingen](https://institute-tue.ellis.eu/)) and [Prof. Fanny Yang](https://sml.inf.ethz.ch/group/fannyy/) ([ETH Zürich](https://ethz.ch/de.html)).
 
+My research is on efficient machine learning across the full stack, from architectural design through post-training compression (quantization, pruning) to inference-time interventions like adaptive compute. I am interested in how these axes compose, where they trade off against each other, as well as the theoretical foundations.
 
-I am interested in the various axes of `efficient machine learning` as well as the `foundations of machine learning`.
+Previously, I obtained my bachelor's degrees in Physics and Mathematics from Heidelberg University (lab of [Prof. Fred Hamprecht](https://sciai-lab.org/members/fred-hamprecht.html)) and my master's degree in Mathematics from ETH Zürich, where I worked in the lab of [Prof. Helmut Bölcskei](https://www.mins.ee.ethz.ch/people/show/boelcskei).
