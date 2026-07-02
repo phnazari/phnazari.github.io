@@ -3,5 +3,10 @@
 
 repo_description_lines_max: 2
 
+# Repo cards — rendered by _includes/repository/repo.liquid.
+# Only the owner/name slug is stored here; the description, language, and star
+# count are all fetched live from the GitHub API (assets/js/repo-cards.js).
 github_repos:
   - phnazari/GeometricAutoencoder
+  - camail-official/compressm
+  - camail-official/discretax

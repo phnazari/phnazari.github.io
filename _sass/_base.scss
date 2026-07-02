@@ -551,6 +551,77 @@ footer.sticky-bottom {
   }
 }
 
+.repo {
+  display: flex;
+}
+
+.repo-card-link {
+  display: flex;
+  width: 100%;
+  text-decoration: none !important;
+}
+
+.repo-card {
+  border: 1px solid var(--global-divider-color);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  width: 100%;
+  height: 100%;
+  background-color: var(--global-card-bg-color);
+  transition: border-color 0.2s ease-in-out;
+
+  &:hover {
+    border-color: var(--global-theme-color);
+  }
+
+  .repo-card-title {
+    color: var(--global-theme-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+
+    .fa-book-bookmark {
+      margin-right: 0.4rem;
+    }
+
+    .repo-card-owner {
+      color: var(--global-text-color-light);
+      font-weight: 400;
+    }
+  }
+
+  .repo-card-description {
+    color: var(--global-text-color);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    // Clamp to 2 lines and always reserve that height, so every card is
+    // the same height regardless of description length.
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 3em; // 2 lines × 1.5 line-height
+  }
+
+  .repo-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: var(--global-text-color-light);
+    font-size: 0.85rem;
+
+    .repo-lang-dot {
+      display: inline-block;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      margin-right: 0.3rem;
+      vertical-align: middle;
+    }
+  }
+}
+
 // Blog
 
 .header-bar {

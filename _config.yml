@@ -159,6 +159,10 @@ collections:
     defaults:
       layout: post
     output: true
+  articles:
+    defaults:
+      layout: post
+    output: true
   projects:
     output: false
 
