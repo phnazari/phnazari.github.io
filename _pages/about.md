@@ -28,4 +28,4 @@ I am a [CLS](https://learning-systems.org/) PhD candidate in the [CAMAIL](https:
 
 My research is on efficient machine learning across the full stack, from architectural design through post-training compression (quantization, pruning) to inference-time interventions like adaptive compute. I am interested in how these axes compose, where they trade off against each other, as well as the theoretical foundations.
 
-Previously, I obtained my bachelor's degrees in Physics and Mathematics from Heidelberg University (lab of [Prof. Fred Hamprecht](https://sciai-lab.org/members/fred-hamprecht.html)) and my master's degree in Mathematics from ETH Zürich, where I worked in the lab of [Prof. Helmut Bölcskei](https://www.mins.ee.ethz.ch/people/show/boelcskei).
+Previously, I obtained my bachelor's degrees in Physics and Mathematics from Heidelberg University (lab of [Prof. Fred Hamprecht](https://sciai-lab.org)) and my master's degree in Mathematics from ETH Zürich, where I worked in the lab of [Prof. Helmut Bölcskei](https://www.mins.ee.ethz.ch/people/show/boelcskei).
