@@ -149,10 +149,10 @@ ninja.data = [{
           description: "another project with an image 🎉",
           section: "Projects",handler: () => {
               window.location.href = "/projects/9_project/";
-            },},{id: "talks-talk-on-autoencoders-their-connection-to-pca-and-geometric-regularization-at-the-university-of-heidelberg-recording-on-youtube-part-1-part-2",
+            },},{id: "talks-talk-on-autoencoders-their-connection-to-pca-and-geometric-regularization-at-the-university-of-heidelberg",
           title: 'Talk on autoencoders, their connection to PCA, and geometric regularization at the University...',
           description: "",
-          section: "Talks",},{id: "talks-talk-on-compressm-and-the-key-to-state-reduction-at-the-tübingen-ai-center-recording-on-youtube",
+          section: "Talks",},{id: "talks-talk-on-compressm-and-the-key-to-state-reduction-at-the-tübingen-ai-center",
           title: 'Talk on CompreSSM and The Key to State Reduction at the Tübingen AI...',
           description: "",
           section: "Talks",},{id: "talks-talk-on-theoretical-perspectives-on-efficient-architectures-in-the-seminar-modern-numerical-methods-for-theoretical-physics-at-the-university-of-heidelberg",
