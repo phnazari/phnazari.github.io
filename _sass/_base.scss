@@ -622,6 +622,44 @@ footer.sticky-bottom {
   }
 }
 
+// Talks
+
+// Resource chips (slides, recordings, ...) shown under a talk entry.
+// Deliberately quiet: muted outline by default, accent only on hover, so they
+// read as affordances rather than competing with the talk text itself.
+.talk-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+
+  .talk-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 6px; // matches .pub-badge / .repo-card
+    color: var(--global-text-color-light);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    white-space: nowrap;
+    text-decoration: none !important;
+    transition:
+      color 0.2s ease-in-out,
+      border-color 0.2s ease-in-out;
+
+    i {
+      font-size: 0.8em;
+    }
+
+    &:hover {
+      color: var(--global-theme-color);
+      border-color: var(--global-theme-color);
+    }
+  }
+}
+
 // Blog
 
 .header-bar {

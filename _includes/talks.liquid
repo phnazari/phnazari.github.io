@@ -23,6 +23,38 @@
               {% else %}
                 <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title }}</a>
               {% endif %}
+              {% if item.links %}
+                <div class="talk-links">
+                  {% for link in item.links %}
+                    {% if link.url contains '://' %}
+                      {% assign link_href = link.url %}
+                      {% assign link_external = true %}
+                    {% else %}
+                      {% assign link_href = link.url | relative_url %}
+                      {% assign link_external = false %}
+                    {% endif %}
+                    <a
+                      class="talk-link talk-link-{{ link.type | default: 'link' }}"
+                      href="{{ link_href }}"
+                      {% if link_external %}target="_blank" rel="noopener noreferrer"{% endif %}
+                    >
+                      {% case link.type %}
+                        {% when 'slides' %}
+                          <i class="fa-regular fa-file-pdf"></i>
+                        {% when 'video' %}
+                          <i class="fa-brands fa-youtube"></i>
+                        {% when 'paper' %}
+                          <i class="fa-regular fa-file-lines"></i>
+                        {% when 'code' %}
+                          <i class="fa-brands fa-github"></i>
+                        {% else %}
+                          <i class="fa-solid fa-link"></i>
+                      {% endcase %}
+                      <span>{{ link.text }}</span>
+                    </a>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </td>
           </tr>
         {% endfor %}
