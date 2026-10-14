@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-dual-complexity-measures-for-relu-networks",
+        },{id: "post-depth-memory",
+      
+        title: "Depth Memory",
+      
+      description: "Depth Memory unifies residual connections, mHC and Attention Residuals. Linear Depth Memory uses recursive least squares to store and retrieve layer outputs.",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2026/depth-memory/";
+        
+      },
+    },{id: "post-dual-complexity-measures-for-relu-networks",
       
         title: "Dual Complexity Measures for ReLU Networks",
       
@@ -103,6 +114,9 @@ ninja.data = [{
           description: "",
           section: "News",},{id: "news-i-am-excited-to-give-a-talk-on-theoretical-perspectives-on-efficient-architectures-in-the-seminar-modern-numerical-methods-for-theoretical-physics-at-the-university-of-heidelberg",
           title: 'I am excited to give a talk on Theoretical Perspectives on Efficient Architectures...',
+          description: "",
+          section: "News",},{id: "news-our-preprint-depth-memory-is-now-public-see-the-paper-and-blog-post",
+          title: 'Our preprint Depth Memory is now public! See the paper and blog post....',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
