@@ -35,6 +35,19 @@
   abstract = {Deep Graph Neural Networks struggle with oversmoothing. This paper introduces a novel, physics-inspired GNN model designed to mitigate this issue. Our approach integrates with existing GNN architectures, introducing an entropy-aware message passing term. This term performs gradient ascent on the entropy during node aggregation, thereby preserving a certain degree of entropy in the embeddings. We conduct a comparative analysis of our model against state-of-the-art GNNs across various common datasets.}
 }
 
+@misc{gonzalezmartínez2026depthmemory,
+      title={Depth Memory},
+      author={David González-Martínez and Philipp Nazari and T. Konstantin Rusch and Shiwei Liu},
+      year={2026},
+      eprint={2610.18809},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2610.18809},
+      selected={true},
+      arxiv={2610.18809},
+      abstract={Residual connections propagate information through a network by additively accumulating layer outputs. Recently proposed alternatives, such as Manifold-Constrained Hyper-Connections (mHC) and Attention Residuals (AttnRes), instead use more expressive depth aggregation mechanisms that improve language modeling performance at scale. In this work, we consider the mixing of representations over depth as a problem of storing and retrieving information across layers. Formalizing this perspective, we introduce Depth Memory (DM), a unified framework that describes the standard pre-layer-norm (PreLN) transformer, mHC, and AttnRes in terms of streams that carry representations through the network. One such stream, for example, could be an explicit memory stream that is queried to enrich the input to every layer, and whose output is subsequently written back into the memory for use by later layers. For AttnRes, this memory stream is a growing cache of explicit layer representations. For mHC, it is an expanded residual stream. Building on this view, we propose Linear Depth Memory (LDM), which formulates information retrieval across depth as a regression problem solved using recursive least squares. The resulting architecture propagates three streams across depth: the standard residual stream, a linear associative memory stream, and an inverse covariance stream. For high-throughput training and inference, we propose a hardware-aware implementation of LDM that reduces peak activation memory and memory traffic. LDM consistently achieves the lowest perplexities among PreLN, mHC and AttnRes baselines at the 400M and 1.5B parameter scales, alongside competitive zero-shot accuracy.}
+}
+
 @inproceedings{
 nazari2026on,
 title={On State Reduction in Linear Attention},
@@ -76,7 +89,6 @@ abstract={State Space Models (SSMs), developed to tackle long sequence modeling 
   journal       = {arXiv preprint},
   eprint        = {2602.04852},
   archiveprefix = {arXiv},
-  selected      = {true},
   primaryclass  = {cs.LG},
   url           = {https://arxiv.org/abs/2602.04852},
   abstract = {Linear attention offers a computationally efficient yet expressive alternative to softmax attention. However, recent empirical results indicate that the hidden state of trained linear attention models often exhibits a low-rank structure, suggesting that these models underexploit their capacity in practice. To illuminate this phenomenon, we provide a theoretical analysis of the role of rank in linear attention, revealing that low effective rank can amplify query noise during readout from the associative memory. In addition to these theoretical insights, we conjecture that the low-rank states can be substantially reduced post-training with only minimal performance degradation, yielding faster and more memory-efficient models. To this end, we propose a novel hardware-aware approach that structurally prunes key and query matrices, reducing the state size while retaining compatibility with existing kernels. We adapt several existing pruning strategies to fit our framework and, building on our theoretical analysis, propose a novel structured pruning method based on a rank-revealing QR decomposition. Our empirical results, evaluated across models of varying sizes and on various downstream tasks, demonstrate the effectiveness of our state reduction framework.}
