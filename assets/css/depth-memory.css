@@ -1,0 +1,214 @@
+/* Depth Memory post (_posts/2026-10-14-depth-memory.html).
+   Ported from the standalone page in phnazari/depth-memory. Every rule is
+   scoped under .dm; the colour tokens map onto the site's theme variables so
+   the page follows al-folio's light/dark switch. Chart series colours keep
+   the original palette. */
+/* purgecss start ignore */
+.dm {
+  --bg: var(--global-bg-color);
+  --surface: #f6f7f8;
+  --fg: var(--global-text-color);
+  --muted: var(--global-text-color-light);
+  --rule: var(--global-divider-color);
+  --grid: #e8ecef;
+  --accent: var(--global-theme-color);
+  --accent-soft: color-mix(in srgb, var(--global-theme-color) 10%, transparent);
+  --warn: #a3674c;
+  --c-ldm: #49677d;
+  --c-k4: #7a8f9f;
+  --c-preln: #70756d;
+  --c-block: #a3674c;
+  --c-full: #548174;
+  --c-mhc: #84698d;
+  --font-data: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.5rem;
+  --radius: 4px;
+}
+html[data-theme="dark"] .dm {
+  --surface: var(--global-card-bg-color);
+  --grid: rgba(148, 163, 184, 0.14);
+  --warn: #c3957c;
+  --c-ldm: #a0b7c7; --c-k4: #708697; --c-preln: #a2a49b; --c-block: #c3957c; --c-full: #8da998; --c-mhc: #b29bb9;
+}
+.dm *, .dm *::before, .dm *::after { box-sizing: border-box; }
+.dm [hidden] { display: none !important; }
+.dm { background: var(--bg); color: var(--fg); font-family: inherit; font-size: var(--step-0); line-height: 1.6; }
+
+/* Grid columns shrink to the screen; anything wider (equations, the edge strip) scrolls inside its own box. */
+.dm, .dm header, .dm .stack, .dm .stack-lg, .dm .panel, .dm figure { grid-template-columns: minmax(0, 1fr); }
+.dm > *, .dm header > *, .dm .stack > *, .dm .stack-lg > *, .dm .panel > *, .dm figure > * { min-width: 0; }
+.dm mjx-container[display="true"] { max-width: 100%; }
+.dm { display: grid; gap: 3.5rem; margin-bottom: 2rem; }
+.dm .prose p, .dm .prose ul, .dm .prose ol { margin: 0; }
+.dm .prose ul, .dm .prose ol { padding-left: 1.3rem; display: grid; gap: 0.35rem; }
+.dm .stack { display: grid; gap: 1rem; }
+.dm .stack-lg { display: grid; gap: 2.5rem; }
+.dm h2, .dm h3 { font-family: inherit; font-weight: 600; line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -0.025em; }
+.dm h2 { font-size: var(--step-2); }
+.dm h3 { font-size: var(--step-1); font-weight: 500; }
+.dm a { color: var(--accent); text-underline-offset: 0.15em; }
+.dm code { font-family: var(--font-data); font-size: 0.82em; background: var(--accent-soft); padding: 0.05em 0.3em; border-radius: 4px; }
+.dm :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.dm .muted { color: var(--muted); }
+.dm .small { font-size: var(--step--1); }
+.dm .label { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+/* Header */
+.dm header { display: grid; gap: 1.5rem; }
+/* The method's name wherever it appears in the text. */
+.dm .dm-name { color: var(--accent); }
+.dm .lede { font-size: var(--step-1); line-height: 1.45; margin: 0; }
+.dm .authors { margin: 0; }
+.dm .authors a { white-space: nowrap; }
+.dm .links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.dm .pill { font-family: inherit; font-weight: 500; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.95rem; border: 1px solid var(--rule); border-radius: 999px; color: var(--fg); background: var(--surface); text-decoration: none; }
+.dm .pill:hover { color: var(--fg); border-color: var(--accent); text-decoration: none; }
+.dm .pill .logo { height: 1.2em; width: auto; flex: none; }
+.dm details.abstract summary { cursor: pointer; font-family: inherit; font-weight: 500; color: var(--accent); }
+.dm details.abstract p { margin: 0.75rem 0 0; }
+
+/* Controls */
+.dm .controls { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; align-items: center; }
+.dm .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; padding: 3px; background: var(--surface); }
+.dm .seg button { font: inherit; font-family: inherit; font-weight: 500; font-size: 0.9rem; border: 0; background: transparent; color: var(--muted); padding: 0.35rem 0.85rem; border-radius: 3px; cursor: pointer; }
+.dm .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--fg); }
+.dm .seg button:hover { color: var(--fg); }
+.dm .btn { font: inherit; font-family: inherit; font-weight: 500; font-size: 0.9rem; border: 1px solid var(--rule); background: var(--surface); color: var(--fg); padding: 0.4rem 0.95rem; border-radius: var(--radius); cursor: pointer; }
+.dm .btn:hover { border-color: var(--accent); }
+/* Undo MDB's button and al-folio's table/link defaults inside the post. */
+.dm .btn, .dm .btn:hover, .dm .btn:focus, .dm .btn:active { margin: 0; box-shadow: none; text-transform: none; letter-spacing: normal; line-height: 1.5; }
+.dm .btn.primary:hover { color: var(--bg); }
+.dm .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.dm .legend { display: flex; flex-wrap: wrap; gap: 0.35rem 0.5rem; }
+.dm .legend button { font: inherit; font-family: inherit; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.45rem; border: 1px solid var(--rule); background: var(--surface); color: var(--fg); padding: 0.25rem 0.7rem; border-radius: var(--radius); cursor: pointer; }
+.dm .legend button .sw { width: 0.9rem; height: 0.22rem; border-radius: 2px; flex: none; }
+.dm .legend button[aria-pressed="false"] { color: var(--muted); }
+.dm .legend button[aria-pressed="false"] .sw { opacity: 0.25; }
+.dm .range { display: inline-flex; align-items: center; gap: 0.6rem; font-family: inherit; font-size: 0.9rem; }
+.dm .range input { accent-color: var(--accent); width: 9rem; }
+.dm .range output { font-family: var(--font-data); min-width: 2.5rem; }
+
+/* Figures */
+.dm figure { margin: 0; display: grid; gap: 0.85rem; min-width: 0; }
+.dm figcaption { font-size: 0.95rem; color: var(--muted); }
+.dm .chart { position: relative; width: 100%; min-width: 0; }
+.dm .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.dm .chart text { font-family: var(--font-data); font-size: 11px; fill: var(--muted); }
+.dm .tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 0.45rem 0.6rem; font-family: var(--font-data); font-size: 0.75rem; line-height: 1.5; color: var(--fg); box-shadow: 0 6px 18px rgb(0 0 0 / 0.08); white-space: nowrap; z-index: 2; }
+.dm .tip .tip-row { display: flex; align-items: center; gap: 0.45rem; }
+.dm .tip .dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; flex: none; }
+.dm .tip .v { margin-left: auto; padding-left: 1rem; }
+.dm .ratios { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; font-size: 0.95rem; }
+.dm .ratios li { display: flex; gap: 0.6rem; align-items: baseline; }
+.dm .ratios .dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; flex: none; transform: translateY(0.05rem); }
+.dm .ratios .x { font-family: var(--font-data); font-weight: 500; color: var(--fg); }
+
+/* Throughput */
+.dm .speed { display: grid; gap: 1.1rem; }
+.dm .speedtab { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.9rem; }
+.dm .speedtab th, .dm .speedtab td { padding: 0.6rem 0.5rem; text-align: left; vertical-align: top; border-top: 1px solid var(--grid); }
+.dm .speedtab thead th { border-top: 0; border-bottom: 1px solid var(--rule); font-family: inherit; font-weight: 500; }
+.dm .speedtab th:first-child { width: 31%; }
+.dm .speedtab tbody th { font-family: inherit; font-weight: 500; }
+.dm .speedtab tr.ours th, .dm .speedtab tr.ours td { background: var(--accent-soft); }
+.dm .speedtab .v { font-family: inherit; font-weight: 700; font-size: 1.25rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.dm .speedtab .v span { font-size: 0.75em; font-weight: 500; color: var(--muted); }
+.dm .speedtab .bar { height: 0.35rem; margin-top: 0.35rem; background: var(--grid); border-radius: 999px; overflow: hidden; }
+.dm .speedtab .bar span { display: block; height: 100%; border-radius: 999px; }
+.dm .speedtab .rg { margin-top: 0.3rem; font-family: var(--font-data); font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+@media (max-width: 34rem) { .dm .speedtab { font-size: 0.82rem; } .dm .speedtab th, .dm .speedtab td { padding: 0.55rem 0.3rem; } .dm .speedtab .v { font-size: 1.1rem; } }
+
+/* Method explorer */
+.dm .tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.dm .tabs button { font: inherit; font-family: inherit; font-weight: 500; border: 1px solid var(--rule); background: var(--surface); color: var(--muted); padding: 0.4rem 1rem; border-radius: var(--radius); cursor: pointer; }
+.dm .tabs button[aria-selected="true"] { color: var(--fg); border-color: var(--accent); background: var(--accent-soft); }
+.dm .tabs button[data-m="ldm"] { font-weight: 700; }
+.dm .panel { display: grid; gap: 1rem; }
+.dm .mpanels { display: grid; grid-template-columns: max-content minmax(0, 1fr); grid-template-rows: repeat(4, auto); gap: 0.5rem 1.25rem; overflow-x: auto; overflow-y: hidden; }
+.dm .mpanels > .panel { grid-column: 1 / -1; grid-row: 1 / -1; grid-template-columns: subgrid; grid-template-rows: subgrid; gap: inherit; align-items: center; }
+.dm .mpanels > .panel.off { visibility: hidden; }
+.dm .mpanels > .panel > p { grid-column: 1 / -1; align-self: start; margin-bottom: 0.5rem; }
+.dm .mpanels .eqgrid { display: contents; }
+.dm .mpanels .eqgrid > span:not(.k) { padding-block: 0.25rem; }
+@media (max-width: 30rem) { .dm .mpanels { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(7, auto); row-gap: 0.15rem; } .dm .mpanels .eqgrid > .k { margin-top: 0.6rem; } }
+/* The longest writes (mHC, LDM) need ~330px. Shrink them on the narrowest phones
+   instead of letting the panel scroll sideways. Scaling the wrapping span keeps
+   MathJax's own relative sizing intact. */
+@media (max-width: 23.5rem) { .dm .mpanels .eqgrid > span:not(.k) { font-size: 92%; } }
+@media (max-width: 21rem) { .dm .mpanels .eqgrid > span:not(.k) { font-size: 80%; } }
+.dm .eqgrid { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.5rem 1.25rem; align-items: baseline; overflow-x: auto; overflow-y: hidden; padding-block: 0.25rem; }
+.dm .eqgrid .k { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+/* Wide equations scroll sideways only. overflow-x: auto would otherwise make
+   the y-axis scrollable too, and Safari counts MathJax's hidden screen-reader
+   MathML (taller than the visible equation) as overflow and shows a bar. */
+.dm .display { overflow-x: auto; overflow-y: hidden; padding-block: 0.25rem; }
+
+/* Edge stepper */
+.dm .explorer, .dm .stepper { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--surface); padding: 1.1rem; min-width: 0; }
+.dm .stepper > * { min-width: 0; }
+.dm .stepper .range { max-width: 100%; min-width: 0; }
+.dm .stepper .range input { min-width: 0; flex: 1; }
+.dm .edges { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.dm .win { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--rule); border-radius: 6px; position: relative; }
+.dm .win.active { border-color: var(--accent); }
+.dm .edge { width: 0.95rem; height: 1.35rem; border-radius: 3px; background: var(--grid); border: 0; padding: 0; cursor: pointer; position: relative; }
+.dm .edge.done { background: var(--c-k4); opacity: 0.55; }
+.dm .edge.commit::after { content: ""; position: absolute; left: 50%; bottom: -6px; width: 5px; height: 5px; transform: translateX(-50%) rotate(45deg); background: var(--c-preln); }
+.dm .edge.cur { background: var(--accent); opacity: 1; }
+.dm .edge.boundary { box-shadow: inset 0 0 0 1.5px var(--muted); }
+.dm .status { display: grid; gap: 0.6rem; grid-template-columns: minmax(0, 1fr); }
+.dm .status .what { display: grid; gap: 0.35rem; min-width: 0; line-height: 1.5; }
+.dm .status .what > * { grid-column: 1; }
+.dm .status .what .label { grid-row: 1; }
+.dm .status .what .title { grid-row: 2; font-family: inherit; font-weight: 500; }
+.dm .status .what p { grid-row: 3; margin: 0; }
+.dm .status .what .sizer { visibility: hidden; }
+.dm .keyrow { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; font-size: 0.8rem; color: var(--muted); }
+.dm .keyrow span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.dm .keyrow i { display: inline-block; width: 0.7rem; height: 0.9rem; border-radius: 2px; }
+
+/* Tables */
+.dm table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+.dm th, .dm td { font-size: inherit; padding: 0.55rem 0.75rem; text-align: left; vertical-align: top; }
+.dm thead th { font-family: inherit; font-weight: 500; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.dm td { border-top: 1px solid var(--grid); }
+.dm td.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.dm th.num { text-align: right; }
+.dm .tablewrap { overflow-x: auto; overflow-y: hidden; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--surface); }
+
+/* Results table */
+.dm .results-table { font-size: 0.81rem; }
+.dm .results-table th, .dm .results-table td { padding: 0.6rem 0.55rem; }
+.dm .results-table thead tr:first-child th { text-align: center; }
+.dm .results-table thead th:first-child[rowspan] { text-align: left; vertical-align: bottom; }
+.dm .results-table tbody th { font-family: inherit; font-weight: 500; border-top: 1px solid var(--grid); white-space: nowrap; }
+.dm .results-table .method { position: sticky; left: 0; z-index: 1; background: var(--surface); border-right: 1px solid var(--rule); }
+.dm .results-table .metric-start { border-left: 1px solid var(--rule); }
+.dm .results-table tr.ours > * { background: var(--accent-soft); }
+/* --accent-soft is translucent here; keep the sticky column opaque so scrolled cells do not show through. */
+.dm .results-table tr.ours > .method { background: linear-gradient(var(--accent-soft), var(--accent-soft)), var(--surface); font-weight: 700; }
+/* MDB sets strong to 500, which the monospace numbers render as regular. */
+.dm .results-table strong { font-weight: 700; }
+.dm .results-table .second, .dm #eval-caption .second { text-decoration: underline; text-underline-offset: 0.2em; }
+
+/* Citation */
+.dm .cite { position: relative; }
+.dm .cite pre { margin: 0; overflow-x: auto; overflow-y: hidden; padding: 1rem 1.1rem; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--surface); font-family: var(--font-data); font-size: 0.8rem; line-height: 1.55; color: var(--fg); }
+.dm .copy { position: absolute; top: 0.6rem; right: 0.6rem; font: inherit; font-family: inherit; font-size: 0.8rem; border: 1px solid var(--rule); background: var(--bg); color: var(--fg); border-radius: 999px; padding: 0.25rem 0.75rem; cursor: pointer; }
+.dm .copy .copy-check { position: absolute; inset: 0; margin: auto; width: 1.1em; height: 1.1em; color: var(--accent); opacity: 0; transform: scale(0.5); }
+.dm .copy.copied .copy-label { opacity: 0; }
+.dm .copy.copied .copy-check { opacity: 1; transform: none; }
+
+@media (max-width: 34rem) {
+  .dm .explorer, .dm .stepper { padding: 0.75rem; }
+  .dm .cite pre { padding-top: 2.8rem; }
+  .dm .edge { width: 0.8rem; height: 1.2rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dm .seg button, .dm .legend button, .dm .tabs button, .dm .edge, .dm .btn { transition: background-color 0.15s, color 0.15s, border-color 0.15s; }
+  .dm .copy .copy-label, .dm .copy .copy-check { transition: opacity 0.2s, transform 0.2s; }
+}
+/* purgecss end ignore */
