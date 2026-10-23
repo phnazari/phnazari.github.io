@@ -627,14 +627,16 @@
   }
 
   const copy = $("#lr-copy");
-  if ($("#lr-bibtex").textContent.trim() && navigator.clipboard && window.isSecureContext) {
+  const citation = $("#lr-bibtex");
+  const copyStatus = $("#lr-copy-status");
+  if (copy && citation?.textContent.trim() && navigator.clipboard && window.isSecureContext) {
     copy.hidden = false;
     copy.addEventListener("click", async () => {
       try {
-        await navigator.clipboard.writeText($("#lr-bibtex").textContent);
-        $("#lr-copy-status").textContent = "Citation copied.";
+        await navigator.clipboard.writeText(citation.textContent);
+        if (copyStatus) copyStatus.textContent = "Citation copied.";
       } catch {
-        $("#lr-copy-status").textContent = "Copy was unavailable. Select the citation text to copy it manually.";
+        if (copyStatus) copyStatus.textContent = "Copy was unavailable. Select the citation text to copy it manually.";
       }
     });
   }
