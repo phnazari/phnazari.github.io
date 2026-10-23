@@ -1,0 +1,31 @@
+Skyline figure (residual_skyline.pgf, "Residual stream of a representative layer")
+
+skyline_data.npz
+- softmax, kda: float32 [64 tokens, 2048 channels]. Exactly the arrays plotted in the two panels:
+  |x| at layer 12 (0-based, of 24 layers), every second token of a 128-token window.
+- token_idx: [64] positions of those tokens in the window (0, 2, ..., 126). The token axis of the plot uses
+  these positions.
+- channel_idx: [2048] channel indices. Channels are not subsampled.
+- softmax_all_tokens, kda_all_tokens: float32 [128, 2048], the same layer with all 128 tokens.
+- layer: 12.
+
+Source: per-layer dumps of the 1.3B Softmax-attention and KDA models of the mixer zoo, stored as float16 magnitudes
+(already absolute values). The repository's producer for these dumps is scripts/diagnostics/residuals.py. It records
+|x| for the first 128 tokens of a 2,048-token WikiText-2 training sequence (seed 0) at the input of each layer's
+q_proj. Rendering these exact dumps with residual_skyline.py reproduces the paper's residual_skyline.pgf and its two
+raster images byte for byte.
+
+Plotting (residual_skyline.py, with style.py for fonts and sizes)
+- Plots np.abs(M[12, ::2]) for each model. There is no other normalization, averaging or subsampling of the values.
+- Both panels share one height and color scale. The z axis runs from 0 to the joint maximum (18.875, the Softmax
+  peak). Colors use PowerNorm(gamma=0.4) over the same range on the colormap
+  #045275 -> #089099 -> #7CCBA2 -> #FCDE9C.
+- 3-D surface (plot_surface with per-cell face colors, no shading), view elevation 32, azimuth -58, box aspect
+  (1.5, 1.0, 0.95), zoom 0.83. Figure size 0.58 x 5.5 in by 1.75 in, surfaces rasterized at 600 dpi, saved as PGF.
+- The same script also writes residual_skyline_layers.pgf (per-layer maximum over tokens), which the main figure does
+  not use.
+- The only repository-internal import is source_path from linquant.evaluation.output_store, which just resolves the
+  input path. Replace it with pathlib.Path to run the script standalone. style.py sets LaTeX text rendering, so PGF
+  output needs pdflatex.
+
+Browser export: skyline.bin contains only softmax and kda, concatenated in that order as little-endian float32. Every supplied plotted value is retained exactly. No further subsampling, normalization, averaging, or synthetic data. See skyline-provenance.json for layout and checksums.

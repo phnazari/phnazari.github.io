@@ -1,0 +1,384 @@
+---
+layout: post
+title: "Quantizing Recurrent Language Models Is Easier Than You Think"
+description: How the sequence mixer implicitly affects weight and activation quantization and explicitly changes state quantization during decode.
+tags: Deep-Learning Quantization
+date: 2026-10-16
+paper_url:
+---
+
+<link rel="stylesheet" href="{{ '/assets/css/lores.css' | relative_url | bust_file_cache }}">
+
+<div class="lores">
+  <header class="lr-stack">
+    <p class="lr-lede">
+      The post-training quantization (PTQ) stack has been developed for softmax attention. For linear attention and hybrids, it remains underexplored. This work aims to change that. We differentiate between extra-state weight/activation (W/A) quantization and state quantization during decode, investigating how both differ from quantization in classical softmax attention. To store the linear attention state during decode, our final scheme <span class="lr-name">LoReS</span> combines value-axis grouping, stochastic rounding, and decay-based mixed precision.</p>
+    <p class="lr-authors">Joint work with <a href="https://ntumm120.github.io/">Neehal Tumma</a>, <a href="https://danielarus.csail.mit.edu/">Daniela Rus</a>, and <a href="https://camail.org/konstantin-rusch/">T. Konstantin Rusch</a>.</p>
+    <div class="lr-links">
+      <a class="lr-pill" href="{{ page.paper_url }}"><svg class="logo" viewBox="86.8 0 83 111.12" aria-hidden="true"><path d="M127.98,55.61l-32.74,38.85c-1.29,1.37-2.08,3.78-1.36,5.5.75,1.8,2.46,2.91,4.4,2.91,1.09,0,1.99-.38,3.16-1.56l40.19-42.71c1.6-1.69,1.62-4.33.04-6.04l-13.68,3.05Z" fill="#aa142d"/><path d="M127.98,55.61l31.19-38.27c1.49-1.99,2.2-3.03,1.49-4.72-.74-1.77-2.59-3.16-4.48-3.16h0c-1.06,0-1.72.09-3.01,1.11l-38.63,41.76c-1.72,1.84-1.71,4.7.02,6.53l47.79,51.07c1.02,1.05,2.05,1.19,3.14,1.19,1.93,0,3.19-1.14,4.03-2.82.72-1.73-.08-3.44-1.4-5.23l-40.12-47.46" fill="#afa497"/><path d="M141.67,52.56L95,2.13S93.29.04,91.48,0s-3.6,1.02-4.34,2.79c-.7,1.69-.2,2.88,1.35,5.1l40.09,48.42" fill="#aa142d"/></svg>Paper</a>
+      <a class="lr-pill" href="https://github.com/camail-official/LoReS"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.49c-2.23.49-2.7-1.08-2.7-1.08-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.96 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.22 2.2.82A7.65 7.65 0 0 1 8 3.72c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.08-1.87 3.76-3.65 3.96.29.25.54.73.54 1.48v2.33c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>Code</a>
+    </div>
+    <details class="lr-abstract">
+      <summary>Abstract</summary>
+      <p>Linear recurrences are becoming an increasingly common building block in large language models, replacing the growing KV cache of softmax attention with a fixed-size recurrent state that enables efficient decoding. However, the quantization stack has largely been developed around softmax Transformers, whose numerical properties and inference state differ from those of recurrent models, motivating quantization schemes tailored to recurrences. We study how quantizing linear recurrences differs from quantizing softmax attention along two complementary axes. First, extra-state quantization concerns weights and activations outside the recurrent state, whose distributions are shaped indirectly by the sequence mixer during training. In controlled 1.3B models, we find that decayed recurrences develop much weaker residual outlier channels than softmax attention and are therefore easier to quantize without incoherence processing. Second, intra-state quantization concerns the recurrent state itself during decode, where repeated updates and recurrent decay create a different numerical problem from KV cache quantization. We use these insights to develop LoReS, a pipeline that combines value-axis scale grouping, decay-based mixed-precision allocation and stochastic rounding for low-bit recurrent state quantization. Across Qwen-3.5 9B, Nemotron-H 8B, and Kimi-Linear 48B-A3B, LoReS supports robust 8-bit state quantization and lower effective precision on shorter decode horizons. We implement LoReS in vLLM and demonstrate end-to-end decode speedups.</p>
+    </details>
+  </header>
+
+  <section class="lr-stack" aria-labelledby="lr-two-targets">
+    <h2 id="lr-two-targets">Architectural Differences: Linear vs. Softmax</h2>
+    <p>Softmax attention and linear attention maintain fundamentally different objects for sequence mixing. While softmax attention appends keys and values to a growing KV cache, linear attention updates a fixed-size matrix state in place. This changes the quantization problem.
+    </p>
+    <figure class="lr-stack" aria-labelledby="lr-figure1-caption">
+      {% include lores-architecture.liquid %}
+      <figcaption id="lr-figure1-caption"><b>Figure 1.</b> Extra-state weights and activations. Intra-state inference memory.</figcaption>
+    </figure>
+    <p>
+      We differentiate between two quantization objectives. <span class="lr-name">Extra-state quantization</span> covers weights and activations. Its dependence on the sequence mixer is <span class="lr-name">implicit</span>. <span class="lr-name">Intra-state quantization</span> acts on the state stored during decode. Its dependence on the sequence mixer is <span class="lr-name">explicit</span>.
+    </p>
+  </section>
+
+  <section class="lr-stack-lg" aria-labelledby="lr-outliers">
+    <div class="lr-stack">
+      <h2 id="lr-outliers">Extra-State Weight and Activation Quantization</h2>
+      <p>We vary the sequence mixer in 1.3B models while keeping the surrounding backbone and training recipe fixed. All experiments in Table 1 use GPTQ with per-output-channel weight scales and dynamic activation scales. We test rotations of the residual stream and the inputs to the MLP down-projection and mixer output projection.</p>
+    </div>
+    <div class="lr-stack">
+      <h3>Decayed recurrences are robust</h3>
+      <p>Without incoherence processing, decayed linear recurrences are more robust than softmax attention to W4A4 quantization. Keeping other recurrent degrees of freedom fixed, decay consistently helps, with diagonal decay working best. Applying all three rotations brings perplexity increases to similar levels across models. Robustness differences are thus mainly due to learned distributions, not error propagation under different algebraic properties of the sequence mixer itself.</p>
+    <figure class="lr-stack">
+      <div class="lr-tablewrap" role="region" tabindex="0" aria-label="Weight and activation quantization results">
+        <table>
+          <thead><tr><th scope="col">Mixer-zoo variant</th><th scope="col">W4A4</th><th scope="col">W4A4 + rotations</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Softmax</th><td>98.4%</td><td>10.6%</td></tr>
+            <tr><th scope="row">Linear attention</th><td>111.4%</td><td>12.5%</td></tr>
+            <tr><th scope="row">Mamba-2</th><td>56.6%</td><td>11.9%</td></tr>
+            <tr><th scope="row">GLA</th><td>45.0%</td><td>9.3%</td></tr>
+            <tr><th scope="row">Gated DeltaNet</th><td>55.4%</td><td>11.8%</td></tr>
+            <tr><th scope="row">KDA</th><td>47.8%</td><td>11.2%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><b>Table 1.</b> Relative WikiText-2 perplexity increase over the BF16 weight/activation baseline.</figcaption>
+    </figure>
+    </div>
+    <div class="lr-stack">
+      <h3>Residual stream outliers</h3>
+      <p>Softmax attention learns an outlier channel in its residual stream whose magnitude is approximately constant across tokens and layers. This channel coarsens the quantization grid, leading to larger quantization error. Decayed linear recurrences have weaker outliers. Across our mixer zoo, stronger outliers accompany larger W4A4 perplexity increases without rotations.</p>
+      <figure class="lr-stack" aria-labelledby="lr-skyline-caption">
+        <div class="lr-skyline" id="lr-skyline" data-source="{{ '/assets/data/lores/skyline.bin' | relative_url | bust_file_cache }}">
+          <div class="lr-skyline-panels">
+            <div class="lr-skyline-panel">
+              <h4 id="lr-skyline-softmax">Softmax attention</h4>
+              <div class="lr-skyline-plot" role="img" aria-labelledby="lr-skyline-softmax" aria-describedby="lr-skyline-description">
+                <svg class="lr-skyline-grid" viewBox="0 0 400 350" aria-hidden="true"></svg>
+                <canvas aria-hidden="true"></canvas>
+                <svg class="lr-skyline-axes" viewBox="0 0 400 350" aria-hidden="true"></svg>
+              </div>
+            </div>
+            <div class="lr-skyline-panel">
+              <h4 id="lr-skyline-kda">KDA</h4>
+              <div class="lr-skyline-plot" role="img" aria-labelledby="lr-skyline-kda" aria-describedby="lr-skyline-description">
+                <svg class="lr-skyline-grid" viewBox="0 0 400 350" aria-hidden="true"></svg>
+                <canvas aria-hidden="true"></canvas>
+                <svg class="lr-skyline-axes" viewBox="0 0 400 350" aria-hidden="true"></svg>
+              </div>
+            </div>
+          </div>
+          <p id="lr-skyline-description" class="lr-skyline-description">Residual magnitudes at layer 12, across 2,048 channels and every second token of a 128-token window. Both plots use the same height and color scales. Softmax attention has a persistent outlier channel, peaking at 18.875. KDA peaks at 4.0625.</p>
+          <p class="lr-note" id="lr-skyline-status" role="status">Loading activation data…</p>
+        </div>
+        <figcaption id="lr-skyline-caption"><b>Figure 2.</b> Residual stream magnitude.</figcaption>
+      </figure>
+      <p>The nearly constant outlier channel acts as a bias on queries, keys and values. In softmax attention, the query/key bias can sharpen the attention distribution. Linear recurrences lack this softmax mechanism and instead use decay to focus on a few tokens. We hypothesize that this explains their weaker residual outliers.</p>
+    </div>
+  </section>
+
+  <section class="lr-stack-lg" aria-labelledby="lr-method">
+    <div class="lr-stack">
+      <h2 id="lr-method">LoReS: State Quantization</h2>
+      <p>We organize our analysis around properties that distinguish recurrent state quantization from KV cache quantization:</p>
+      <ol class="lr-method-overview">
+        <li><a href="#lr-scale-grouping"><b>Scale grouping.</b></a> The state has two channel axes, whereas a KV cache has a channel axis and a time axis.</li>
+        <li><a href="#lr-mixed-precision"><b>Mixed precision.</b></a> Recurrent decay suppresses quantization error, inhibiting temporal error propagation.</li>
+        <li><a href="#lr-rounding"><b>Rounding.</b></a> The state is requantized after every decode step, so rounding errors can accumulate.</li>
+        <li><a href="#lr-rotations"><b>Rotations.</b></a> Rotations can reduce one-step error but worsen error propagation across steps.</li>
+      </ol>
+      <p>The resulting quantization scheme, <span class="lr-name">LoReS</span>, keeps updates in full precision and quantizes the state stored between decode steps.</p>
+    </div>
+    <div class="lr-stack">
+      <h3 id="lr-scale-grouping">(1/4) Scale grouping</h3>
+      <p>The recurrent state of linear attention has two feature axes. The KV cache only has one. We compare value- and key-axis grouping. Under round-to-nearest (RTN), value-axis (row) grouping is more robust. It is the <span class="lr-name">LoReS</span> default.</p>
+      <details class="lr-theory" id="lr-grouping-theory">
+        <summary>Mathematical details</summary>
+        <div class="lr-stack">
+          <p><b>Proposition (per-channel readout error).</b> For a fixed state and unit-norm query, assume independent, uniform rounding errors within half a grid step. With \(\mathbf e=\mathbf E\mathbf q\),</p>
+          <div class="lr-equation">\[\begin{aligned}\mathbb E[(e_i^{\mathrm{val}})^2]&=\frac{M_i^2}{12r^2},\\[0.5em]\mathbb E[(e_i^{\mathrm{key}})^2]&=\frac{\sum_j q_j^2 C_j^2}{12r^2}.\end{aligned}\]</div>
+          <p>Here \(M_i=\max_j|S_{ij}|\), \(C_j=\max_i|S_{ij}|\), and \(r=2^{b-1}-1\).</p>
+          <p>To interpret this result, recall that each value row of the state produces one output channel. Under value-axis grouping, the expected squared error in that output channel is proportional to the square of the row’s largest absolute entry. Under key-axis grouping, every channel has the same expected squared error, determined by the column ranges and the query. Large entries in one row can therefore set coarse quantization steps for other rows.</p>
+        </div>
+      </details>
+      <figure class="lr-explorer lr-stack" id="lr-grouping-explorer" hidden aria-labelledby="lr-grouping-title" aria-describedby="lr-grouping-description">
+        <div class="lr-grouping-controls">
+          <h4 id="lr-grouping-title">Value-axis versus key-axis grouping</h4>
+          <button class="lr-button" id="lr-grouping-resample" type="button" aria-controls="lr-state-matrix lr-query-vector lr-output-vector">New random sample</button>
+        </div>
+        <p class="lr-note" id="lr-grouping-description">How does a row- or column perturbation impact the output under key- and value-axis grouping?</p>
+        <div class="lr-axis-control">
+          <span id="lr-perturb-label">Perturb</span>
+          <div class="lr-seg" role="group" aria-labelledby="lr-perturb-label">
+            <button type="button" data-lr-perturb="value" aria-pressed="true">Value row 1</button>
+            <button type="button" data-lr-perturb="key" aria-pressed="false">Key column 1</button>
+          </div>
+        </div>
+        <label class="lr-range" for="lr-perturbation-size">Vector magnitude <input id="lr-perturbation-size" type="range" min="0" max="4" value="0.5" step="0.05"><output id="lr-perturbation-value" for="lr-perturbation-size">0.50</output></label>
+        <div class="lr-grouping-controls">
+          <div class="lr-axis-control">
+            <span id="lr-grouping-label">Group scales by</span>
+            <div class="lr-seg" role="group" aria-labelledby="lr-grouping-label">
+              <button type="button" data-lr-grouping="value" aria-pressed="true">Value rows</button>
+              <button type="button" data-lr-grouping="key" aria-pressed="false">Key columns</button>
+            </div>
+          </div>
+        </div>
+        <div class="lr-readout-diagram" role="group" aria-label="State matrix S times query vector q equals output vector o">
+          <div class="lr-state-block">
+            <span class="lr-vector-label">State <i>S</i> <span class="lr-added-key">· Δ = added vector</span></span>
+            <div id="lr-state-matrix"></div>
+          </div>
+          <span class="lr-vector-operator" aria-hidden="true"><i class="lr-mobile-state">S</i> ×</span>
+          <div class="lr-vector-block">
+            <span class="lr-vector-label">Query <i>q</i></span>
+            <div class="lr-vector" id="lr-query-vector" role="list" aria-label="Query vector"></div>
+          </div>
+          <span class="lr-vector-operator" aria-hidden="true">=</span>
+          <div class="lr-vector-block">
+            <span class="lr-vector-label">Output <i>o</i></span>
+            <div class="lr-vector" id="lr-output-vector" role="list" aria-label="Output vector with predicted RMS quantization error"></div>
+          </div>
+        </div>
+      </figure>
+      <details class="lr-animation-details" id="lr-grouping-animation-details">
+        <summary>animation details</summary>
+        <p>For a \(4\times4\) state and unit-norm query, we display the readout and predicted RMS rounding error:</p>
+        <div class="lr-equation">\[o_i\pm\sigma_i=(\mathbf S\mathbf q)_i\pm\sqrt{\mathbb E[(\mathbf E\mathbf q)_i^2]}.\]</div>
+        <p>Here \(\mathbf E\) follows the independent uniform-error model in the proposition above.</p>
+      </details>
+    </div>
+    <div class="lr-stack">
+      <h3 id="lr-mixed-precision">(2/4) Mixed precision</h3>
+      <p>Decay attenuates quantization error over time, so we allocate more bits to the slowest-decaying heads or channels.</p>
+      <details class="lr-theory" id="lr-decay-theory">
+        <summary>Mathematical details</summary>
+        <div class="lr-stack">
+          <p><b>Proposition (decaying error).</b> With identical initial states and fixed keys, values, and gates, assume \(\lVert\boldsymbol\alpha_t\rVert_\infty\le\alpha&lt;1\). Delta correction, if used, has unit-norm keys and \(0&lt;\beta_t&lt;2\). Then accumulated state error satisfies</p>
+          <div class="lr-equation">\[\lVert\mathbf E_t\rVert_F\le\sum_{\tau=1}^t\alpha^{t-\tau}\lVert\boldsymbol\varepsilon_\tau\rVert_F.\]</div>
+          <p>Each fresh quantization error \(\boldsymbol\varepsilon_\tau\) is suppressed exponentially as it propagates through later updates.</p>
+        </div>
+      </details>
+      <figure class="lr-explorer lr-stack" id="lr-decay-explorer" hidden aria-labelledby="lr-decay-title" aria-describedby="lr-decay-description">
+        <h4 id="lr-decay-title">Decay of an injected quantization error</h4>
+        <p class="lr-note" id="lr-decay-description">Change the decay factor to see how much of a single injected error survives each update.</p>
+        <label class="lr-range" for="lr-decay">Decay factor α <input id="lr-decay" type="range" min="800" max="1000" value="970" step="1"><output id="lr-decay-value" for="lr-decay">0.970</output></label>
+        <div class="lr-chart" id="lr-decay-chart"></div>
+      </figure>
+      <details class="lr-animation-details" id="lr-decay-animation-details">
+        <summary>animation details</summary>
+        <p>For one injected error, constant scalar decay, and no further rounding, we plot the surviving fraction:</p>
+        <div class="lr-equation">\[\frac{\lVert\mathbf E_n\rVert_F}{\lVert\mathbf E_0\rVert_F}=\alpha^n.\]</div>
+      </details>
+    </div>
+    <div class="lr-stack">
+      <h3 id="lr-rounding">(3/4) Rounding</h3>
+      <p>Unlike RTN, stochastic rounding (SR) is conditionally unbiased. Under SR, interactions between errors from different quantization steps vanish in expectation, while RTN can reinforce them. <span class="lr-name">LoReS</span> uses SR with value grouping.</p>
+      <details class="lr-theory" id="lr-rounding-theory">
+        <summary>Mathematical details</summary>
+        <div class="lr-stack">
+          <p><b>Proposition (repeated quantization).</b> Assume scalar decay, no delta correction, and keys, values, and gates fixed independently of rounding. Let \(\boldsymbol\varepsilon_\tau\) be fresh quantization error and \(\gamma_{\tau,t}=\prod_{j=\tau+1}^t\alpha_j\). For RTN and conditionally unbiased SR,</p>
+          <div class="lr-equation">\[\begin{aligned}
+            \lVert\mathbf E_t^{\mathrm{RTN}}\rVert_F^2
+            &amp;=\sum_{\tau=1}^t\gamma_{\tau,t}^2\lVert\boldsymbol\varepsilon_\tau^{\mathrm{RTN}}\rVert_F^2\\
+            &amp;\quad+2\!\sum_{1\le\tau&lt;s\le t}\!\gamma_{\tau,t}\gamma_{s,t}\bigl\langle\boldsymbol\varepsilon_\tau^{\mathrm{RTN}},\boldsymbol\varepsilon_s^{\mathrm{RTN}}\bigr\rangle_F,\\[0.8em]
+            \mathbb E\!\left[\lVert\mathbf E_t^{\mathrm{SR}}\rVert_F^2\right]
+            &amp;=\sum_{\tau=1}^t\gamma_{\tau,t}^2\mathbb E\!\left[\lVert\boldsymbol\varepsilon_\tau^{\mathrm{SR}}\rVert_F^2\right].
+          \end{aligned}\]</div>
+          <p>RTN can reinforce errors across steps. Under SR, these cross terms vanish in expectation.</p>
+        </div>
+      </details>
+      <figure class="lr-explorer lr-stack" id="lr-rounding-explorer" hidden aria-labelledby="lr-rounding-title" aria-describedby="lr-rounding-description">
+        <h4 id="lr-rounding-title">RTN versus SR</h4>
+        <p class="lr-note" id="lr-rounding-description">The histogram isolates interactions between rounding errors from different steps. RTN can reinforce these errors, producing positive values. Under SR, these interactions vanish in expectation.</p>
+        <label class="lr-range" for="lr-update-size">Update scale <input id="lr-update-size" type="range" min="5" max="95" value="20" step="5"><output id="lr-update-value" for="lr-update-size">0.20</output></label>
+        <label class="lr-range" for="lr-rounding-decay">Decay α <input id="lr-rounding-decay" type="range" min="0" max="1000" value="970" step="10"><output id="lr-rounding-decay-value" for="lr-rounding-decay">0.970</output></label>
+        <div class="lr-grouping-controls">
+          <button class="lr-button" id="lr-rounding-resample" type="button" aria-controls="lr-rounding-chart">New random sample</button>
+        </div>
+        <div class="lr-legend" aria-label="Rounding plot legend">
+          <span><i class="lr-swatch lr-rounding-rtn"></i>RTN</span>
+          <span><i class="lr-swatch lr-rounding-sr"></i>SR</span>
+        </div>
+        <div class="lr-chart" id="lr-rounding-chart"></div>
+      </figure>
+      <details class="lr-animation-details" id="lr-rounding-animation-details">
+        <summary>animation details</summary>
+        <p>After 100 synthetic scalar updates \(S_t=\alpha S_{t-1}+a v_tk_t\) on a fixed grid, we plot the remainder from the proposition:</p>
+        <div class="lr-equation">\[R_t=E_t^2-\sum_{\tau=1}^t\alpha^{2(t-\tau)}\varepsilon_\tau^2.\]</div>
+        <p>Here \(E_t=\widehat S_t-S_t\). A fresh error \(\varepsilon_\tau\) survives as \(\gamma_{\tau,t}\varepsilon_\tau=\alpha^{t-\tau}\varepsilon_\tau\). Squaring gives the exponent \(2(t-\tau)\). Each trajectory contributes one RTN value and the mean of SR values.</p>
+      </details>
+    </div>
+    <div class="lr-stack">
+      <h3 id="lr-rotations">(4/4) Rotations</h3>
+      <p>Random Hadamard rotations reduce quantization reconstruction error. This benefit need not persist under repeated state quantization.</p>
+      <figure class="lr-explorer lr-stack" id="lr-feedback-explorer" hidden aria-labelledby="lr-feedback-title" aria-describedby="lr-feedback-description">
+        <h4 id="lr-feedback-title">Scale feedback loop</h4>
+        <p class="lr-note" id="lr-feedback-description">Rounding error can raise the next quantization scale and amplify later errors. Compare scales and accumulated error when scales come from the previously quantized state or an unquantized copy.</p>
+        <div class="lr-grouping-controls">
+          <button class="lr-button" id="lr-feedback-resample" type="button" aria-controls="lr-feedback-chart">New random sample</button>
+        </div>
+        <label class="lr-range" for="lr-feedback-update-scale">Update scale <input id="lr-feedback-update-scale" type="range" min="0" max="0.04" value="0.008" step="0.001"><output id="lr-feedback-update-value" for="lr-feedback-update-scale">0.008</output></label>
+        <label class="lr-range" for="lr-feedback-decay">Decay α <input id="lr-feedback-decay" type="range" min="900" max="1000" value="995" step="5"><output id="lr-feedback-decay-value" for="lr-feedback-decay">0.995</output></label>
+        <div class="lr-legend" aria-label="Scale source">
+          <span><i class="lr-swatch lr-feedback-noisy"></i>Scale from already quantized state</span>
+          <span><i class="lr-swatch lr-feedback-reference"></i>Scale from unquantized copy</span>
+        </div>
+        <div class="lr-chart" id="lr-feedback-chart"></div>
+      </figure>
+      <details class="lr-animation-details" id="lr-feedback-animation-details">
+        <summary>animation details</summary>
+        <p>For a group \(G\) of 64 scalar recurrences sharing a scale, we compare two scale sources over 200 SR updates:</p>
+        <div class="lr-equation">\[\begin{aligned}
+          s_{G,t}^{\mathrm{noisy}}&amp;=\frac{\lVert\mathbf S_t+\alpha\mathbf E_{t-1}\rVert_\infty}{r},\\[0.5em]
+          s_{G,t}^{\mathrm{copy}}&amp;=\frac{\lVert\mathbf S_t\rVert_\infty}{r}.
+        \end{aligned}\]</div>
+        <p>Here \(\mathbf S_t\) is the unquantized state, \(\mathbf E_{t-1}\) is accumulated error, and \(r=2^{b-1}-1\) for \(b\) bits. Earlier errors affect the noisy scale. Using an unquantized copy removes this dependence, as in the paper’s experiment. We plot \(s_{G,t}\) and \(\lVert\widehat{\mathbf S}_t-\mathbf S_t\rVert_2\), with identical writes and SR draws.</p>
+      </details>
+      <h4>Query alignment</h4>
+      <p>Queries can suppress state quantization error by placing little weight on the affected dimensions. Rotations can weaken this suppression. This need not increase readout error, but we observe such increases in some of our experiments.</p>
+      <figure class="lr-explorer lr-stack" id="lr-alignment-explorer" hidden aria-labelledby="lr-alignment-title" aria-describedby="lr-alignment-description">
+        <h4 id="lr-alignment-title">Rotation and query alignment</h4>
+        <p class="lr-note" id="lr-alignment-description">The distributions show how rotation changes query–error alignment. Change the query direction to vary how strongly the query suppresses rounding error.</p>
+        <div class="lr-distribution-controls">
+          <label class="lr-distribution-control" for="lr-alignment-query"><span class="lr-control-heading">Query direction</span><input id="lr-alignment-query" type="range" min="0" max="90" value="0" step="1"><span class="lr-control-ends"><span>Query suppresses error</span><span>Query aligned with error</span></span></label>
+        </div>
+        <div class="lr-grouping-controls"><button class="lr-button" id="lr-alignment-resample" type="button" aria-controls="lr-alignment-chart">New random sample</button></div>
+        <div class="lr-legend" aria-label="Quantization basis">
+          <span><i class="lr-swatch lr-alignment-plain"></i>No rotation</span>
+          <span><i class="lr-swatch lr-alignment-rotated"></i>Random Hadamard</span>
+        </div>
+        <div class="lr-chart" id="lr-alignment-chart"></div>
+      </figure>
+      <details class="lr-animation-details" id="lr-alignment-animation-details">
+        <summary>animation details</summary>
+        <p>For synthetic \(8\times8\) states after 128 key–value updates, we plot query alignment:</p>
+        <div class="lr-equation">\[a=d_k\,\frac{\mathbb E\lVert\boldsymbol\varepsilon\mathbf q\rVert_2^2}{\mathbb E\lVert\boldsymbol\varepsilon\rVert_F^2}.\]</div>
+        <p>Here \(d_k=8\), \(\mathbf q\) has unit norm, \(\boldsymbol\varepsilon\) is fresh rounding error, and expectations are over SR. We compare no rotation with a random Hadamard applied to both state and query. The slider shifts query weight between lower- and higher-error channels of the unrotated state. Rotations stay fixed until resampling. The fixed horizontal range covers the central 99% at every query setting. Sparse tails outside it are omitted.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="lr-stack-lg" aria-labelledby="lr-results">
+    <h2 id="lr-results">Results</h2>
+    <div class="lr-stack">
+      <h3>Accuracy</h3>
+      <p>INT8 states preserve most of the accuracy of FP32 states in Qwen-3.5 9B, Nemotron-H 8B, and Kimi-Linear 48B-A3B. Larger losses generally appear with 4-bit weights.</p>
+      <div class="lr-seg" role="group" aria-label="Model results" id="lr-model-controls" hidden>
+        <button type="button" data-lr-model="qwen" aria-pressed="true">Qwen-3.5 9B</button>
+        <button type="button" data-lr-model="nemotron" aria-pressed="false">Nemotron-H 8B</button>
+        <button type="button" data-lr-model="kimi" aria-pressed="false">Kimi-Linear 48B-A3B</button>
+      </div>
+      <!-- Tables are kept in the HTML so every result is readable without JavaScript. -->
+      <figure class="lr-stack" data-lr-model-panel="qwen" aria-labelledby="lr-qwen-title" aria-describedby="lr-qwen-caption">
+<h4 id="lr-qwen-title">Qwen-3.5 9B</h4>
+<div class="lr-tablewrap" role="region" tabindex="0" aria-label="Qwen-3.5 9B accuracy"><table>
+<thead><tr><th scope="col">W/A/S</th><th scope="col">GSM8K</th><th scope="col">MMLU-Pro</th><th scope="col">GPQA</th><th scope="col">AIME</th><th scope="col">RULER</th></tr></thead>
+<tbody>
+<tr><th scope="row">16/16/32</th><td>95.9</td><td>82.6</td><td>80.1</td><td>82.3</td><td>94.6</td></tr>
+<tr class="lr-state8"><th scope="row">16/16/8</th><td>96.4</td><td>82.2</td><td>79.6</td><td>79.5</td><td>94.7</td></tr>
+<tr><th scope="row">8/16/32</th><td>96.5</td><td>82.5</td><td>80.1</td><td>83.1</td><td>94.6</td></tr>
+<tr class="lr-state8"><th scope="row">8/16/8</th><td>96.0</td><td>82.3</td><td>79.1</td><td>80.1</td><td>94.5</td></tr>
+<tr><th scope="row">8/8/32</th><td>96.8</td><td>82.4</td><td>80.3</td><td>82.1</td><td>94.6</td></tr>
+<tr class="lr-state8"><th scope="row">8/8/8</th><td>96.5</td><td>82.2</td><td>79.8</td><td>78.6</td><td>94.7</td></tr>
+<tr><th scope="row">4/8/32</th><td>97.1</td><td>80.7</td><td>75.0</td><td>73.5</td><td>94.9</td></tr>
+<tr class="lr-state8"><th scope="row">4/8/8</th><td>96.1</td><td>80.1</td><td>73.6</td><td>70.9</td><td>94.8</td></tr>
+</tbody></table></div>
+<figcaption id="lr-qwen-caption"><b>Table 2.</b> Accuracy (%) · W/A/S: weight/activation/state bits · GPQA/AIME: avg@32 · RULER: 32K context</figcaption>
+</figure>
+<figure class="lr-stack" data-lr-model-panel="nemotron" aria-labelledby="lr-nemotron-title" aria-describedby="lr-nemotron-caption">
+<h4 id="lr-nemotron-title">Nemotron-H 8B</h4>
+<div class="lr-tablewrap" role="region" tabindex="0" aria-label="Nemotron-H 8B accuracy"><table>
+<thead><tr><th scope="col">W/A/S</th><th scope="col">GSM8K</th><th scope="col">MMLU-Pro</th><th scope="col">GPQA</th><th scope="col">AIME</th><th scope="col">RULER</th></tr></thead>
+<tbody>
+<tr><th scope="row">16/16/32</th><td>92.3</td><td>70.6</td><td>54.1</td><td>51.2</td><td>88.0</td></tr>
+<tr class="lr-state8"><th scope="row">16/16/8</th><td>92.0</td><td>70.1</td><td>53.5</td><td>48.4</td><td>88.3</td></tr>
+<tr><th scope="row">8/16/32</th><td>92.9</td><td>70.4</td><td>54.0</td><td>51.7</td><td>88.4</td></tr>
+<tr class="lr-state8"><th scope="row">8/16/8</th><td>92.5</td><td>70.0</td><td>53.1</td><td>49.4</td><td>88.2</td></tr>
+<tr><th scope="row">8/8/32</th><td>93.3</td><td>70.3</td><td>54.8</td><td>50.9</td><td>88.4</td></tr>
+<tr class="lr-state8"><th scope="row">8/8/8</th><td>92.6</td><td>70.1</td><td>53.5</td><td>49.5</td><td>88.5</td></tr>
+<tr><th scope="row">4/8/32</th><td>90.9</td><td>67.8</td><td>49.0</td><td>43.3</td><td>85.4</td></tr>
+<tr class="lr-state8"><th scope="row">4/8/8</th><td>91.8</td><td>67.0</td><td>49.7</td><td>41.0</td><td>85.1</td></tr>
+</tbody></table></div>
+<figcaption id="lr-nemotron-caption"><b>Table 3.</b> Accuracy (%) · W/A/S: weight/activation/state bits · GPQA/AIME: avg@32 · RULER: 32K context</figcaption>
+</figure>
+<figure class="lr-stack" data-lr-model-panel="kimi" aria-labelledby="lr-kimi-title" aria-describedby="lr-kimi-caption">
+<h4 id="lr-kimi-title">Kimi-Linear 48B-A3B</h4>
+<div class="lr-tablewrap" role="region" tabindex="0" aria-label="Kimi-Linear 48B-A3B accuracy"><table>
+<thead><tr><th scope="col">W/A/S</th><th scope="col">GSM8K</th><th scope="col">MMLU-Pro</th><th scope="col">GPQA</th><th scope="col">AIME</th><th scope="col">RULER</th></tr></thead>
+<tbody>
+<tr><th scope="row">16/16/32</th><td>89.1</td><td>70.3</td><td>63.5</td><td>63.6</td><td>93.7</td></tr>
+<tr class="lr-state8"><th scope="row">16/16/8</th><td>89.2</td><td>70.2</td><td>63.8</td><td>62.6</td><td>93.8</td></tr>
+<tr><th scope="row">8/16/32</th><td>89.8</td><td>70.4</td><td>63.9</td><td>64.3</td><td>93.5</td></tr>
+<tr class="lr-state8"><th scope="row">8/16/8</th><td>89.6</td><td>70.2</td><td>61.9</td><td>62.4</td><td>94.0</td></tr>
+<tr><th scope="row">8/8/32</th><td>88.9</td><td>70.1</td><td>63.3</td><td>62.3</td><td>93.7</td></tr>
+<tr class="lr-state8"><th scope="row">8/8/8</th><td>88.4</td><td>69.7</td><td>62.6</td><td>63.6</td><td>93.9</td></tr>
+<tr><th scope="row">4/8/32</th><td>86.4</td><td>65.9</td><td>53.6</td><td>56.9</td><td>93.4</td></tr>
+<tr class="lr-state8"><th scope="row">4/8/8</th><td>88.9</td><td>65.5</td><td>52.6</td><td>55.2</td><td>93.3</td></tr>
+</tbody></table></div>
+<figcaption id="lr-kimi-caption"><b>Table 4.</b> Accuracy (%) · W/A/S: weight/activation/state bits · GPQA/AIME: avg@32 · RULER: 32K context</figcaption>
+</figure>
+      <details class="lr-animation-details" id="lr-accuracy-animation-details">
+        <summary>animation details</summary>
+        <p>The tabs select the paper’s measured benchmark results for three hybrid models. Each table compares weight, activation, and state precisions. Highlighted rows use INT8 states.</p>
+      </details>
+    </div>
+    <div class="lr-stack" aria-labelledby="lr-lower-precision">
+      <h3 id="lr-lower-precision">Lower state precision</h3>
+      <p>Allocating precision by decay lets us use <b>5 effective state bits for Qwen-3.5 and 5.5 for Nemotron-H</b> on GSM8K with less than a 5% relative accuracy drop from FP32 states.</p>
+      <figure class="lr-stack" id="lr-precision-figure" aria-labelledby="lr-lower-precision" aria-describedby="lr-precision-caption">
+        {% include lores-lower-precision.liquid %}
+        <figcaption id="lr-precision-caption"><b>Figure 3.</b> Dotted vertical lines mark the first tested precision within 5% of FP32 accuracy. GPQA and AIME use pass@1.</figcaption>
+      </figure>
+    </div>
+    <div class="lr-stack" aria-labelledby="lr-speed">
+    <h3 id="lr-speed">Speedup</h3>
+    <p>State-quantization speedups grow with batch size. Weight-quantization gains are largest at small batches. The two therefore complement each other.</p>
+    <figure class="lr-stack" id="lr-speed-contributions" hidden aria-labelledby="lr-speed-caption" aria-describedby="lr-contributions-description">
+      <p class="lr-note" id="lr-contributions-description">Each bar splits the speedup into the gain from INT4 weights and the additional gain from INT8 states.</p>
+      <div class="lr-seg" role="group" aria-label="Model for weight and state speedup">
+        <button type="button" data-lr-contribution-model="Nemotron-H" aria-pressed="true">Nemotron-H</button>
+        <button type="button" data-lr-contribution-model="Qwen-3.5" aria-pressed="false">Qwen-3.5</button>
+      </div>
+      <div class="lr-legend" aria-label="Speedup contributions">
+        <span><i class="lr-bar-key lr-weight-key"></i>INT4 weights</span>
+        <span><i class="lr-bar-key lr-state-key"></i>+ INT8 state</span>
+      </div>
+      <div class="lr-contributions-wrap">
+        <div class="lr-chart" id="lr-contributions-chart"></div>
+        <div class="lr-chart-tooltip" id="lr-contributions-tooltip" role="tooltip" hidden></div>
+      </div>
+      <figcaption id="lr-speed-caption"><b>Figure 4.</b> Decode speedup in vLLM on one H100, relative to BF16 weights + FP32 state. Prefill is excluded.</figcaption>
+    </figure>
+    </div>
+  </section>
+
+  <section class="lr-stack" aria-labelledby="lr-citation">
+    <h2 id="lr-citation">Citation</h2>
+    <div class="lr-cite">
+      <pre id="lr-bibtex"></pre>
+      <button type="button" id="lr-copy" hidden>Copy BibTeX</button>
+    </div>
+    <p class="lr-note" id="lr-copy-status" role="status"></p>
+  </section>
+</div>
+
+<script src="{{ '/assets/js/lores.js' | relative_url | bust_file_cache }}" defer></script>
+<script src="{{ '/assets/js/lores-skyline.js' | relative_url | bust_file_cache }}" defer></script>

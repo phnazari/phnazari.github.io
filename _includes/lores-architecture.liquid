@@ -1,0 +1,164 @@
+<div class="lr-architecture" id="lr-architecture">
+  <div class="lr-arch-layout">
+    <div class="lr-arch-layer">
+      <h4>Language-model layer</h4>
+      <svg viewBox="0 0 360 530" role="img" aria-labelledby="lr-arch-layer-title lr-arch-layer-desc">
+        <title id="lr-arch-layer-title">Shared language-model layer</title>
+        <desc id="lr-arch-layer-desc">Input passes through normalization, quantized query, key, and value projections, the sequence mixer, and the quantized output projection. A residual connection bypasses this path. A second residual path contains normalization and a quantized MLP. The mixer reads the stored state and writes it back through a state quantizer.</desc>
+        <defs>
+          <marker id="lr-arch-layer-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L7 4L1 7Z" class="lr-arch-arrowhead"/></marker>
+          <pattern id="lr-arch-weight-hatch" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M-1 1L1-1M0 6L6 0M5 7L7 5" class="lr-arch-weight-hatch"/></pattern>
+          <pattern id="lr-arch-layer-state-hatch" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M-1 1L1-1M0 6L6 0M5 7L7 5" class="lr-arch-state-hatch"/></pattern>
+          <pattern id="lr-arch-layer-quant-hatch" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M-1 1L1-1M0 5L5 0M4 6L6 4" class="lr-arch-quant-hatch"/></pattern>
+        </defs>
+
+        <rect x="16" y="260" width="337" height="99" rx="6" class="lr-arch-region"/>
+        <g class="lr-arch-wire">
+          <path d="M128 499V480M128 450V432M64 418V432H192V418M128 418V432"/>
+          <g marker-end="url(#lr-arch-layer-arrow)">
+            <path d="M64 386V350"/>
+            <path d="M128 386V350"/>
+            <path d="M192 386V350"/>
+            <path d="M128 314V248"/>
+          </g>
+          <path d="M276 331H232" marker-end="url(#lr-arch-layer-arrow)"/>
+          <path d="M128 216V192M128 172V163M128 133V119M128 88V66"/>
+          <path d="M128 46V22" marker-end="url(#lr-arch-layer-arrow)"/>
+          <path d="M128 493H8V182H118M128 168H76V56H118" class="lr-arch-skip"/>
+          <path d="M183 314V281H346V331H340" class="lr-arch-update" marker-end="url(#lr-arch-layer-arrow)"/>
+        </g>
+        <circle cx="128" cy="493" r="2" class="lr-arch-junction"/>
+        <circle cx="128" cy="168" r="2" class="lr-arch-junction"/>
+
+        <g class="lr-arch-node">
+          <rect x="99" y="450" width="58" height="30" rx="4" class="lr-arch-norm"/>
+          <text x="128" y="470">Norm</text>
+          <g class="lr-arch-weight">
+            <rect x="38" y="386" width="52" height="32" rx="4"/>
+            <rect x="102" y="386" width="52" height="32" rx="4"/>
+            <rect x="166" y="386" width="52" height="32" rx="4"/>
+            <rect x="100" y="216" width="56" height="32" rx="4"/>
+            <rect x="99" y="88" width="58" height="31" rx="4"/>
+          </g>
+          <g fill="url(#lr-arch-weight-hatch)" aria-hidden="true">
+            <rect x="38" y="386" width="52" height="32" rx="4"/>
+            <rect x="102" y="386" width="52" height="32" rx="4"/>
+            <rect x="166" y="386" width="52" height="32" rx="4"/>
+            <rect x="100" y="216" width="56" height="32" rx="4"/>
+            <rect x="99" y="88" width="58" height="31" rx="4"/>
+          </g>
+          <text x="64" y="407" class="lr-arch-math">W<tspan class="lr-arch-sub">Q</tspan></text>
+          <text x="128" y="407" class="lr-arch-math">W<tspan class="lr-arch-sub">K</tspan></text>
+          <text x="192" y="407" class="lr-arch-math">W<tspan class="lr-arch-sub">V</tspan></text>
+          <text x="128" y="237" class="lr-arch-math">W<tspan class="lr-arch-sub">O</tspan></text>
+          <text x="128" y="109">MLP</text>
+          <rect x="24" y="314" width="208" height="36" rx="4" class="lr-arch-mixer"/>
+          <text x="128" y="337">sequence mixer</text>
+          <rect x="276" y="313" width="64" height="36" rx="4" class="lr-arch-state"/>
+          <rect x="276" y="313" width="64" height="36" rx="4" fill="url(#lr-arch-layer-state-hatch)" aria-hidden="true"/>
+          <text x="308" y="337">state</text>
+          <rect x="302" y="268" width="12" height="26" rx="4" class="lr-arch-quantizer"/>
+          <rect x="302" y="268" width="12" height="26" rx="4" fill="url(#lr-arch-layer-quant-hatch)" aria-hidden="true"/>
+          <rect x="99" y="133" width="58" height="30" rx="4" class="lr-arch-norm"/>
+          <text x="128" y="153">Norm</text>
+          <circle cx="128" cy="182" r="10" class="lr-arch-sum"/>
+          <text x="128" y="188" class="lr-arch-plus">+</text>
+          <circle cx="128" cy="56" r="10" class="lr-arch-sum"/>
+          <text x="128" y="62" class="lr-arch-plus">+</text>
+        </g>
+        <g class="lr-arch-math lr-arch-operands">
+          <text x="73" y="373">q<tspan class="lr-arch-sub">t</tspan></text>
+          <text x="137" y="373">k<tspan class="lr-arch-sub">t</tspan></text>
+          <text x="201" y="373">v<tspan class="lr-arch-sub">t</tspan></text>
+          <text x="128" y="519" text-anchor="middle">x<tspan class="lr-arch-sub">t</tspan></text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="lr-arch-details">
+      <div class="lr-arch-detail">
+        <h4>Recurrent state</h4>
+        <svg viewBox="0 0 420 230" role="img" aria-labelledby="lr-arch-recurrent-title lr-arch-recurrent-desc">
+          <title id="lr-arch-recurrent-title">Recurrent state: overwrite</title>
+          <desc id="lr-arch-recurrent-desc">The recurrence takes the query, key, value, and previous state. It overwrites the entire state through a quantizer after each update. The outline marks the whole state as just quantized.</desc>
+          <defs>
+            <marker id="lr-arch-recurrent-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L7 4L1 7Z" class="lr-arch-arrowhead"/></marker>
+            <pattern id="lr-arch-recurrent-hatch" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M-1 1L1-1M0 6L6 0M5 7L7 5" class="lr-arch-state-hatch"/></pattern>
+            <pattern id="lr-arch-recurrent-quant-hatch" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M-1 1L1-1M0 5L5 0M4 6L6 4" class="lr-arch-quant-hatch"/></pattern>
+          </defs>
+          <g class="lr-arch-wire" marker-end="url(#lr-arch-recurrent-arrow)">
+            <path d="M44 216V178"/>
+            <path d="M88 216V178"/>
+            <path d="M132 216V178"/>
+            <path d="M72 140V48"/>
+            <path d="M226 159H156"/>
+            <path d="M132 140V74H364V132" class="lr-arch-update"/>
+          </g>
+          <rect x="24" y="140" width="132" height="38" rx="4" class="lr-arch-mixer"/>
+          <rect x="226" y="132" width="178" height="54" rx="4" class="lr-arch-state"/>
+          <rect x="226" y="132" width="178" height="54" rx="4" fill="url(#lr-arch-recurrent-hatch)" aria-hidden="true"/>
+          <rect x="226" y="132" width="178" height="54" rx="4" class="lr-arch-fresh"/>
+          <rect x="190" y="61" width="13" height="26" rx="4" class="lr-arch-quantizer"/>
+          <rect x="190" y="61" width="13" height="26" rx="4" fill="url(#lr-arch-recurrent-quant-hatch)" aria-hidden="true"/>
+          <text x="90" y="165" text-anchor="middle">recurrence</text>
+          <text x="295" y="59" text-anchor="middle" class="lr-arch-action">overwrite</text>
+          <text x="315" y="165" text-anchor="middle" class="lr-arch-math">S<tspan class="lr-arch-sub">t−1</tspan><tspan class="lr-arch-map"> → </tspan>S<tspan class="lr-arch-sub">t</tspan></text>
+          <g class="lr-arch-math lr-arch-operands">
+            <text x="52" y="207">q<tspan class="lr-arch-sub">t</tspan></text>
+            <text x="96" y="207">k<tspan class="lr-arch-sub">t</tspan></text>
+            <text x="140" y="207">v<tspan class="lr-arch-sub">t</tspan></text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="lr-arch-detail">
+        <h4>KV cache</h4>
+        <svg viewBox="0 0 420 230" role="img" aria-labelledby="lr-arch-cache-title lr-arch-cache-desc">
+          <title id="lr-arch-cache-title">KV cache: append</title>
+          <desc id="lr-arch-cache-desc">Softmax attention reads the stored keys and values. A newly quantized key and value are appended at each step. Only this new entry is outlined as just quantized. Earlier entries are reused.</desc>
+          <defs>
+            <marker id="lr-arch-cache-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L7 4L1 7Z" class="lr-arch-arrowhead"/></marker>
+            <pattern id="lr-arch-cache-hatch" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M-1 1L1-1M0 6L6 0M5 7L7 5" class="lr-arch-state-hatch"/></pattern>
+            <pattern id="lr-arch-cache-quant-hatch" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M-1 1L1-1M0 5L5 0M4 6L6 4" class="lr-arch-quant-hatch"/></pattern>
+          </defs>
+          <g class="lr-arch-wire" marker-end="url(#lr-arch-cache-arrow)">
+            <path d="M44 216V178"/>
+            <path d="M88 216V178"/>
+            <path d="M132 216V178"/>
+            <path d="M72 140V48"/>
+            <path d="M226 159H156"/>
+            <path d="M132 140V74H382V132" class="lr-arch-update"/>
+          </g>
+          <rect x="24" y="140" width="132" height="38" rx="4" class="lr-arch-mixer"/>
+          <rect x="226" y="132" width="178" height="54" rx="4" class="lr-arch-state"/>
+          <rect x="226" y="132" width="178" height="54" rx="4" fill="url(#lr-arch-cache-hatch)" aria-hidden="true"/>
+          <path d="M270.5 132V186M315 132V186M359.5 132V186" class="lr-arch-cell-divider"/>
+          <rect x="359.5" y="132" width="44.5" height="54" rx="4" class="lr-arch-fresh"/>
+          <rect x="190" y="61" width="13" height="26" rx="4" class="lr-arch-quantizer"/>
+          <rect x="190" y="61" width="13" height="26" rx="4" fill="url(#lr-arch-cache-quant-hatch)" aria-hidden="true"/>
+          <text x="90" y="165" text-anchor="middle">softmax</text>
+          <text x="295" y="59" text-anchor="middle" class="lr-arch-action">append</text>
+          <g class="lr-arch-cache-entries lr-arch-math" text-anchor="middle">
+            <text x="248" y="153">k<tspan class="lr-arch-sub">1</tspan></text><text x="248" y="175">v<tspan class="lr-arch-sub">1</tspan></text>
+            <text x="293" y="153">k<tspan class="lr-arch-sub">2</tspan></text><text x="293" y="175">v<tspan class="lr-arch-sub">2</tspan></text>
+            <text x="337" y="165">⋯</text>
+            <text x="382" y="153">k<tspan class="lr-arch-sub">t</tspan></text><text x="382" y="175">v<tspan class="lr-arch-sub">t</tspan></text>
+          </g>
+          <g class="lr-arch-math lr-arch-operands">
+            <text x="52" y="207">q<tspan class="lr-arch-sub">t</tspan></text>
+            <text x="96" y="207">k<tspan class="lr-arch-sub">t</tspan></text>
+            <text x="140" y="207">v<tspan class="lr-arch-sub">t</tspan></text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="lr-arch-legend" aria-label="Diagram legend">
+    <span><i class="lr-arch-key lr-arch-key-weight" aria-hidden="true"></i>Quantized weights</span>
+    <span><i class="lr-arch-key lr-arch-key-state" aria-hidden="true"></i>Quantized state</span>
+    <span><i class="lr-arch-key lr-arch-key-mixer" aria-hidden="true"></i>Sequence mixer</span>
+    <span><i class="lr-arch-key lr-arch-key-quant" aria-hidden="true"></i>State quantizer</span>
+    <span><i class="lr-arch-key lr-arch-key-fresh" aria-hidden="true"></i>Just quantized</span>
+    <span><svg viewBox="0 0 28 16" aria-hidden="true"><path d="M1 8H25" class="lr-arch-wire lr-arch-update"/><path d="M20 4L26 8L20 12" class="lr-arch-wire"/></svg>State update</span>
+  </div>
+</div>

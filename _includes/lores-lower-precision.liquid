@@ -1,0 +1,130 @@
+<!-- Native SVG from chapters/appendix-end-to-end.tex, tab:aime-sweeps; the same measured points as media/promo_relative.pgf.
+     Accuracy is divided by each model/benchmark FP32 baseline. No fitted or interpolated measurements.
+     Source table SHA256: c2acd3a1f1f460fdddfe765676264bfea5d2db8293afd2f15e2893aa788c0527 -->
+<div class="lr-legend lr-precision-legend" aria-label="Benchmarks">
+  <span><i class="lr-swatch lr-precision-gsm"></i>GSM8K</span>
+  <span><i class="lr-swatch lr-precision-gpqa"></i>GPQA</span>
+  <span><i class="lr-swatch lr-precision-aime"></i>AIME</span>
+</div>
+<div class="lr-precision-panels">
+  <div class="lr-precision-panel lr-stack">
+    <h4 id="lr-precision-qwen-title">Qwen-3.5</h4>
+    <div class="lr-chart">
+      <svg viewBox="0 0 360 292" role="img" aria-labelledby="lr-precision-qwen-title" aria-describedby="lr-precision-qwen-desc">
+        <desc id="lr-precision-qwen-desc">First tested precision with less than 5% relative accuracy loss: GSM8K 5 bits, GPQA 6.5 bits, AIME 7.5 bits. Points are measured accuracies relative to FP32 states.</desc>
+        <text x="48" y="18">Accuracy / FP32</text>
+        <line x1="48" x2="336" y1="242.000" y2="242.000" class="lr-axis"/>
+        <text x="38" y="246.000" text-anchor="end">0.0</text>
+        <line x1="48" x2="336" y1="150.182" y2="150.182" class="lr-axis"/>
+        <text x="38" y="154.182" text-anchor="end">0.5</text>
+        <line x1="48" x2="336" y1="58.364" y2="58.364" class="lr-precision-reference"/>
+        <text x="38" y="62.364" text-anchor="end">1.0</text>
+        <text x="48.000" y="264" text-anchor="middle">4</text>
+        <text x="120.000" y="264" text-anchor="middle">5</text>
+        <text x="192.000" y="264" text-anchor="middle">6</text>
+        <text x="264.000" y="264" text-anchor="middle">7</text>
+        <text x="336.000" y="264" text-anchor="middle">8</text>
+        <text x="336" y="288" text-anchor="end">Effective state bits</text>
+        <line class="lr-precision-guide lr-precision-gsm" x1="120.000" x2="120.000" y1="40" y2="242" data-threshold-bits="5"><title>GSM8K: 5 effective bits is the first tested precision within 5% of FP32 accuracy.</title></line>
+        <line class="lr-precision-guide lr-precision-gpqa" x1="228.000" x2="228.000" y1="40" y2="242" data-threshold-bits="6.5"><title>GPQA: 6.5 effective bits is the first tested precision within 5% of FP32 accuracy.</title></line>
+        <line class="lr-precision-guide lr-precision-aime" x1="300.000" x2="300.000" y1="40" y2="242" data-threshold-bits="7.5"><title>AIME: 7.5 effective bits is the first tested precision within 5% of FP32 accuracy.</title></line>
+        <g class="lr-precision-series lr-precision-gsm" data-benchmark="GSM8K" data-fp32-accuracy="95.9">
+          <path d="M48.000,226.681 L84.000,188.767 L120.000,63.725 L156.000,61.619 L192.000,59.513 L228.000,58.555 L264.000,57.981 L300.000,57.981 L336.000,57.406"/>
+          <circle cx="48.000" cy="226.681" r="3" data-bits="4" data-accuracy="8"><title>GSM8K · 4 effective bits: 8.0% accuracy (0.083× FP32, baseline 95.9%).</title></circle>
+          <circle cx="84.000" cy="188.767" r="3" data-bits="4.5" data-accuracy="27.8"><title>GSM8K · 4.5 effective bits: 27.8% accuracy (0.290× FP32, baseline 95.9%).</title></circle>
+          <circle cx="120.000" cy="63.725" r="3" data-bits="5" data-accuracy="93.1"><title>GSM8K · 5 effective bits: 93.1% accuracy (0.971× FP32, baseline 95.9%).</title></circle>
+          <circle cx="156.000" cy="61.619" r="3" data-bits="5.5" data-accuracy="94.2"><title>GSM8K · 5.5 effective bits: 94.2% accuracy (0.982× FP32, baseline 95.9%).</title></circle>
+          <circle cx="192.000" cy="59.513" r="3" data-bits="6" data-accuracy="95.3"><title>GSM8K · 6 effective bits: 95.3% accuracy (0.994× FP32, baseline 95.9%).</title></circle>
+          <circle cx="228.000" cy="58.555" r="3" data-bits="6.5" data-accuracy="95.8"><title>GSM8K · 6.5 effective bits: 95.8% accuracy (0.999× FP32, baseline 95.9%).</title></circle>
+          <circle cx="264.000" cy="57.981" r="3" data-bits="7" data-accuracy="96.1"><title>GSM8K · 7 effective bits: 96.1% accuracy (1.002× FP32, baseline 95.9%).</title></circle>
+          <circle cx="300.000" cy="57.981" r="3" data-bits="7.5" data-accuracy="96.1"><title>GSM8K · 7.5 effective bits: 96.1% accuracy (1.002× FP32, baseline 95.9%).</title></circle>
+          <circle cx="336.000" cy="57.406" r="3" data-bits="8" data-accuracy="96.4"><title>GSM8K · 8 effective bits: 96.4% accuracy (1.005× FP32, baseline 95.9%).</title></circle>
+        </g>
+        <g class="lr-precision-series lr-precision-gpqa" data-benchmark="GPQA" data-fp32-accuracy="80.8">
+          <path d="M48.000,230.409 L84.000,220.182 L120.000,115.636 L156.000,99.727 L192.000,87.000 L228.000,65.182 L264.000,64.045 L300.000,67.455 L336.000,58.364"/>
+          <circle cx="48.000" cy="230.409" r="3" data-bits="4" data-accuracy="5.1"><title>GPQA · 4 effective bits: 5.1% accuracy (0.063× FP32, baseline 80.8%).</title></circle>
+          <circle cx="84.000" cy="220.182" r="3" data-bits="4.5" data-accuracy="9.6"><title>GPQA · 4.5 effective bits: 9.6% accuracy (0.119× FP32, baseline 80.8%).</title></circle>
+          <circle cx="120.000" cy="115.636" r="3" data-bits="5" data-accuracy="55.6"><title>GPQA · 5 effective bits: 55.6% accuracy (0.688× FP32, baseline 80.8%).</title></circle>
+          <circle cx="156.000" cy="99.727" r="3" data-bits="5.5" data-accuracy="62.6"><title>GPQA · 5.5 effective bits: 62.6% accuracy (0.775× FP32, baseline 80.8%).</title></circle>
+          <circle cx="192.000" cy="87.000" r="3" data-bits="6" data-accuracy="68.2"><title>GPQA · 6 effective bits: 68.2% accuracy (0.844× FP32, baseline 80.8%).</title></circle>
+          <circle cx="228.000" cy="65.182" r="3" data-bits="6.5" data-accuracy="77.8"><title>GPQA · 6.5 effective bits: 77.8% accuracy (0.963× FP32, baseline 80.8%).</title></circle>
+          <circle cx="264.000" cy="64.045" r="3" data-bits="7" data-accuracy="78.3"><title>GPQA · 7 effective bits: 78.3% accuracy (0.969× FP32, baseline 80.8%).</title></circle>
+          <circle cx="300.000" cy="67.455" r="3" data-bits="7.5" data-accuracy="76.8"><title>GPQA · 7.5 effective bits: 76.8% accuracy (0.950× FP32, baseline 80.8%).</title></circle>
+          <circle cx="336.000" cy="58.364" r="3" data-bits="8" data-accuracy="80.8"><title>GPQA · 8 effective bits: 80.8% accuracy (1.000× FP32, baseline 80.8%).</title></circle>
+        </g>
+        <g class="lr-precision-series lr-precision-aime" data-benchmark="AIME" data-fp32-accuracy="83.3">
+          <path d="M48.000,242.000 L84.000,242.000 L120.000,186.887 L156.000,146.544 L192.000,131.774 L228.000,72.913 L264.000,69.386 L300.000,58.364 L336.000,65.639"/>
+          <circle cx="48.000" cy="242.000" r="3" data-bits="4" data-accuracy="0"><title>AIME · 4 effective bits: 0.0% accuracy (0.000× FP32, baseline 83.3%).</title></circle>
+          <circle cx="84.000" cy="242.000" r="3" data-bits="4.5" data-accuracy="0"><title>AIME · 4.5 effective bits: 0.0% accuracy (0.000× FP32, baseline 83.3%).</title></circle>
+          <circle cx="120.000" cy="186.887" r="3" data-bits="5" data-accuracy="25"><title>AIME · 5 effective bits: 25.0% accuracy (0.300× FP32, baseline 83.3%).</title></circle>
+          <circle cx="156.000" cy="146.544" r="3" data-bits="5.5" data-accuracy="43.3"><title>AIME · 5.5 effective bits: 43.3% accuracy (0.520× FP32, baseline 83.3%).</title></circle>
+          <circle cx="192.000" cy="131.774" r="3" data-bits="6" data-accuracy="50"><title>AIME · 6 effective bits: 50.0% accuracy (0.600× FP32, baseline 83.3%).</title></circle>
+          <circle cx="228.000" cy="72.913" r="3" data-bits="6.5" data-accuracy="76.7"><title>AIME · 6.5 effective bits: 76.7% accuracy (0.921× FP32, baseline 83.3%).</title></circle>
+          <circle cx="264.000" cy="69.386" r="3" data-bits="7" data-accuracy="78.3"><title>AIME · 7 effective bits: 78.3% accuracy (0.940× FP32, baseline 83.3%).</title></circle>
+          <circle cx="300.000" cy="58.364" r="3" data-bits="7.5" data-accuracy="83.3"><title>AIME · 7.5 effective bits: 83.3% accuracy (1.000× FP32, baseline 83.3%).</title></circle>
+          <circle cx="336.000" cy="65.639" r="3" data-bits="8" data-accuracy="80"><title>AIME · 8 effective bits: 80.0% accuracy (0.960× FP32, baseline 83.3%).</title></circle>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="lr-precision-panel lr-stack">
+    <h4 id="lr-precision-nemotron-title">Nemotron-H</h4>
+    <div class="lr-chart">
+      <svg viewBox="0 0 360 292" role="img" aria-labelledby="lr-precision-nemotron-title" aria-describedby="lr-precision-nemotron-desc">
+        <desc id="lr-precision-nemotron-desc">First tested precision with less than 5% relative accuracy loss: GSM8K 5.5 bits, GPQA 7 bits, AIME 8 bits. Points are measured accuracies relative to FP32 states.</desc>
+        <text x="48" y="18">Accuracy / FP32</text>
+        <line x1="48" x2="336" y1="242.000" y2="242.000" class="lr-axis"/>
+        <text x="38" y="246.000" text-anchor="end">0.0</text>
+        <line x1="48" x2="336" y1="150.182" y2="150.182" class="lr-axis"/>
+        <text x="38" y="154.182" text-anchor="end">0.5</text>
+        <line x1="48" x2="336" y1="58.364" y2="58.364" class="lr-precision-reference"/>
+        <text x="38" y="62.364" text-anchor="end">1.0</text>
+        <text x="48.000" y="264" text-anchor="middle">4</text>
+        <text x="120.000" y="264" text-anchor="middle">5</text>
+        <text x="192.000" y="264" text-anchor="middle">6</text>
+        <text x="264.000" y="264" text-anchor="middle">7</text>
+        <text x="336.000" y="264" text-anchor="middle">8</text>
+        <text x="336" y="288" text-anchor="end">Effective state bits</text>
+        <line class="lr-precision-guide lr-precision-gsm" x1="156.000" x2="156.000" y1="40" y2="242" data-threshold-bits="5.5"><title>GSM8K: 5.5 effective bits is the first tested precision within 5% of FP32 accuracy.</title></line>
+        <line class="lr-precision-guide lr-precision-gpqa" x1="264.000" x2="264.000" y1="40" y2="242" data-threshold-bits="7"><title>GPQA: 7 effective bits is the first tested precision within 5% of FP32 accuracy.</title></line>
+        <line class="lr-precision-guide lr-precision-aime" x1="336.000" x2="336.000" y1="40" y2="242" data-threshold-bits="8"><title>AIME: 8 effective bits is the first tested precision within 5% of FP32 accuracy.</title></line>
+        <g class="lr-precision-series lr-precision-gsm" data-benchmark="GSM8K" data-fp32-accuracy="92.3">
+          <path d="M48.000,235.037 L84.000,229.665 L120.000,88.804 L156.000,60.154 L192.000,60.552 L228.000,59.756 L264.000,57.170 L300.000,58.364 L336.000,58.961"/>
+          <circle cx="48.000" cy="235.037" r="3" data-bits="4" data-accuracy="3.5"><title>GSM8K · 4 effective bits: 3.5% accuracy (0.038× FP32, baseline 92.3%).</title></circle>
+          <circle cx="84.000" cy="229.665" r="3" data-bits="4.5" data-accuracy="6.2"><title>GSM8K · 4.5 effective bits: 6.2% accuracy (0.067× FP32, baseline 92.3%).</title></circle>
+          <circle cx="120.000" cy="88.804" r="3" data-bits="5" data-accuracy="77"><title>GSM8K · 5 effective bits: 77.0% accuracy (0.834× FP32, baseline 92.3%).</title></circle>
+          <circle cx="156.000" cy="60.154" r="3" data-bits="5.5" data-accuracy="91.4"><title>GSM8K · 5.5 effective bits: 91.4% accuracy (0.990× FP32, baseline 92.3%).</title></circle>
+          <circle cx="192.000" cy="60.552" r="3" data-bits="6" data-accuracy="91.2"><title>GSM8K · 6 effective bits: 91.2% accuracy (0.988× FP32, baseline 92.3%).</title></circle>
+          <circle cx="228.000" cy="59.756" r="3" data-bits="6.5" data-accuracy="91.6"><title>GSM8K · 6.5 effective bits: 91.6% accuracy (0.992× FP32, baseline 92.3%).</title></circle>
+          <circle cx="264.000" cy="57.170" r="3" data-bits="7" data-accuracy="92.9"><title>GSM8K · 7 effective bits: 92.9% accuracy (1.007× FP32, baseline 92.3%).</title></circle>
+          <circle cx="300.000" cy="58.364" r="3" data-bits="7.5" data-accuracy="92.3"><title>GSM8K · 7.5 effective bits: 92.3% accuracy (1.000× FP32, baseline 92.3%).</title></circle>
+          <circle cx="336.000" cy="58.961" r="3" data-bits="8" data-accuracy="92"><title>GSM8K · 8 effective bits: 92.0% accuracy (0.997× FP32, baseline 92.3%).</title></circle>
+        </g>
+        <g class="lr-precision-series lr-precision-gpqa" data-benchmark="GPQA" data-fp32-accuracy="51.5">
+          <path d="M48.000,214.900 L84.000,184.235 L120.000,113.989 L156.000,94.378 L192.000,69.061 L228.000,72.627 L264.000,58.364 L300.000,58.364 L336.000,60.147"/>
+          <circle cx="48.000" cy="214.900" r="3" data-bits="4" data-accuracy="7.6"><title>GPQA · 4 effective bits: 7.6% accuracy (0.148× FP32, baseline 51.5%).</title></circle>
+          <circle cx="84.000" cy="184.235" r="3" data-bits="4.5" data-accuracy="16.2"><title>GPQA · 4.5 effective bits: 16.2% accuracy (0.315× FP32, baseline 51.5%).</title></circle>
+          <circle cx="120.000" cy="113.989" r="3" data-bits="5" data-accuracy="35.9"><title>GPQA · 5 effective bits: 35.9% accuracy (0.697× FP32, baseline 51.5%).</title></circle>
+          <circle cx="156.000" cy="94.378" r="3" data-bits="5.5" data-accuracy="41.4"><title>GPQA · 5.5 effective bits: 41.4% accuracy (0.804× FP32, baseline 51.5%).</title></circle>
+          <circle cx="192.000" cy="69.061" r="3" data-bits="6" data-accuracy="48.5"><title>GPQA · 6 effective bits: 48.5% accuracy (0.942× FP32, baseline 51.5%).</title></circle>
+          <circle cx="228.000" cy="72.627" r="3" data-bits="6.5" data-accuracy="47.5"><title>GPQA · 6.5 effective bits: 47.5% accuracy (0.922× FP32, baseline 51.5%).</title></circle>
+          <circle cx="264.000" cy="58.364" r="3" data-bits="7" data-accuracy="51.5"><title>GPQA · 7 effective bits: 51.5% accuracy (1.000× FP32, baseline 51.5%).</title></circle>
+          <circle cx="300.000" cy="58.364" r="3" data-bits="7.5" data-accuracy="51.5"><title>GPQA · 7.5 effective bits: 51.5% accuracy (1.000× FP32, baseline 51.5%).</title></circle>
+          <circle cx="336.000" cy="60.147" r="3" data-bits="8" data-accuracy="51"><title>GPQA · 8 effective bits: 51.0% accuracy (0.990× FP32, baseline 51.5%).</title></circle>
+        </g>
+        <g class="lr-precision-series lr-precision-aime" data-benchmark="AIME" data-fp32-accuracy="50">
+          <path d="M48.000,242.000 L84.000,242.000 L120.000,217.393 L156.000,143.938 L192.000,143.938 L228.000,101.335 L264.000,101.335 L300.000,70.484 L336.000,52.120"/>
+          <circle cx="48.000" cy="242.000" r="3" data-bits="4" data-accuracy="0"><title>AIME · 4 effective bits: 0.0% accuracy (0.000× FP32, baseline 50.0%).</title></circle>
+          <circle cx="84.000" cy="242.000" r="3" data-bits="4.5" data-accuracy="0"><title>AIME · 4.5 effective bits: 0.0% accuracy (0.000× FP32, baseline 50.0%).</title></circle>
+          <circle cx="120.000" cy="217.393" r="3" data-bits="5" data-accuracy="6.7"><title>AIME · 5 effective bits: 6.7% accuracy (0.134× FP32, baseline 50.0%).</title></circle>
+          <circle cx="156.000" cy="143.938" r="3" data-bits="5.5" data-accuracy="26.7"><title>AIME · 5.5 effective bits: 26.7% accuracy (0.534× FP32, baseline 50.0%).</title></circle>
+          <circle cx="192.000" cy="143.938" r="3" data-bits="6" data-accuracy="26.7"><title>AIME · 6 effective bits: 26.7% accuracy (0.534× FP32, baseline 50.0%).</title></circle>
+          <circle cx="228.000" cy="101.335" r="3" data-bits="6.5" data-accuracy="38.3"><title>AIME · 6.5 effective bits: 38.3% accuracy (0.766× FP32, baseline 50.0%).</title></circle>
+          <circle cx="264.000" cy="101.335" r="3" data-bits="7" data-accuracy="38.3"><title>AIME · 7 effective bits: 38.3% accuracy (0.766× FP32, baseline 50.0%).</title></circle>
+          <circle cx="300.000" cy="70.484" r="3" data-bits="7.5" data-accuracy="46.7"><title>AIME · 7.5 effective bits: 46.7% accuracy (0.934× FP32, baseline 50.0%).</title></circle>
+          <circle cx="336.000" cy="52.120" r="3" data-bits="8" data-accuracy="51.7"><title>AIME · 8 effective bits: 51.7% accuracy (1.034× FP32, baseline 50.0%).</title></circle>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
