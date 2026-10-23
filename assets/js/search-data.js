@@ -44,18 +44,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-quantizing-recurrent-language-models-is-easier-than-you-think",
-      
-        title: "Quantizing Recurrent Language Models Is Easier Than You Think",
-      
-      description: "How the sequence mixer implicitly affects weight and activation quantization and explicitly changes state quantization during decode.",
-      section: "Posts",
-      handler: () => {
-        
-          window.location.href = "/blog/2026/lores/";
-        
-      },
-    },{id: "post-depth-memory",
+        },{id: "post-depth-memory",
       
         title: "Depth Memory",
       
