@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-depth-memory",
+        },{id: "post-quantizing-recurrent-language-models-is-easier-than-you-think",
+      
+        title: "Quantizing Recurrent Language Models Is Easier Than You Think",
+      
+      description: "Why recurrent language models need a different quantization scheme, from learned outliers to error propagation during decode.",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2026/lores/";
+        
+      },
+    },{id: "post-depth-memory",
       
         title: "Depth Memory",
       
