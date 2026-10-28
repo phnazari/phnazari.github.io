@@ -8,6 +8,32 @@
   const setPressed = (buttons, active) => buttons.forEach((button) => button.setAttribute("aria-pressed", String(button === active)));
   const exampleBits = 4;
 
+  // Keep links into collapsed aspects and their nested examples usable.
+  const revealAspect = (hash) => {
+    if (!hash) return;
+    let target;
+    try {
+      target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    } catch {
+      return;
+    }
+    if (!target || !root.contains(target) || !target.closest(".lr-aspect")) return;
+    let opened = false;
+    for (let panel = target.closest("details"); panel; panel = panel.parentElement.closest("details")) {
+      if (!panel.open) {
+        panel.open = true;
+        opened = true;
+      }
+    }
+    if (opened) target.scrollIntoView({ block: "start" });
+  };
+  root.addEventListener("click", (event) => {
+    const link = event.target.closest('a[href^="#"]');
+    if (link) revealAspect(link.getAttribute("href"));
+  });
+  window.addEventListener("hashchange", () => revealAspect(window.location.hash));
+  revealAspect(window.location.hash);
+
   const modelButtons = $$("[data-lr-model]");
   const selectModel = (button) => {
     setPressed(modelButtons, button);
@@ -103,7 +129,7 @@
     svg += label(margin.left, 17, "Surviving error");
     svg += label(width - margin.right, height - 4, "Updates since injection", 'text-anchor="end"');
     const points = Array.from({ length: 101 }, (_, n) => `${x(n)},${y(alpha ** n, 1)}`).join(" ");
-    svg += `<polyline points="${points}" fill="none" stroke="var(--lr-blue)" stroke-width="3"/>`;
+    svg += `<polyline points="${points}" fill="none" stroke="var(--lr-decay)" stroke-width="3"/>`;
     const remaining = 100 * alpha ** 100;
     const halfLife = alpha < 1 ? Math.log(0.5) / Math.log(alpha) : Infinity;
     const summary = `After 100 updates: ${remaining.toFixed(2)}% remains. ` + (Number.isFinite(halfLife) ? `Half-life: ${halfLife.toFixed(1)} updates.` : "No decay.");
@@ -307,11 +333,10 @@
     $("#lr-feedback-update-scale").setAttribute("aria-valuetext", `${updateScale.toFixed(3)} times the key-value product`);
     $("#lr-feedback-decay-value").value = alpha.toFixed(3);
     $("#lr-feedback-decay").setAttribute("aria-valuetext", `${alpha.toFixed(3)} decay factor`);
-    const left = 62, right = width - 20, plotHeight = 132;
+    const left = 62, right = width - 20, plotHeight = 188;
     const x = (step) => left + (right - left) * step / lastStep;
     const specs = [
       { title: "Quantization scale", fields: ["noisyStep", "referenceStep"], top: 34 },
-      { title: "Accumulated state error", fields: ["noisyError", "referenceError"], top: 229 },
     ];
     let svg = "";
     for (const { title, fields, top } of specs) {
@@ -336,192 +361,14 @@
       });
       for (const fraction of [0, 0.25, 0.5, 0.75, 1]) svg += label(x(fraction * lastStep), top + plotHeight + 21, fraction * lastStep, 'text-anchor="middle"');
     }
-    svg += label(right, 411, "Number of updates", 'text-anchor="end"');
-    const description = `64-component toy recurrence with key–value pairs correlated within each token and independent across tokens, stochastic rounding, update scale ${updateScale.toFixed(3)}, and decay ${alpha.toFixed(3)}. All ${lastStep} updates shown. Final scale from noisy state: ${final.noisyStep.toPrecision(4)}. Scale from unquantized copy: ${final.referenceStep.toPrecision(4)}. Final accumulated state error: ${final.noisyError.toPrecision(4)} with noisy scales and ${final.referenceError.toPrecision(4)} with reference scales. Both runs share the initial state, updates, and random draws.`;
-    $("#lr-feedback-chart").innerHTML = `<svg viewBox="0 0 ${width} 426" role="img" aria-labelledby="lr-feedback-plot-title lr-feedback-plot-desc"><title id="lr-feedback-plot-title">Quantization scales and state error over repeated updates</title><desc id="lr-feedback-plot-desc">${description}</desc>${svg}</svg>`;
+    svg += label(right, 271, "Number of updates", 'text-anchor="end"');
+    const description = `64-component toy recurrence with key–value pairs correlated within each token and independent across tokens, stochastic rounding, update scale ${updateScale.toFixed(3)}, and decay ${alpha.toFixed(3)}. All ${lastStep} updates shown. Final scale from noisy state: ${final.noisyStep.toPrecision(4)}. Scale from unquantized copy: ${final.referenceStep.toPrecision(4)}. Both runs share the initial state, updates, and random draws.`;
+    $("#lr-feedback-chart").innerHTML = `<svg viewBox="0 0 ${width} 280" role="img" aria-labelledby="lr-feedback-plot-title lr-feedback-plot-desc"><title id="lr-feedback-plot-title">Quantization scales over repeated updates</title><desc id="lr-feedback-plot-desc">${description}</desc>${svg}</svg>`;
   }
   ["#lr-feedback-decay", "#lr-feedback-update-scale"].forEach((selector) => $(selector).addEventListener("input", drawFeedback));
   $("#lr-feedback-resample").addEventListener("click", () => { feedbackSeed++; drawFeedback(); });
   $("#lr-feedback-explorer").hidden = false;
   drawFeedback();
-
-  // Independent-token outer-product recurrences; no channel is made dominant.
-  const alignmentModel = { dimension: 8, steps: 128, decay: .97, count: 2048 };
-
-  // No signs means identity; otherwise use a normalized, randomly signed Hadamard basis.
-  function rotateAlignmentVector(vector, signs) {
-    if (!signs) return [...vector];
-    const rotated = vector.map((value, j) => value * signs[j]);
-    for (let stride = 1; stride < vector.length; stride *= 2) {
-      for (let block = 0; block < vector.length; block += 2 * stride) {
-        for (let j = block; j < block + stride; j++) {
-          const a = rotated[j], b = rotated[j + stride];
-          rotated[j] = (a + b) * Math.SQRT1_2;
-          rotated[j + stride] = (b - a) * Math.SQRT1_2;
-        }
-      }
-    }
-    return rotated.map((value, j) => value * signs[j]);
-  }
-  function alignmentVariances(state, signs, bits = exampleBits) {
-    const variances = Array(state[0].length).fill(0);
-    const levels = 2 ** (bits - 1) - 1;
-    for (const row of state) {
-      const rotated = rotateAlignmentVector(row, signs);
-      const step = Math.max(...rotated.map(Math.abs)) / levels;
-      if (!step) continue;
-      rotated.forEach((value, j) => {
-        const position = value / step;
-        if (Math.abs(position - Math.round(position)) < 1e-10) return;
-        const fraction = position - Math.floor(position);
-        variances[j] += step * step * fraction * (1 - fraction);
-      });
-    }
-    return variances;
-  }
-  function sampleAlignmentPopulation(seed, count = alignmentModel.count) {
-    const random = randomGenerator(seed ^ 0x85EBCA6B);
-    const { dimension, steps, decay } = alignmentModel;
-    const { correlation } = keyValueModel;
-    const independentValue = Math.sqrt(1 - correlation ** 2);
-    return Array.from({ length: count }, () => {
-      const state = Array.from({ length: dimension }, () => Array(dimension).fill(0));
-      for (let t = 0; t < steps; t++) {
-        const key = [], value = [];
-        for (let j = 0; j < dimension; j++) {
-          const radius = Math.sqrt(-2 * Math.log(1 - random()));
-          const angle = 2 * Math.PI * random();
-          const z = radius * Math.cos(angle), w = radius * Math.sin(angle);
-          key.push(z);
-          value.push(correlation * z + independentValue * w);
-        }
-        for (let i = 0; i < dimension; i++) {
-          for (let j = 0; j < dimension; j++) state[i][j] = decay * state[i][j] + value[i] * key[j];
-        }
-      }
-      const signs = Array.from({ length: dimension }, () => random() < .5 ? -1 : 1);
-      const variances = alignmentVariances(state);
-      const order = variances.map((_, j) => j).sort((a, b) => variances[a] - variances[b]);
-      // Random unit queries in disjoint lower-/higher-variance channel subspaces.
-      // Neither endpoint is forced to read a single, exactly represented coordinate.
-      const low = Array(dimension).fill(0), high = Array(dimension).fill(0);
-      order.forEach((channel, rank) => {
-        const normal = Math.sqrt(-2 * Math.log(1 - random())) * Math.cos(2 * Math.PI * random());
-        (rank < dimension / 2 ? low : high)[channel] = normal;
-      });
-      const lowNorm = Math.hypot(...low), highNorm = Math.hypot(...high);
-      for (let j = 0; j < dimension; j++) {
-        low[j] /= lowNorm;
-        high[j] /= highNorm;
-      }
-      return { state, signs, low, high };
-    });
-  }
-  function alignmentQueryCurve({ state, signs, low, high }, basis) {
-    const rotation = basis === "hadamard" ? signs : null;
-    const variances = alignmentVariances(state, rotation);
-    const total = variances.reduce((sum, value) => sum + value, 0);
-    if (!total) return null;
-    const l = rotateAlignmentVector(low, rotation);
-    const h = rotateAlignmentVector(high, rotation);
-    const factor = low.length / total;
-    let a = 0, b = 0, c = 0;
-    variances.forEach((variance, j) => {
-      a += variance * l[j] ** 2;
-      b += variance * l[j] * h[j];
-      c += variance * h[j] ** 2;
-    });
-    return { a: factor * a, b: factor * b, c: factor * c };
-  }
-  // Use a shared central-99% view over all slider positions; sparse tails stay off-screen.
-  function prepareAlignmentComparison(population) {
-    let minimum = 1, maximum = 1;
-    const curves = Object.fromEntries(["plain", "hadamard"].map((basis) => [
-      basis, population.map((sample) => alignmentQueryCurve(sample, basis)),
-    ]));
-    for (let direction = 0; direction <= 90; direction++) {
-      const angle = direction * Math.PI / 180;
-      const c = Math.cos(angle), s = Math.sin(angle);
-      for (const basisCurves of Object.values(curves)) {
-        const values = basisCurves.filter(Boolean)
-          .map((curve) => curve.a * c * c + 2 * curve.b * c * s + curve.c * s * s)
-          .sort((a, b) => a - b);
-        if (!values.length) continue;
-        minimum = Math.min(minimum, values[Math.floor(0.005 * (values.length - 1))]);
-        maximum = Math.max(maximum, values[Math.ceil(0.995 * (values.length - 1))]);
-      }
-    }
-    const padding = Math.max(0.01, (maximum - minimum) * 0.02);
-    return { curves, minimum: Math.max(0, minimum - padding), maximum: maximum + padding };
-  }
-  function alignmentDistribution(comparison, basis, queryDirection, binCount = 32) {
-    const counts = Array(binCount).fill(0);
-    const angle = queryDirection * Math.PI / 180;
-    const c = Math.cos(angle), s = Math.sin(angle);
-    let valid = 0, below = 0, above = 0;
-    for (const curve of comparison.curves[basis]) {
-      // Alignment is undefined for states represented exactly by the grid.
-      if (curve === null) continue;
-      const alignment = Math.max(0, curve.a * c * c + 2 * curve.b * c * s + curve.c * s * s);
-      valid++;
-      if (alignment < comparison.minimum) { below++; continue; }
-      if (alignment > comparison.maximum) { above++; continue; }
-      const position = (alignment - comparison.minimum) / (comparison.maximum - comparison.minimum);
-      const bin = Math.max(0, Math.min(binCount - 1, Math.floor(position * binCount + 1e-10)));
-      counts[bin]++;
-    }
-    return { counts, probabilities: counts.map((count) => valid ? count / valid : 0), valid, below, above };
-  }
-  let alignmentSeed = 2026;
-  let alignmentPopulation = sampleAlignmentPopulation(alignmentSeed);
-  let alignmentComparison = prepareAlignmentComparison(alignmentPopulation);
-  function drawAlignment() {
-    const queryDirection = Number($("#lr-alignment-query").value);
-    $("#lr-alignment-query").setAttribute("aria-valuetext", `${queryDirection} degrees from query suppresses error toward query aligned with error, relative to the unrotated state`);
-    const plain = alignmentDistribution(alignmentComparison, "plain", queryDirection);
-    const rotated = alignmentDistribution(alignmentComparison, "hadamard", queryDirection);
-    const left = 26, right = width - 16, top = 34, bottom = 246;
-    const binCount = plain.probabilities.length;
-    const maximum = Math.max(0.1, Math.ceil(Math.max(...plain.probabilities, ...rotated.probabilities) * 20) / 20);
-    const xx = (bin) => left + (right - left) * bin / binCount;
-    const yy = (probability) => bottom - (bottom - top) * probability / maximum;
-    const stepPath = (probabilities) => {
-      let path = `M${xx(0)},${yy(probabilities[0])}`;
-      probabilities.forEach((probability, i) => {
-        if (i) path += `V${yy(probability)}`;
-        path += `H${xx(i + 1)}`;
-      });
-      return path;
-    };
-    let svg = "";
-    for (const fraction of [0, 0.5, 1]) svg += line(left, yy(maximum * fraction), right, yy(maximum * fraction), 'class="lr-axis"');
-    const series = [
-      { key: "plain", name: "No rotation", distribution: plain, color: "var(--lr-green)", dashed: true },
-      { key: "rotated", name: "Random Hadamard", distribution: rotated, color: "var(--lr-orange)", dashed: false },
-    ];
-    series.forEach(({ distribution, color }) => {
-      const path = stepPath(distribution.probabilities);
-      svg += `<path d="${path}L${right},${bottom}L${left},${bottom}Z" fill="${color}" fill-opacity="0.12"/>`;
-    });
-    // Draw the dashed comparison last so identical distributions remain visible.
-    [...series].reverse().forEach(({ key, name, distribution, color, dashed }) => {
-      svg += `<path d="${stepPath(distribution.probabilities)}" fill="none" stroke="${color}" stroke-width="2.5"${dashed ? ' stroke-dasharray="6 4"' : ""} data-lr-histogram="${key}" data-lr-probabilities="${distribution.probabilities.join(",")}"><title>${name}</title></path>`;
-    });
-    svg += label(left, bottom + 24, "Suppressed by query", 'class="lr-distribution-label"');
-    svg += label(right, bottom + 24, "Aligned with query", 'text-anchor="end" class="lr-distribution-label"');
-    svg += label((left + right) / 2, bottom + 59, "State-error alignment", 'text-anchor="middle" class="lr-distribution-label"');
-    const description = `Synthetic distributions of the paper's query-alignment measure across ${alignmentPopulation.length} matrix states. Each ${alignmentModel.dimension}-by-${alignmentModel.dimension} state accumulates ${alignmentModel.steps} independent-token key-value updates with decay ${alignmentModel.decay}. Query direction interpolates between lower- and higher-error channels of the unrotated state. We compare no rotation with a random signed Hadamard applied to both state and query. Each sample's rotation stays fixed while the query slider moves. These are exact fresh SR moments, not measured model heads or a model of learned queries. The horizontal range stays fixed from ${alignmentComparison.minimum.toFixed(3)} to ${alignmentComparison.maximum.toFixed(3)} across query directions, covering at least the central 99% of each distribution at every slider position. Sparse tails outside the view are omitted without renormalizing bin heights. Left means suppressed state error and right means error aligned with the query. Both histograms use the same bins and vertical scale, without smoothing. No rotation counts: ${plain.counts.join(", ")}. Random Hadamard counts: ${rotated.counts.join(", ")}. Outside the view: no rotation ${plain.below} below and ${plain.above} above. Random Hadamard ${rotated.below} below and ${rotated.above} above.`;
-    $("#lr-alignment-chart").innerHTML = `<svg viewBox="0 0 ${width} 324" role="img" aria-labelledby="lr-alignment-plot-title lr-alignment-plot-desc"><title id="lr-alignment-plot-title">State-error alignment with and without rotation</title><desc id="lr-alignment-plot-desc">${description}</desc>${svg}</svg>`;
-  }
-  $("#lr-alignment-query").addEventListener("input", drawAlignment);
-  $("#lr-alignment-resample").addEventListener("click", () => {
-    alignmentSeed++;
-    alignmentPopulation = sampleAlignmentPopulation(alignmentSeed);
-    alignmentComparison = prepareAlignmentComparison(alignmentPopulation);
-    drawAlignment();
-  });
-  $("#lr-alignment-explorer").hidden = false;
-  drawAlignment();
 
   // Measured TPOT (ms) from the paper, with two-token prompts; null means not measured.
   const batches = [1, 2, 4, 8, 16, 32, 64, 128, 256];
@@ -536,18 +383,17 @@
     "Qwen-3.5 · 4/16/8": [5.67, 5.74, 5.81, 5.96, 6.23, 6.76, 8.59, null, null],
   };
 
-  // Use the manuscript's stacked decomposition, with a common BF16/FP32 baseline.
-  // Both segments are throughput gains as a percentage of the same baseline throughput.
-  // The state segment is the extra gain on top of INT4 weights, not a second ratio to add.
+  // Both speedups use the same BF16/FP32 baseline, shown at 1×.
+  // The orange segment spans the weights-only and combined speedups.
   function speedContributions(model) {
     const baseline = timings[`${model} · 16/16/32`];
     const weightsOnly = timings[`${model} · 4/16/32`];
     const weightsAndState = timings[`${model} · 4/16/8`];
     return batches.flatMap((batch, index) => {
       if (![baseline[index], weightsOnly[index], weightsAndState[index]].every((value) => Number.isFinite(value) && value > 0)) return [];
-      const weightGain = 100 * (baseline[index] / weightsOnly[index] - 1);
-      const totalGain = 100 * (baseline[index] / weightsAndState[index] - 1);
-      return [{ batch, weightGain, stateGain: totalGain - weightGain, totalGain }];
+      const weightSpeedup = baseline[index] / weightsOnly[index];
+      const totalSpeedup = baseline[index] / weightsAndState[index];
+      return [{ batch, weightSpeedup, totalSpeedup }];
     });
   }
   const contributionButtons = $$("[data-lr-contribution-model]");
@@ -558,34 +404,37 @@
     setPressed(contributionButtons, button);
     const model = button.dataset.lrContributionModel;
     const contributions = speedContributions(model);
-    const peak = Math.max(...contributions.map(({ totalGain }) => totalGain));
-    const rawStep = peak / 4;
+    const peak = Math.max(...contributions.map(({ totalSpeedup }) => totalSpeedup));
+    const rawStep = (peak - 1) / 4;
     const magnitude = 10 ** Math.floor(Math.log10(rawStep));
     const tickStep = [1, 2, 5, 10].find((step) => step * magnitude >= rawStep) * magnitude;
-    const max = Math.ceil(peak / tickStep) * tickStep;
+    const tickCount = Math.ceil((peak - 1) / tickStep);
+    const maxGain = tickCount * tickStep;
+    const speedY = (speedup) => y(speedup - 1, maxGain);
     const slot = plotWidth / contributions.length;
     const barWidth = Math.min(44, slot * 0.68);
     let svg = "";
-    for (let value = 0; value <= max; value += tickStep) {
-      svg += line(margin.left, y(value, max), width - margin.right, y(value, max), 'class="lr-axis"');
-      svg += label(margin.left - 10, y(value, max) + 4, `${value}%`, 'text-anchor="end"');
+    for (let tick = 0; tick <= tickCount; tick++) {
+      const speedup = 1 + tick * tickStep;
+      svg += line(margin.left, speedY(speedup), width - margin.right, speedY(speedup), 'class="lr-axis"');
+      svg += label(margin.left - 10, speedY(speedup) + 4, `${speedup.toFixed(1)}×`, 'text-anchor="end"');
     }
-    svg += label(margin.left, 17, "Speedup (%)");
+    svg += label(margin.left, 17, "Speedup (×)");
     svg += label(width - margin.right, height - 4, "Batch size", 'text-anchor="end"');
-    const summaries = contributions.map(({ batch, weightGain, stateGain, totalGain }, index) => {
+    const summaries = contributions.map(({ batch, weightSpeedup, totalSpeedup }, index) => {
       const center = margin.left + slot * (index + 0.5);
-      const summary = `Batch ${batch}: weights contribute ${weightGain.toFixed(1)}% and state contributes ${stateGain.toFixed(1)}% of baseline throughput. Total speedup ${totalGain.toFixed(1)}% (${(1 + totalGain / 100).toFixed(2)}×).`;
+      const summary = `Batch ${batch}: INT4 weights alone give ${weightSpeedup.toFixed(2)}× speedup. With INT8 states added, the combined speedup is ${totalSpeedup.toFixed(2)}×.`;
       svg += `<g class="lr-contribution-bar" data-lr-batch="${batch}" tabindex="0" role="img" aria-label="${summary}">`;
-      svg += `<rect x="${center - barWidth / 2}" y="${y(weightGain, max)}" width="${barWidth}" height="${y(0, max) - y(weightGain, max)}" fill="var(--lr-green)" data-lr-contribution="weights" data-lr-gain="${weightGain}"/>`;
-      svg += `<rect x="${center - barWidth / 2}" y="${y(totalGain, max)}" width="${barWidth}" height="${y(weightGain, max) - y(totalGain, max)}" fill="var(--lr-orange)" data-lr-contribution="state" data-lr-gain="${stateGain}"/>`;
+      svg += `<rect x="${center - barWidth / 2}" y="${speedY(weightSpeedup)}" width="${barWidth}" height="${speedY(1) - speedY(weightSpeedup)}" fill="var(--lr-green)" data-lr-contribution="weights" data-lr-speedup="${weightSpeedup}"/>`;
+      svg += `<rect x="${center - barWidth / 2}" y="${speedY(totalSpeedup)}" width="${barWidth}" height="${speedY(weightSpeedup) - speedY(totalSpeedup)}" fill="var(--lr-orange)" data-lr-contribution="state" data-lr-speedup="${totalSpeedup}"/>`;
       svg += "</g>";
       svg += label(center, height - 24, batch, 'text-anchor="middle"');
       return summary;
     });
-    const description = `End-to-end vLLM decode speedup relative to BF16 weights and FP32 states, with BF16 activations and two-token prompts. The lower segment is the INT4-weight gain. The upper segment is the additional INT8-state gain. ${summaries.join(" ")}`;
+    const description = `End-to-end vLLM decode speedup relative to BF16 weights and FP32 states, with BF16 activations. The axis starts at the 1× baseline. Green reaches the INT4-weight speedup. Orange extends to the combined speedup with INT8 states. ${summaries.join(" ")}`;
     $("#lr-contributions-chart").innerHTML = frame("lr-contributions-plot", `${model}: weight and state contributions`, description, svg);
     $$(".lr-contribution-bar").forEach((bar, index) => {
-      const { batch, weightGain, stateGain, totalGain } = contributions[index];
+      const { batch, weightSpeedup, totalSpeedup } = contributions[index];
       const positionTooltip = (event) => {
         const bounds = bar.getBoundingClientRect();
         const container = contributionTooltip.parentElement.getBoundingClientRect();
@@ -595,7 +444,7 @@
         contributionTooltip.style.top = `${(hasPointer ? event.clientY : bounds.bottom) - container.top + 16}px`;
       };
       const showTooltip = (event) => {
-        contributionTooltip.innerHTML = `<div class="lr-tooltip-title">Batch ${batch}</div><div class="lr-tooltip-row"><span><i class="lr-bar-key lr-weight-key"></i>Weights</span><span>+${weightGain.toFixed(1)}%</span></div><div class="lr-tooltip-row"><span><i class="lr-bar-key lr-state-key"></i>State</span><span>+${stateGain.toFixed(1)}%</span></div><div class="lr-tooltip-row lr-tooltip-total"><span>Total</span><span>+${totalGain.toFixed(1)}% (${(1 + totalGain / 100).toFixed(2)}×)</span></div>`;
+        contributionTooltip.innerHTML = `<div class="lr-tooltip-title">Batch ${batch}</div><div class="lr-tooltip-row"><span><i class="lr-bar-key lr-weight-key"></i>Weights only</span><span>${weightSpeedup.toFixed(2)}×</span></div><div class="lr-tooltip-row lr-tooltip-total"><span><i class="lr-bar-key lr-state-key"></i>Weights + state</span><span>${totalSpeedup.toFixed(2)}×</span></div>`;
         contributionTooltip.hidden = false;
         positionTooltip(event);
       };
@@ -621,7 +470,6 @@
       drawDecay();
       drawRounding();
       drawFeedback();
-      drawAlignment();
       drawContributions(contributionButtons.find((button) => button.getAttribute("aria-pressed") === "true"));
     }).observe(root);
   }
