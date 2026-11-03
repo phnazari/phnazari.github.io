@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Our preprint Depth Memory is now public! See the [paper](https://arxiv.org/abs/2610.18809) and [blog post](/blog/2026/depth-memory/).
+Our preprint <span style="color: var(--global-theme-color)">Depth Memory</span> is now public! See the [paper](https://arxiv.org/abs/2610.18809) and [blog post](/blog/2026/depth-memory/).
