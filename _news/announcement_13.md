@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Our preprint <span style="color: var(--global-theme-color)">LinQuant: Functional Invariances for Low-Precision Linear Recurrences</span> is now public! See the [paper](https://arxiv.org/abs/2610.39418).
+Our preprint [LinQuant: Functional Invariances for Low-Precision Linear Recurrences](https://arxiv.org/abs/2610.39418) is now public!

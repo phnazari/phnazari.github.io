@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Talk about [CompreSSM](https://openreview.net/forum?id=LtzmeSMBTW) and [The key to state reduction](https://arxiv.org/abs/2602.04852) now [available on youtube](https://www.youtube.com/watch?v=KsUOxrS5rEA&t=334s).
+A talk about [CompreSSM](https://openreview.net/forum?id=LtzmeSMBTW) and [The Key to State Reduction](https://arxiv.org/abs/2602.04852) is now [available on YouTube](https://www.youtube.com/watch?v=KsUOxrS5rEA&t=334s).

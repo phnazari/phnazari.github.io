@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-We have officially published **discretax**, a library for state space models written in Jax. You can find it [here](https://github.com/camail-official/discretax).
+We have officially published [discretax](https://github.com/camail-official/discretax), a library for state space models written in JAX.

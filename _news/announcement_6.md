@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Preprint alert! Our new paper **The Key to State Reduction in Linear Attention: A Rank-based Perspective** is now available on [arXiv](https://arxiv.org/abs/2602.04852).
+Preprint alert! Our new paper [The Key to State Reduction in Linear Attention: A Rank-based Perspective](https://arxiv.org/abs/2602.04852) is now available on arXiv.

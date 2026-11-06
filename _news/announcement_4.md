@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Our preprint "CompreSSM: The Curious Case of In-Training Compression of State Space Models" is now available [on Arxiv](https://www.arxiv.org/abs/2510.02823).
+Our preprint [CompreSSM: The Curious Case of In-Training Compression of State Space Models](https://www.arxiv.org/abs/2510.02823) is now available on arXiv.
