@@ -1,20 +1,26 @@
 // Has to be in the head tag, otherwise a flicker effect will occur.
 
+// The visitor's explicit choice from the theme toggle. This replaces the old "theme" key,
+// which stored "system" on every visit and so cannot tell a choice from the default.
+const THEME_KEY = "theme-preference";
+
 // Toggle through light, dark, and system theme settings.
 let toggleThemeSetting = () => {
   let themeSetting = determineThemeSetting();
   if (themeSetting == "system") {
-    setThemeSetting("light");
+    setThemeSetting("light", true);
   } else if (themeSetting == "light") {
-    setThemeSetting("dark");
+    setThemeSetting("dark", true);
   } else {
-    setThemeSetting("system");
+    setThemeSetting("system", true);
   }
 };
 
-// Change the theme setting and apply the theme.
-let setThemeSetting = (themeSetting) => {
-  localStorage.setItem("theme", themeSetting);
+// Change the theme setting and apply the theme. Only a toggle click remembers the setting.
+let setThemeSetting = (themeSetting, remember = false) => {
+  if (remember) {
+    localStorage.setItem(THEME_KEY, themeSetting);
+  }
 
   document.documentElement.setAttribute("data-theme-setting", themeSetting);
 
@@ -205,11 +211,11 @@ let transTheme = () => {
 };
 
 // Determine the expected state of the theme toggle, which can be "dark", "light", or
-// "system". Default is "system".
+// "system". Default is "light".
 let determineThemeSetting = () => {
-  let themeSetting = localStorage.getItem("theme");
+  let themeSetting = localStorage.getItem(THEME_KEY);
   if (themeSetting != "dark" && themeSetting != "light" && themeSetting != "system") {
-    themeSetting = "system";
+    themeSetting = "light";
   }
   return themeSetting;
 };
