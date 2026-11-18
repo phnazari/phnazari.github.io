@@ -1327,6 +1327,20 @@ ninja-keys::part(ninja-input-wrapper) {
   background: var(--global-bg-color);
 }
 
+// Organization names highlighted in running text (bio, news), e.g. an internship.
+// Not a link, so it carries a logo to read as a name rather than a link.
+.affiliation {
+  color: var(--global-theme-color);
+  white-space: nowrap;
+
+  .affiliation-logo {
+    height: 0.95em;
+    width: auto;
+    margin-right: 0.25em;
+    vertical-align: -0.12em;
+  }
+}
+
 // newsletter
 .newsletter-form-container {
   margin-bottom: 20px;

@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-I have started an internship at [Google Research](https://research.google/), where I am working on efficient language modeling.
+I have started an internship at {% include google_research.liquid %}, where I am working on efficient language modeling.
