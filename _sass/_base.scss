@@ -1341,6 +1341,14 @@ ninja-keys::part(ninja-input-wrapper) {
   }
 }
 
+// Homepage: news and latest posts side by side. Keep each date on one line;
+// the !important overrides the includes' inline 20% column width.
+.home-split th {
+  width: 1% !important;
+  white-space: nowrap;
+  padding-right: 1rem;
+}
+
 // newsletter
 .newsletter-form-container {
   margin-bottom: 20px;

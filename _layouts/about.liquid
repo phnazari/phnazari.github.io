@@ -40,21 +40,31 @@ layout: default
 
     <div class="clearfix">{{ content }}</div>
 
-    <!-- News -->
-    {% if page.announcements and page.announcements.enabled %}
-      <h2>
-        <a href="{{ '/news/' | relative_url }}" style="color: inherit"><span class="font-weight-bold">News</span></a>
-      </h2>
-      {% include news.liquid limit=true %}
+    <!-- News and latest posts, side by side from tablet width up -->
+    {% if page.announcements.enabled and page.latest_posts.enabled %}
+      {% assign home_column = 'col-md-6' %}
+    {% else %}
+      {% assign home_column = 'col-12' %}
     {% endif %}
+    <div class="row home-split">
+      {% if page.announcements and page.announcements.enabled %}
+        <div class="{{ home_column }}">
+          <h2>
+            <a href="{{ '/news/' | relative_url }}" style="color: inherit"><span class="font-weight-bold">News</span></a>
+          </h2>
+          {% include news.liquid limit=true %}
+        </div>
+      {% endif %}
 
-    <!-- Latest posts -->
-    {% if page.latest_posts and page.latest_posts.enabled %}
-      <h2>
-        <a href="{{ '/blog/' | relative_url }}" style="color: inherit"><span class="font-weight-bold">Latest Posts</span></a>
-      </h2>
-      {% include latest_posts.liquid %}
-    {% endif %}
+      {% if page.latest_posts and page.latest_posts.enabled %}
+        <div class="{{ home_column }}">
+          <h2>
+            <a href="{{ '/blog/' | relative_url }}" style="color: inherit"><span class="font-weight-bold">Latest Posts</span></a>
+          </h2>
+          {% include latest_posts.liquid %}
+        </div>
+      {% endif %}
+    </div>
 
     <!-- Selected papers -->
     {% if page.selected_papers %}
